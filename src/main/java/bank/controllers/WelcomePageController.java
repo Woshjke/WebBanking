@@ -11,7 +11,7 @@ public class WelcomePageController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String printHello(ModelMap model) {
-        model.addAttribute("welcomingMessage", "Welcome to our bank!");
+        model.addAttribute("welcomingMessage", "Добро пожаловать!");
         return "welcomePage";
     }
 }

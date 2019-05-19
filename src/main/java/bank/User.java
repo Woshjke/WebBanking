@@ -25,5 +25,20 @@ public class User {
         this.password = password;
     }
 
+    //Регистрация пользователя путем занесения в БД
+    public boolean register() {
+//        if (Database.saveUser(this)) {
+//            return true;
+//        } else return false;
+        return true;
+    }
+
+    //Проверяет существует ли такой пользователь
+    public boolean isRegistered() {
+//        if (Database.findUser(this)) {
+//            return true;
+//        } else return false;
+        return true;
+    }
 
 }

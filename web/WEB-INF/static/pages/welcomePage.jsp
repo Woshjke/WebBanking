@@ -5,17 +5,17 @@
 </head>
 <body>
     <h1>${welcomingMessage}</h1>
-    <p>Login</p>
+    <p>Имя пользователя</p>
     <label>
-        <input title="Login" , type="text" , name="login">
+        <input title="Имя пользователя" , type="text" , name="login">
     </label>
-    <p>Password</p>
+    <p>Пароль</p>
     <label>
-        <input title="Password" , type="password" , name="password">
+        <input title="Пароль" , type="password" , name="password">
     </label>
     <p></p>
-    <button type="button" , title="Log in" , name="loginButton">Sigh in</button>
+    <button type="button" , title="Зайти" , name="signInButton">Зайти</button>
     <p></p>
-    <button type="button" , title="Log in" , name="loginButton">Sigh up</button>
+    <button type="button" , title="Зарегистрироваться" , name="signUpButton">Зарегистрироваться</button>
 </body>
 </html>
