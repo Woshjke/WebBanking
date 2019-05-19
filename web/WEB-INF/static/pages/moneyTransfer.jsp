@@ -13,6 +13,6 @@
         <input title="Money Count" , type="number" , name="moneyCount">
     </label>
     <p></p>
-    <button type="button" , title="Перевести" , name="doTransferButton">Sigh in</button>
+    <button type="button" , title="Перевести" , name="doTransferButton">Перевести</button>
 </body>
 </html>
