@@ -1,20 +1,22 @@
 package bank;
 
 public class User {
-    private String login;
+    private String name;
     private String password;
 
     public User(String login, String password) {
-        this.login = login;
+        this.name = login;
         this.password = password;
     }
 
-    public String getLogin() {
-        return login;
+    public User() {}
+
+    public String getName() {
+        return name;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
