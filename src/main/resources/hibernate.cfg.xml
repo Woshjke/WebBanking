@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="connection.url">jdbc:postgresql://localhost:5432/postgres?useSSL=false</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">Zvashkevich1999</property>
+
+        <property name="hibernate.connection.characterEncoding">utf8</property>
+
+        <property name="show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <property name="default_schema">mydatabase</property>
+
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <mapping class="bank.database.entity.User"/>
+
+    </session-factory>
+</hibernate-configuration>
