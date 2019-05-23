@@ -9,22 +9,23 @@ import java.io.Serializable;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Table(name = "user")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
     @NonNull
+    @Column(name = "login")
     private String login;
 
     @NonNull
+    @Column(name = "password")
     private String password;
 
-    public User() {}
 
-    public User(@NonNull String login, @NonNull String password) {
-        this.login = login;
-        this.password = password;
-    }
 }

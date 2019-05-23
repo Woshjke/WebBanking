@@ -4,17 +4,22 @@ import bank.database.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class UserHelper {
-    private SessionFactory sessionFactory;
+@Repository
+public class UserDao {
 
-    public UserHelper() {
-        sessionFactory = HibernateUtil.getSessionFactory();
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public UserDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public List<User> getUserList() {

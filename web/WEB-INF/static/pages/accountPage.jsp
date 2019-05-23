@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Your account, ${username}</title>
+    <title>Your account, ${user.login}</title>
 </head>
 <body>
-    <h1>Welcome, ${username}</h1>
+    <h1>Welcome, ${user.login}</h1>
 </body>
 </html>
