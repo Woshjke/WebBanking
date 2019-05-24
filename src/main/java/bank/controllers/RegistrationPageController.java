@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class SighUpPageController {
+public class RegistrationPageController {
 
     private UserService service;
 
     @Autowired
-    public SighUpPageController(UserService service) {
+    public RegistrationPageController(UserService service) {
         this.service = service;
     }
 

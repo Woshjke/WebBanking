@@ -22,25 +22,26 @@ public class UserDao {
         this.sessionFactory = sessionFactory;
     }
 
-    List getUserList() {
+    List<User> getUserList() {
 
         // открыть сессию - для манипуляции с персист. объектами
         Session session = sessionFactory.openSession();
 
-//        session.get(User.class, 1L); // получение объекта по id
-
+        //session.get(User.class, 1L); // получение объекта по id
 
         // этап подготовки запроса
 
         // объект-конструктор запросов для Criteria API
-        CriteriaBuilder cb = session.getCriteriaBuilder();// не использовать session.createCriteria, т.к. deprecated
+        // не использовать session.createCriteria, т.к. deprecated
+        CriteriaBuilder cb = session.getCriteriaBuilder();
 
-        CriteriaQuery cq = cb.createQuery(User.class);
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
 
-        Root root = cq.from(User.class);// первостепенный, корневой entity (в sql запросе - from)
+        // первостепенный, корневой entity (в sql запросе - from)
+        Root<User> root = cq.from(User.class);
 
-        cq.select(root);// необязательный оператор, если просто нужно получить все значения
-
+        // необязательный оператор, если просто нужно получить все значения
+        //cq.select(root);
 
         // этап выполнения запроса
         Query query = session.createQuery(cq);
@@ -58,9 +59,5 @@ public class UserDao {
         session.save(user);
         session.getTransaction().commit();
         session.close();
-    }
-
-    public User getUser(String login) {
-        return null;
     }
 }
