@@ -2,6 +2,9 @@
   <dictionary name="zvash">
     <words>
       <w>mydatabase</w>
+      <w>postgre</w>
+      <w>postgresql</w>
+      <w>zvashkevich</w>
     </words>
   </dictionary>
 </component>

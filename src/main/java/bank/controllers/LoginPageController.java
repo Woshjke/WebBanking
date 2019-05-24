@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/")
 public class LoginPageController {
 
     private UserService userService;
@@ -21,20 +22,30 @@ public class LoginPageController {
         this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showLoginPage(ModelMap model) {//todo Узнать почему три раза заходит
         model.addAttribute("welcomingMessage", "Добро пожаловать!");
         return "loginPage";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public String login(@ModelAttribute("user") User user, BindingResult result, ModelMap model) {
-        userService.addUser(user);
-        return "accountPage";
+    public String login(@ModelAttribute("user") User user) {
+        List<User> users = userService.getUsers();
+        for (User iter : users) {
+            if (iter.getLogin().equals(user.getLogin()) && iter.getPassword().equals(user.getPassword())) {
+                return "accountPage";
+            }
+        }
+        return null;
     }
 
     @ModelAttribute("user")
     public User setSignUpForm() {
         return new User();
+    }
+
+    @RequestMapping(value = "/goToRegistrationPage")
+    public String goToRegistrationPage() {
+        return "registrationPage";
     }
 }

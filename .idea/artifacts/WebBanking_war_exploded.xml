@@ -51,6 +51,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:5.1.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.1.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.6.1" />
+          <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
+          <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />
         </element>
       </element>
     </root>

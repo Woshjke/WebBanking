@@ -8,22 +8,23 @@
 <body>
 <h2>${welcomingMessage}</h2>
 <form:form method="POST" action="/login" modelAttribute="user">
-    <table>
-        <tr>
-            <td><form:label path="login">Login</form:label></td>
-            <td><form:input path="login"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="password">Password</form:label></td>
-            <td><form:password path="password"/></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit"/>
-            </td>
-        </tr>
-    </table>
+
+    <form:label path="login">Login</form:label>
+    <p></p>
+    <form:input path="login"/>
+    <p></p>
+    <form:label path="password">Password</form:label>
+    <p></p>
+    <form:password path="password"/>
+    <p></p>
+    <input type="submit" value="Sign in"/>
+    <p></p>
 </form:form>
+
+<form:form method="POST" action="/goToRegistrationPage">
+    <input type="submit" value="Sign up"/>
+</form:form>
+
 </body>
 
 </html>

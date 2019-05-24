@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "user")
+@Table(name = "mydatabase.user")
 public class User implements Serializable {
 
     @Id
@@ -26,6 +26,4 @@ public class User implements Serializable {
     @NonNull
     @Column(name = "password")
     private String password;
-
-
 }

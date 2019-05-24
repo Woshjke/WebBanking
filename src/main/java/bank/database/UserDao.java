@@ -22,12 +22,12 @@ public class UserDao {
         this.sessionFactory = sessionFactory;
     }
 
-    public List<User> getUserList() {
+    List getUserList() {
 
         // открыть сессию - для манипуляции с персист. объектами
         Session session = sessionFactory.openSession();
 
-        session.get(User.class, 1L); // получение объекта по id
+//        session.get(User.class, 1L); // получение объекта по id
 
 
         // этап подготовки запроса
@@ -45,14 +45,14 @@ public class UserDao {
         // этап выполнения запроса
         Query query = session.createQuery(cq);
 
-        List<User> userList = query.getResultList();
+        List userList = query.getResultList();
 
         session.close();
 
         return userList;
     }
 
-    public void addUser(User user) {
+    void addUser(User user) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(user);
