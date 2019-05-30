@@ -1,11 +1,10 @@
 package bank.controllers;
 
-import bank.database.UserService;
 import bank.database.entity.User;
+import bank.database.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,10 +28,11 @@ public class LoginPageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public String login(@ModelAttribute("user") User user) {
+    public String login(@ModelAttribute("user") User user, ModelMap map) {
         List<User> users = userService.getUsers();
         for (User iter : users) {
             if (iter.getLogin().equals(user.getLogin()) && iter.getPassword().equals(user.getPassword())) {
+                map.addAttribute("currentUser", user);
                 return "accountPage";
             }
         }

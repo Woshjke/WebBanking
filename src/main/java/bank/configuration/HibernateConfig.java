@@ -21,7 +21,11 @@ public class HibernateConfig {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(
-                "bank.database.entity", "bank.database", "bank.configuration");
+                "bank.database.entity",
+                "bank.database",
+                "bank.configuration",
+                "bank.database.dao",
+                "bank.database.service");
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
@@ -50,6 +54,7 @@ public class HibernateConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
+        hibernateProperties.setProperty("show_sql", "true");
 
         return hibernateProperties;
     }

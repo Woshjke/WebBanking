@@ -1,4 +1,4 @@
-package bank.database;
+package bank.database.dao;
 
 import bank.database.entity.User;
 import org.hibernate.Session;
@@ -22,7 +22,15 @@ public class UserDao {
         this.sessionFactory = sessionFactory;
     }
 
-    List<User> getUserList() {
+    public void createUser(User user) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(user);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public List<User> getUserList() {
 
         // открыть сессию - для манипуляции с персист. объектами
         Session session = sessionFactory.openSession();
@@ -46,18 +54,12 @@ public class UserDao {
         // этап выполнения запроса
         Query query = session.createQuery(cq);
 
-        List userList = query.getResultList();
+        List<User> userList = query.getResultList();
 
         session.close();
 
         return userList;
     }
 
-    void addUser(User user) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(user);
-        session.getTransaction().commit();
-        session.close();
-    }
+    //todo Добавить методы Update и Delete
 }

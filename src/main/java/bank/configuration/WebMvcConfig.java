@@ -8,7 +8,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "bank.controllers", "bank.database"})
+@ComponentScan(basePackages = { "bank.controllers",
+        "bank.database",
+        "bank.database.service",
+        "bank.database.entity",
+        "bank.database.dao"}
+        )
 public class WebMvcConfig {
 
     @Bean

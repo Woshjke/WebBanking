@@ -1,7 +1,7 @@
 package bank.controllers;
 
-import bank.database.UserService;
 import bank.database.entity.User;
+import bank.database.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +20,7 @@ public class RegistrationPageController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@ModelAttribute("user") User user) {
-        service.addUser(user);
+        service.createUser(user);
         return "loginPage";
     }
 }

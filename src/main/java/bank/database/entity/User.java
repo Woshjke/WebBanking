@@ -1,5 +1,6 @@
 package bank.database.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,4 +27,12 @@ public class User implements Serializable {
     @NonNull
     @Column(name = "password")
     private String password;
+
+    @NonNull
+    @Column(name = "isadmin")
+    private boolean isAdmin;
+
+    @NotNull
+    @Column(name = "accountnumber")
+    private long bankAccountNumber;
 }

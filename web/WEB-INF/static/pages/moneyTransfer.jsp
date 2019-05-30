@@ -1,18 +1,17 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Перевод стредств</title>
+    <title>${accountNumber}</title>
 </head>
 <body>
-    <p>Перевести на счет:</p>
-    <label>
-        <input title="Bank account number" , type="text" , name="bankAccountNumber">
-    </label>
+<form:form method="POST" action="/transaction/${accountNumber}" modelAttribute="transaction">
+    <p>Куда</p>
+    <form:input path="to"/>
     <p>Сколько:</p>
-    <label>
-        <input title="Money Count" , type="number" , name="moneyCount">
-    </label>
+    <form:input path="value"/>
     <p></p>
-    <button type="button" , title="Перевести" , name="doTransferButton">Перевести</button>
+    <input type="submit" value="Перевести"/>
+</form:form>
 </body>
 </html>
