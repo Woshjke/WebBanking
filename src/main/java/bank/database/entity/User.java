@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "mydatabase.user")
+@Table(name = "usr")
 public class User implements Serializable {
 
     @Id
@@ -21,18 +21,18 @@ public class User implements Serializable {
     private long id;
 
     @NonNull
-    @Column(name = "login")
+    @Column(name = "username")
     private String login;
 
     @NonNull
-    @Column(name = "password")
+    @Column(name = "pass")
     private String password;
 
     @NonNull
-    @Column(name = "isadmin")
+    @Column(name = "is_admin")
     private boolean isAdmin;
 
     @NotNull
-    @Column(name = "accountnumber")
+    @Column(name = "account_number")
     private long bankAccountNumber;
 }

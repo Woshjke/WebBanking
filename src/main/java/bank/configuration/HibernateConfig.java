@@ -55,6 +55,7 @@ public class HibernateConfig {
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         hibernateProperties.setProperty("show_sql", "true");
+        hibernateProperties.setProperty("hibernate.default_schema", "mydatabase");
 
         return hibernateProperties;
     }

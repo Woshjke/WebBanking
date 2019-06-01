@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "mydatabase.transaction")
+@Table(name = "transaction")
 public class Transaction implements Serializable {
 
     //todo переделать названия
@@ -21,14 +21,14 @@ public class Transaction implements Serializable {
     private long id;
 
     @NonNull
-    @Column(name = "fromuser")
+    @Column(name = "from_user")
     private String from;
 
     @NonNull
-    @Column(name = "touser")
+    @Column(name = "to_user")
     private String to;
 
     @NonNull
-    @Column(name = "money")
+    @Column(name = "money_count")
     private String value;
 }
