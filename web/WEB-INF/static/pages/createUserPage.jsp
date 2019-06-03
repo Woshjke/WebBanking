@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Зарегистрируйте новый аккаунт</h1>
-    <form:form method="POST" action="/register" modelAttribute="user">
+    <form:form method="post" action="/register" modelAttribute="user">
         <form:label path="login">Login</form:label>
         <p></p>
         <form:input path="login"/>

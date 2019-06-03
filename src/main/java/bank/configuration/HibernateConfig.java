@@ -21,11 +21,7 @@ public class HibernateConfig {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(
-                "bank.database.entity",
-                "bank.database",
-                "bank.configuration",
-                "bank.database.dao",
-                "bank.database.service");
+                "bank.database.entity");
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;

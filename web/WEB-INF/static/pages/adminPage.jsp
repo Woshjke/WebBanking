@@ -1,16 +1,20 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: zvash
-  Date: 27.05.2019
-  Time: 16:40
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Admin page</title>
 </head>
 <body>
- <h1>Админака</h1>
+    <form:form name="createUserForm" method="post" action="/createUser">
+        <input type="submit" value="Create user"/>
+    </form:form>
+
+<form:form name="updateUserForm" method="post" action="/updateUser">
+    <input type="submit" value="Update user">
+</form:form>
+
+    <form:form name="deleteUserForm" method="post" action="/deleteUser">
+        <input type="submit" value="Update user">
+    </form:form>
 </body>
 </html>

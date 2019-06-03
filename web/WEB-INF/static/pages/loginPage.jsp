@@ -21,10 +21,6 @@
     <p></p>
 </form:form>
 
-<form:form method="POST" action="/goToRegistrationPage">
-    <input type="submit" value="Sign up"/>
-</form:form>
-
 </body>
 
 </html>

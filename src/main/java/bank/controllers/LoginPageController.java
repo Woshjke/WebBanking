@@ -22,7 +22,7 @@ public class LoginPageController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showLoginPage(ModelMap model) {//todo Узнать почему три раза заходит
+    public String goToLoginPage(ModelMap model) {//todo Узнать почему три раза заходит
         model.addAttribute("welcomingMessage", "Добро пожаловать!");
         return "loginPage";
     }
@@ -33,7 +33,9 @@ public class LoginPageController {
         for (User iter : users) {
             if (iter.getLogin().equals(user.getLogin()) && iter.getPassword().equals(user.getPassword())) {
                 map.addAttribute("currentUser", user);
-                return "accountPage";
+                if (iter.isAdmin()) {
+                    return "adminPage";
+                } else return "userPage";
             }
         }
         return null;
@@ -42,10 +44,5 @@ public class LoginPageController {
     @ModelAttribute("user")
     public User setSignUpForm() {
         return new User();
-    }
-
-    @RequestMapping(value = "/goToRegistrationPage")
-    public String goToRegistrationPage() {
-        return "registrationPage";
     }
 }
