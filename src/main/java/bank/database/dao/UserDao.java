@@ -61,5 +61,19 @@ public class UserDao {
         return userList;
     }
 
-    //todo Добавить методы Update и Delete
+    public void updateUser(User user) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.update(user);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public void deleteUser(User user) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.delete(user);
+        session.getTransaction().commit();
+        session.close();
+    }
 }
