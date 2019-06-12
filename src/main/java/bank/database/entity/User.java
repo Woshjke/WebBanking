@@ -32,7 +32,7 @@ public class User implements Serializable {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
-    @NotNull
-    @Column(name = "account_number")
-    private long bankAccountNumber;
+    @Column(name = "money_count")
+    private int money_count;
+
 }

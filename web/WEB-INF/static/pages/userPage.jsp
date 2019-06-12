@@ -10,8 +10,12 @@
 <form:form method="POST" action="/getTransactions">
     <input type="submit" value="список переводов"/>
 </form:form>
-<form:form method="POST" action="/doTransaction/${user.bankAccountNumber}">
+<form:form method="POST" action="/doTransaction">
     <input type="submit" value="сделать перевод"/>
+</form:form>
+
+<form:form method="post" action="/payment">
+    <input type="submit" value="сделать платеж"/>
 </form:form>
 
 </body>
