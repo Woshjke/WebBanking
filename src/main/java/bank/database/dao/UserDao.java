@@ -30,6 +30,13 @@ public class UserDao {
         session.close();
     }
 
+    public User getUserById(Long id) {
+        Session session = sessionFactory.openSession();
+        User user = session.get(User.class, id);
+        session.close();
+        return user;
+    }
+
     public List<User> getUserList() {
 
         // открыть сессию - для манипуляции с персист. объектами

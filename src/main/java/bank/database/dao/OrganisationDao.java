@@ -37,4 +37,11 @@ public class OrganisationDao {
         return orgList;
     }
 
+    public Organisations getOrgById(Long id) {
+        Session session = sessionFactory.openSession();
+        Organisations organisation = session.get(Organisations.class, id);
+        session.close();
+        return organisation;
+    }
+
 }

@@ -27,4 +27,14 @@ public class UserService {
     public List<User> getUsers() {
         return userDao.getUserList();
     }
+
+    @Transactional
+    public User getUserGyId(Long id) {
+        return userDao.getUserById(id);
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        userDao.updateUser(user);
+    }
 }

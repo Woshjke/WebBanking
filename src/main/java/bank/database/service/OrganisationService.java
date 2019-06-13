@@ -19,4 +19,8 @@ public class OrganisationService {
     public List<Organisations> getOrgs() {
         return organisationDao.getOrgsList();
     }
+
+    public Organisations getOrgById(Long id) {
+        return organisationDao.getOrgById(id);
+    }
 }
