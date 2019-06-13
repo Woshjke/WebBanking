@@ -5,16 +5,20 @@
     <title>Admin page</title>
 </head>
 <body>
-<form:form name="createUserForm" method="post" action="/createUser">
+<form:form name="createUserPage" method="post" action="/createUser">
     <input type="submit" value="Create user"/>
 </form:form>
 
-<form:form name="updateUserForm" method="post" action="/updateUser">
+<form:form name="getUserPage" method="post" action="/getUser">
+    <input type="submit" value="Get user"/>
+</form:form>
+
+<form:form name="updateUserPage" method="post" action="/updateUser">
     <input type="submit" value="Update user">
 </form:form>
 
-<form:form name="deleteUserForm" method="post" action="/deleteUser">
-    <input type="submit" value="Update user">
+<form:form name="deleteUserPage" method="post" action="/deleteUser">
+    <input type="submit" value="Delete user">
 </form:form>
 </body>
 </html>
