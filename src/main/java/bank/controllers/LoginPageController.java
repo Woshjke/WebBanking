@@ -22,11 +22,12 @@ public class LoginPageController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String goToLoginPage(ModelMap model) {//todo Узнать почему три раза заходит
+    public String goToLoginPage(ModelMap model) {
         model.addAttribute("welcomingMessage", "Добро пожаловать!");
         return "loginPage";
     }
 
+    //todo Сделать нормальые проверки + хешировать пароль
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String login(@ModelAttribute("user") User user, ModelMap map) {
         List<User> users = userService.getUsers();
