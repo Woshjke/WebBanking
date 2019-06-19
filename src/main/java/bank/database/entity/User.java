@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -34,5 +35,10 @@ public class User implements Serializable {
 
     @Column(name = "money_count")
     private int money_count;
+
+    @ManyToMany
+    @JoinTable(name = "usr_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
 }
