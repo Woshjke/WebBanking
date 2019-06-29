@@ -9,7 +9,7 @@
 <form:form method="post" action="/register" modelAttribute="user">
     <form:label path="login">Login</form:label>
     <p></p>
-    <form:input path="login"/>
+    <form:input path="username"/>
     <p></p>
     <form:label path="password">Password</form:label>
     <p></p>

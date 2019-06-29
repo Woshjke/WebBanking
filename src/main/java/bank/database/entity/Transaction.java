@@ -10,25 +10,28 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "transaction")
 public class Transaction implements Serializable {
 
-    //todo переделать названия
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
 
-    @NonNull
-    @Column(name = "from_user")
-    private String from;
+    // TODO: 29.06.2019 Прявязать source и destination к BankAccount
 
-    @NonNull
-    @Column(name = "to_user")
-    private String to;
+    @Column(name = "source")
+    private long source;
 
-    @NonNull
-    @Column(name = "money_count")
-    private String value;
+    @Column(name = "destination")
+    private long destination;
+
+    @Column(name = "val")
+    private int value;
+
+    public Transaction(long source, long destination, int value) {
+        this.source = source;
+        this.destination = destination;
+        this.value = value;
+    }
 }

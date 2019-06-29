@@ -1,18 +1,20 @@
-package bank.database.service;
+package bank.services.dbServices;
 
 import bank.database.dao.OrganisationDao;
 import bank.database.entity.Organisations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class OrganisationService {
+@Transactional
+public class OrganisationDaoService {
     private final OrganisationDao organisationDao;
 
     @Autowired
-    public OrganisationService(OrganisationDao organisationDao) {
+    public OrganisationDaoService(OrganisationDao organisationDao) {
         this.organisationDao = organisationDao;
     }
 

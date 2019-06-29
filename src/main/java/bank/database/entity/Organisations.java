@@ -15,15 +15,12 @@ import javax.persistence.*;
 public class Organisations {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "user_id")
-    private long bankAccountNumber;
 
     @Column(name = "user_id", insertable = false, updatable = false)
     private long user_id;

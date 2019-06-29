@@ -1,4 +1,4 @@
-package bank.database.service;
+package bank.services.dbServices;
 
 import bank.database.dao.UserDao;
 import bank.database.entity.User;
@@ -9,37 +9,37 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserService {
+@Transactional
+public class UserDaoService {
 
     private final UserDao userDao;
 
     @Autowired
-    public UserService(UserDao userDao) {
+    public UserDaoService(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    @Transactional
+
     public void createUser(User user) {
         userDao.createUser(user);
     }
 
-    @Transactional
     public List<User> getUsers() {
         return userDao.getUserList();
     }
 
-    @Transactional
-    public User getUserGyId(Long id) {
+    public User getUserById(Long id) {
         return userDao.getUserById(id);
     }
 
-    @Transactional
     public void updateUser(User user) {
         userDao.updateUser(user);
     }
 
-    @Transactional
     public void deleteUser(User user) {
         userDao.deleteUser(user);
     }
+
+    public User getUserByUsername(String username) {return userDao.getUserByUsername(username);}
+
 }

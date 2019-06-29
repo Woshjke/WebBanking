@@ -5,12 +5,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import static bank.PageNameConstants.*;
+
 @Controller
 @RequestMapping("/transfer")
 public class MoneyTransferController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String transferMoney(ModelMap model) {
-        return "moneyTransfer";
+        return MONEY_TRANSFER_PAGE;
     }
 }

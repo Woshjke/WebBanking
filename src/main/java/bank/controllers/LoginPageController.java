@@ -1,45 +1,43 @@
 package bank.controllers;
 
 import bank.database.entity.User;
-import bank.database.service.UserService;
+import bank.services.UserService;
+import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
+import static bank.PageNameConstants.*;
 
 @Controller
 public class LoginPageController {
 
+    private UserDaoService userDaoService;
     private UserService userService;
 
     @Autowired
-    public LoginPageController(UserService userService) {
+    public LoginPageController(UserDaoService userDaoService, UserService userService) {
+        this.userDaoService = userDaoService;
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String goToLoginPage(ModelMap model) {
-        model.addAttribute("welcomingMessage", "Добро пожаловать!");
-        return "loginPage";
+
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    public String goToLoginPage(ModelMap model, HttpServletRequest request) {
+        return LOGIN_PAGE;
     }
 
-    //todo Сделать нормальые проверки + хешировать пароль
-    @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public String login(@ModelAttribute("user") User user, ModelMap map) {
-        List<User> users = userService.getUsers();
-        for (User iter : users) {
-            if (iter.getLogin().equals(user.getLogin()) && iter.getPassword().equals(user.getPassword())) {
-                map.addAttribute("currentUser", user);
-                if (iter.isAdmin()) {
-                    return "adminPage";
-                } else return "userPage";
-            }
-        }
-        return null;
+    @RequestMapping(value = {"/login?error"}, method = RequestMethod.GET)
+    public String loginError(ModelMap model, HttpServletRequest request) {
+        model.addAttribute("errorMessage", "Error");
+        return LOGIN_PAGE;
     }
 
     @ModelAttribute("user")

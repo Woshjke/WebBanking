@@ -1,9 +1,8 @@
 import bank.configuration.FrontControllerConfig;
 import bank.configuration.HibernateConfig;
 import bank.configuration.WebMvcConfig;
-import bank.database.dao.UserDao;
 import bank.database.entity.User;
-import bank.database.service.UserService;
+import bank.services.dbServices.UserDaoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.util.List;
 public class GetUserTest {
 
     @Autowired
-    UserService userService;
+    UserDaoService userService;
 
     @Test
     public void testGetUser() {

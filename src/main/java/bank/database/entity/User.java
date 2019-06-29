@@ -12,18 +12,18 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Table(name = "usr")
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
 
     @NonNull
     @Column(name = "username")
-    private String login;
+    private String username;
 
     @NonNull
     @Column(name = "pass")
@@ -33,12 +33,10 @@ public class User implements Serializable {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
-    @Column(name = "money_count")
-    private int money_count;
-
-    @ManyToMany
-    @JoinTable(name = "usr_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    //todo-какая-то срань, ничего не понятно
+    //@JoinTable(name = "bank_account")
+    //@JoinColumn(name = "user_id")
+    private Set<BankAccount> bankAccounts;
 
 }
