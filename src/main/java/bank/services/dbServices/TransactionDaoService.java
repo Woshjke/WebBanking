@@ -2,9 +2,6 @@ package bank.services.dbServices;
 
 import bank.database.dao.TransactionDao;
 import bank.database.entity.BankAccount;
-import bank.database.entity.Transaction;
-import bank.database.entity.User;
-import bank.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +24,15 @@ public class TransactionDaoService {
     }
 
     public void createTransaction(HttpServletRequest request) {
-        BankAccount source = bankAccountService.getBankAccountById(Long.parseLong(request.getParameter("source")));
-        BankAccount destination = bankAccountService.getBankAccountById(Long.parseLong(request.getParameter("destination")));
+        BankAccount sourceBankAccount = bankAccountService.getBankAccountById(Long.parseLong(request.getParameter("source")));
+        // TODO: 29.06.2019 Запилить проаерку на существование destination-счета
+        BankAccount destinationBankAccount = bankAccountService.getBankAccountById(Long.parseLong(request.getParameter("destination")));
         Integer money_value = Integer.parseInt(request.getParameter("value"));
-        source.takeMoney(money_value);
-        destination.addMoney(money_value);
+        sourceBankAccount.takeMoney(money_value);
+        destinationBankAccount.addMoney(money_value);
 
-        bankAccountService.updateBankAccount(source);
-        bankAccountService.updateBankAccount(destination);
+        bankAccountService.updateBankAccount(sourceBankAccount);
+        bankAccountService.updateBankAccount(destinationBankAccount);
 
         //Transaction transaction = new Transaction(source.getId(), destination.getId(), money_value);
         //transactionDao.createTransaction(transaction);

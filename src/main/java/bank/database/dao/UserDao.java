@@ -1,16 +1,12 @@
 package bank.database.dao;
 
 import bank.database.entity.User;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -50,6 +46,7 @@ public class UserDao {
 
         // открыть сессию - для манипуляции с персист. объектами
         Session session = sessionFactory.openSession();
+        session.beginTransaction();
 
         //session.get(User.class, 1L); // получение объекта по id
 

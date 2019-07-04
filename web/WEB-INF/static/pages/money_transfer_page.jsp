@@ -9,26 +9,28 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Transaction</title>
 </head>
+
+<style>
+    <%@include file="/WEB-INF/resources/css/buttonStyle.css"%>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
+</style>
+
 <body>
 <form:form method="POST" action="/doTransaction">
-    <p>Куда</p>
-    <label>
-        <input name="destination"/>
-    </label>
-    <p>Сколько:</p>
-    <label>
+    <div style="margin-left: 10px; margin-top: 10px">
+        <p style="color: white">Куда</p>
+        <input  name="destination"/>
+        <p style="color: white">Сколько:</p>
         <input name="value"/>
-    </label>
-    <p>С какого счета</p>
-    <label>
+        <p style="color: white">С какого счета</p>
         <select name="source" class="form-control col-1">
             <c:forEach items="${bankAccounts}" var="bankAccount">
                 <option value="${bankAccount.id}">${bankAccount.id}</option>
             </c:forEach>
         </select>
-    </label>
-    <p></p>
-    <input type="submit" value="Перевести"/>
+        <p></p>
+        <input type="submit" value="Перевести"/>
+    </div>
 </form:form>
 
 <%--Bootstrap JS classes--%>

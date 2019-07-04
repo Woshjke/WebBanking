@@ -1,9 +1,7 @@
 package bank.services.dbServices;
 
 import bank.database.dao.BankAccountDao;
-import bank.database.dao.UserDao;
 import bank.database.entity.BankAccount;
-import bank.database.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

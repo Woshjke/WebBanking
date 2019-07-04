@@ -18,19 +18,15 @@
 <div class="row h-100 justify-content-center align-items-center">
 <form:form method="post" action="/process_login">
     <div class="form-group">
-        <label>Login</label>
-        <label>
-            <input name="username" class="form-text text-muted"/>
-        </label>
+        <label>Логин</label>
+        <input name="username" class="form-text text-muted"/>
     </div>
     <div class="form-group">
-        <label>Password</label>
-        <label>
-            <input name="password" type="password" class="form-text text-muted"/>
-        </label>
+        <label>Пароль</label>
+        <input name="password" type="password" class="form-text text-muted"/>
         <small id="passwordHelp" class="form-text text-muted">We'll never share your password with anyone else.</small>
     </div>
-    <button class="btn btn-outline-primary">Sign in</button>
+    <button class="btn btn-outline-primary">Войти</button>
     <c:if test="${errorMessage}">
     <div class="form-group">
         <label>${errorMessage}</label>

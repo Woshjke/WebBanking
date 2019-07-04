@@ -19,13 +19,11 @@
 <body>
 <div style="margin-top: 20px; margin-left: 20px">
     <form:form name="getUserForm" method="post" action="/updateUser">
-        <label>
-            <select name="users" class="form-control col-1">
-                <c:forEach items="${usersList}" var="user">
-                    <option value="${user.id}">${user.username}</option>
-                </c:forEach>
-            </select>
-        </label>
+        <select name="users" class="form-control col-1">
+            <c:forEach items="${usersList}" var="user">
+                <option value="${user.id}">${user.username}</option>
+            </c:forEach>
+        </select>
         <p></p>
         <input type="submit" class="btn btn-outline-primary" value="OK">
     </form:form>

@@ -1,6 +1,5 @@
 package bank.controllers;
 
-import bank.database.entity.BankAccount;
 import bank.database.entity.Transaction;
 import bank.database.entity.User;
 import bank.services.UserService;
@@ -10,15 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
-import static bank.PageNameConstants.*;
+import static bank.PageNameConstants.MONEY_TRANSFER_PAGE;
+import static bank.PageNameConstants.USER_PAGE;
 
 @Controller
 public class TransactionController {
@@ -43,9 +41,7 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
-    public String doTransaction(HttpServletRequest request,
-                                @ModelAttribute("transaction") Transaction transaction
-    ) {
+    public String doTransaction(HttpServletRequest request) {
         transactionService.createTransaction(request);
         return USER_PAGE;
     }

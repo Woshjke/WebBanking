@@ -1,30 +1,14 @@
 package bank.controllers;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.validation.Valid;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Date;
-import java.util.Map;
 import java.util.Random;
-import java.util.stream.Collectors;
 
-import static bank.PageNameConstants.*;
+import static bank.PageNameConstants.HOME_PAGE;
 
 @Controller
 public class HomeController {

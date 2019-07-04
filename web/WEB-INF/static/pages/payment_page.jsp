@@ -35,6 +35,7 @@
                 </div>
             </li>
             <a href="${pageContext.request.contextPath}/logout" class="nav-link">Выйти</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -44,27 +45,22 @@
 
         <label style="color: white">Куда:</label>
         <p></p>
-        <label>
-            <select name="organisation" class="form-control col-1">
-                <c:forEach items="${orgs}" var="org">
-                    <option value="${org.id}">${org.name}</option>
-                </c:forEach>
-            </select>
-        </label>
+        <select name="organisation" class="form-control col-1">
+            <c:forEach items="${orgs}" var="org">
+                <option value="${org.id}">${org.name}</option>
+            </c:forEach>
+        </select>
         <p></p>
         <label style="color: white">Размер платежа:</label>
         <p></p>
-        <label>
-            <input type="number" class="input-group-text" name="money_count">
-        </label>
+        <input type="number" class="input-group-text" name="money_count">
         <p></p>
-        <label>
-            <select name="bankAccounts" class="form-control col-1">
-                <c:forEach items="${bankAccounts}" var="bankAccount">
-                    <option value="${bankAccount.id}">${bankAccount.id}</option>
-                </c:forEach>
-            </select>
-        </label>
+        <label style="color: white">С какого счета:</label>
+        <select name="bankAccounts" class="form-control col-1">
+            <c:forEach items="${bankAccounts}" var="bankAccount">
+                <option value="${bankAccount.id}">${bankAccount.id}</option>
+            </c:forEach>
+        </select>
         <p></p>
         <input type="submit" class="btn btn-outline-primary" name="submitPayment" value="Подтвердить платеж"/>
     </form:form>

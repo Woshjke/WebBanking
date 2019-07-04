@@ -13,8 +13,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
         "bank.database",
         "bank.database.entity",
         "bank.database.dao",
-        "bank.services"}
-)
+        "bank.services",
+        "bank.configuration"
+})
+
 public class WebMvcConfig {
 
     @Bean

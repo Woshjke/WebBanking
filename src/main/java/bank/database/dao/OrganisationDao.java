@@ -1,7 +1,6 @@
 package bank.database.dao;
 
 import bank.database.entity.Organisations;
-import bank.database.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

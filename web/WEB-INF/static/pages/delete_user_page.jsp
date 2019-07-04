@@ -17,13 +17,11 @@
 
 <body>
 <form:form name="deleteUserForm" action="/deleteUser" method="post">
-    <label>
-        <select name="users" class="form-control col-1">
-            <c:forEach items="${usersList}" var="user">
-                <option value="${user.id}">${user.username}</option>
-            </c:forEach>
-        </select>
-    </label>
+    <select name="users" class="form-control col-1">
+        <c:forEach items="${usersList}" var="user">
+            <option value="${user.id}">${user.username}</option>
+        </c:forEach>
+    </select>
     <p></p>
     <button type="submit" class="btn btn-outline-primary">Удалить</button>
 </form:form>

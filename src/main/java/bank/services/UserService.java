@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import static bank.PageNameConstants.*;
 
 @Service
+@Transactional
 public class UserService {
 
     private OrganisationDaoService organisationService;
@@ -31,13 +31,12 @@ public class UserService {
     }
 
 
-
     public void doPayment(Long selectedOrg, Integer moneyToAdd, Long selectedBankAccount) {
         // TODO: 28.06.2019 BigDecimal
-        // TODO: 29.06.2019 Код - кусок говна. Может заменить Set на что-то другое ??
+        // TODO: 29.06.2019 Код - кусок ***
+        // TODO: 04.07.2019 Поместить в DAO
         User currentUser = getAuthenticatedUser();
         BankAccount userBankAccount = bankAccountService.getBankAccountById(selectedBankAccount);
-
 
         if (userBankAccount.getMoney() < moneyToAdd) {
             return;
@@ -54,17 +53,6 @@ public class UserService {
 
         bankAccountService.updateBankAccount(userBankAccount);
         bankAccountService.updateBankAccount(orgBankAccount);
-    }
-
-    public String login(User user) {
-        User userFromDb = userDaoService.getUserByUsername(user.getUsername());
-        if (user.getPassword().equals(userFromDb.getPassword())) {
-            if (userFromDb.isAdmin()) {
-                return ADMIN_PAGE;
-            } else {
-                return USER_PAGE;
-            }
-        }   return LOGIN_PAGE;
     }
 
     public User getAuthenticatedUser() {

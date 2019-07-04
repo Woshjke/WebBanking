@@ -31,7 +31,7 @@
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/transaction">Сделать перевод на счет</a>
                 </div>
             </li>
-                <a href="${pageContext.request.contextPath}/logout" class="nav-link">Выйти</a>
+                <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Выйти</a>
         </ul>
     </div>
 </nav>
@@ -47,6 +47,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-
 </body>
 </html>
