@@ -1,9 +1,6 @@
 package bank.database.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +10,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Table(name = "bank_account")
 public class BankAccount implements Serializable {
 
@@ -24,10 +22,8 @@ public class BankAccount implements Serializable {
     @Column(name = "money")
     private Integer money;
 
-    @ManyToOne
-    //todo-какая-то срань, ничего не понятно
-    //@JoinTable(name = "usr")
-    //@JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public void addMoney(Integer money) {

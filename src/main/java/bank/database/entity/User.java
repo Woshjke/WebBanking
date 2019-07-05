@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 //@RequiredArgsConstructor
+@EqualsAndHashCode
 @Table(name = "usr")
 public class User implements Serializable {
 
@@ -29,11 +32,8 @@ public class User implements Serializable {
     @Column(name = "pass")
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-    //todo-какая-то срань, ничего не понятно
-    //@JoinTable(name = "bank_account")
-    //@JoinColumn(name = "user_id")
-    private Set<BankAccount> bankAccounts;
+    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
+    private List<BankAccount> bankAccounts = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
@@ -41,6 +41,6 @@ public class User implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 }

@@ -3,16 +3,17 @@ package bank.database.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "organisations")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Organisations {
+@Table(name = "organisations")
+public class Organisations implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

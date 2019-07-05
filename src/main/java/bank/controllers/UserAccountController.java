@@ -54,7 +54,7 @@ public class UserAccountController {
         modelMap.addAttribute("orgs", organisations);
 
         User user = userService.getAuthenticatedUser();
-        Set<BankAccount> bankAccountSet = user.getBankAccounts();
+        List<BankAccount> bankAccountSet = user.getBankAccounts();
         modelMap.addAttribute("bankAccounts", bankAccountSet);
         return PAYMENT_PAGE;
     }
