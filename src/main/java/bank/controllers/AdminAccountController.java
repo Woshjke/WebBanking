@@ -2,9 +2,9 @@ package bank.controllers;
 
 import bank.database.entity.User;
 import bank.services.AdminService;
-import bank.services.UserService;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,24 +22,22 @@ import static bank.PageNameConstants.*;
 public class AdminAccountController {
 
     private UserDaoService userDaoService;
-    private UserService userService;
     private AdminService adminService;
 
     @Autowired
-    public AdminAccountController(UserDaoService userDaoService, UserService userService, AdminService adminService) {
+    public AdminAccountController(UserDaoService userDaoService, AdminService adminService) {
         this.userDaoService = userDaoService;
-        this.userService = userService;
         this.adminService = adminService;
     }
 
 
     @RequestMapping(value = "/admin_page", method = RequestMethod.GET)
-    public String getAdminPage(ModelMap map) {
+    public String getAdminPage() {
         return ADMIN_PAGE;
     }
 
     @RequestMapping(value = "/admin_page", method = RequestMethod.POST)
-    public String getAdminPagePost(ModelMap map) {
+    public String getAdminPagePost() {
         return ADMIN_PAGE;
     }
 
@@ -58,15 +56,24 @@ public class AdminAccountController {
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public String updateUser(HttpServletRequest request, ModelMap map) {
         List<User> userList = userDaoService.getUsers();
-        User user = adminService.updateUser(request);
-        map.addAttribute("userToUpdate", user);
+        User userToUpdate = adminService.getUserToUpdate(request);
+        map.addAttribute("userToUpdate", userToUpdate);
         map.addAttribute("usersList", userList);
         return UPDATE_USER_PAGE;
     }
 
+    // TODO: 08.07.2019 Перенести в сервис
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
-    public String doUpdate(@ModelAttribute("userToUpdate") User user) {
-        userDaoService.updateUser(user);
+    public String doUpdate(HttpServletRequest request) {
+        Long userToUpdateId = Long.parseLong(request.getParameter("id"));
+        User userToUpdate = userDaoService.getUserById(userToUpdateId);
+        String newUsername = request.getParameter("username");
+        String newPassword = request.getParameter("password");
+        if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
+            userToUpdate.setUsername(newUsername);
+            userToUpdate.setPassword(new BCryptPasswordEncoder(11).encode(newPassword));
+            userDaoService.updateUser(userToUpdate);
+        }
         return ADMIN_PAGE;
     }
 

@@ -1,14 +1,18 @@
 package bank.database.dao;
 
 import bank.database.entity.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -91,12 +95,15 @@ public class UserDao {
     }
 
     public User getUserByUsername(String username) {
-        List<User> userList = getUserList();
-        for (User user : userList) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return new User();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        cq.select(root).where(cb.equal(root.get("username"), username));
+        Query query = session.createQuery(cq);
+        User user = (User) query.getSingleResult();
+        session.close();
+        return user;
     }
 }

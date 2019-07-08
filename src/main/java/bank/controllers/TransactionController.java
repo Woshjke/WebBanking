@@ -22,13 +22,11 @@ import static bank.PageNameConstants.USER_PAGE;
 public class TransactionController {
 
     private TransactionDaoService transactionService;
-    private BankAccountService bankAccountService;
     private UserService userService;
 
     @Autowired
-    public TransactionController(TransactionDaoService transactionService, BankAccountService bankAccountService, UserService userService) {
+    public TransactionController(TransactionDaoService transactionService, UserService userService) {
         this.transactionService = transactionService;
-        this.bankAccountService = bankAccountService;
         this.userService = userService;
     }
 

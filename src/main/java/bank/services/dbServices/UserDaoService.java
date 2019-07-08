@@ -3,6 +3,7 @@ package bank.services.dbServices;
 import bank.database.dao.UserDao;
 import bank.database.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,11 @@ public class UserDaoService {
     }
 
     public void updateUser(User user) {
+        User userInDB = userDao.getUserById(user.getId());
+        if (!userInDB.getPassword().equals(user.getPassword())) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
+            user.setPassword(encoder.encode(user.getPassword()));
+        }
         userDao.updateUser(user);
     }
 

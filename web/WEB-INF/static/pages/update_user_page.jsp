@@ -31,25 +31,16 @@
     <p></p>
 
     <c:if test="${userToUpdate.id > 0}">
-        <form:form name="doUpdate" method="post" action="/doUpdate" modelAttribute="userToUpdate">
-            <label>ID</label>
+        <form:form name="doUpdate" method="post" action="/doUpdate" modelAttribute="userToUpdate" >
+            <input name="id" value="${userToUpdate.id}" style="visibility: hidden"/>
             <p></p>
-            <form:input path="id"/> <p></p>
             <label>Username</label>
             <p></p>
-            <form:input path="username"/> <p></p>
+            <input name="username" value="${userToUpdate.username}"/> <p></p>
             <label>Password</label>
             <p></p>
-            <form:input path="password"/> <p></p>
+            <input name="password" value="${userToUpdate.password}" type="password"> <p></p>
             <p></p>
-            <div class="custom-control custom-checkbox">
-                <form:checkbox path="admin" cssClass="custom-control-input" id="defaultUnchecked"/>
-                <label class="custom-control-label" for="defaultUnchecked">Admin?</label>
-            </div>
-            <p></p>
-            <label>Money count</label>
-            <p></p>
-            <form:input path="bankAccounts"/> <p></p>
             <input type="submit" class="btn btn-outline-primary" value="Submit"/>
         </form:form>
     </c:if>

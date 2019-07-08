@@ -12,7 +12,7 @@ import static bank.PageNameConstants.MONEY_TRANSFER_PAGE;
 public class MoneyTransferController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String transferMoney(ModelMap model) {
+    public String transferMoney() {
         return MONEY_TRANSFER_PAGE;
     }
 }

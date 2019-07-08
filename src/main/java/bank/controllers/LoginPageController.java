@@ -17,16 +17,6 @@ import static bank.PageNameConstants.LOGIN_PAGE;
 @Controller
 public class LoginPageController {
 
-    private UserDaoService userDaoService;
-    private UserService userService;
-
-    @Autowired
-    public LoginPageController(UserDaoService userDaoService, UserService userService) {
-        this.userDaoService = userDaoService;
-        this.userService = userService;
-    }
-
-
     @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
     public String goToLoginPage(ModelMap model, HttpServletRequest request) {
         return LOGIN_PAGE;

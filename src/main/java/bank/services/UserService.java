@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import static bank.PageNameConstants.*;
 
 @Service
-@Transactional
 public class UserService {
 
     private OrganisationDaoService organisationService;

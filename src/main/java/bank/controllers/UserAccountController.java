@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 import static bank.PageNameConstants.PAYMENT_PAGE;
 import static bank.PageNameConstants.USER_PAGE;
@@ -25,13 +24,11 @@ import static bank.PageNameConstants.USER_PAGE;
 public class UserAccountController {
 
     private OrganisationDaoService organisationService;
-    private UserDaoService userDaoService;
     private UserService userService;
 
     @Autowired
-    public UserAccountController(OrganisationDaoService organisationService, UserDaoService userDaoService, UserService userService) {
+    public UserAccountController(OrganisationDaoService organisationService, UserService userService) {
         this.organisationService = organisationService;
-        this.userDaoService = userDaoService;
         this.userService = userService;
     }
 

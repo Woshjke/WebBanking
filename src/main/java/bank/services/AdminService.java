@@ -3,6 +3,8 @@ package bank.services;
 import bank.database.entity.User;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,7 @@ public class AdminService {
         this.userDaoService = userDaoService;
     }
 
-    public User updateUser(HttpServletRequest request) {
+    public User getUserToUpdate(HttpServletRequest request) {
         long selectedUserId = 0L;
         if (request.getParameter("users") != null && !request.getParameter("users").equals("0")) {
             selectedUserId = Long.parseLong(request.getParameter("users"));

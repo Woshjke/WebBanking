@@ -23,6 +23,7 @@ public class Organisations implements Serializable {
     @Column(name = "name")
     private String name;
 
+    // TODO: 05.07.2019 пофиксить
     @Column(name = "user_id", insertable = false, updatable = false)
     private long user_id;
 }

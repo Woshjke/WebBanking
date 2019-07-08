@@ -9,10 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -20,13 +19,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private  UserDaoService userDaoService;
 
-
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(final String username) {
+    public UserDetails loadUserByUsername(String username) {
         User user = userDaoService.getUserByUsername(username);
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
-            System.out.println("/n" + role.getName() + "/n");
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
