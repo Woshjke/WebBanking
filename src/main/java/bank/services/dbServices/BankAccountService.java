@@ -39,4 +39,8 @@ public class BankAccountService {
     public void deleteBankAccount(BankAccount bankAccount) {
         bankAccountDao.deleteBankAccount(bankAccount);
     }
+
+    public List<BankAccount> getBankAccountByUserId(long id) {
+        return bankAccountDao.getBankAccountsByUserId(id);
+    }
 }

@@ -48,8 +48,8 @@ public class AdminAccountController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute(value = "user") User user) {
-        userDaoService.createUser(user);
+    public String registerUser(HttpServletRequest request) {
+        adminService.registerUser(request);
         return ADMIN_PAGE;
     }
 

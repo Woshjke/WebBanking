@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,7 +25,7 @@ public class BankAccountDao {
     public void createBankAccount(BankAccount bankAccount) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(bankAccount);
+        session.saveOrUpdate(bankAccount);
         session.getTransaction().commit();
         session.close();
     }
@@ -83,5 +82,17 @@ public class BankAccountDao {
         session.delete(bankAccount);
         session.getTransaction().commit();
         session.close();
+    }
+
+    public List<BankAccount> getBankAccountsByUserId(long id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<BankAccount> cq = cb.createQuery(BankAccount.class);
+        Root<BankAccount> root = cq.from(BankAccount.class);
+
+        cq.select(root).where(cb.equal(root.get("user_id"), id));
+        Query query = session.createQuery(cq);
+        return query.getResultList();
     }
 }

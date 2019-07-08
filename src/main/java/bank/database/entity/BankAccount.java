@@ -15,24 +15,24 @@ import java.io.Serializable;
 public class BankAccount implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "money")
-    private Integer money;
+    private double money;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
     public void addMoney(Integer money) {
-        int targetMoney = getMoney() + money;
+        double targetMoney = getMoney() + money;
         this.setMoney(targetMoney);
     }
 
     public void takeMoney(Integer money) {
-        int targetMoney = getMoney() - money;
+        double targetMoney = getMoney() - money;
         this.setMoney(targetMoney);
     }
 }

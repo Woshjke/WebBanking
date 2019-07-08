@@ -41,13 +41,13 @@ public class UserService {
             return;
         }
 
-        Integer currentUserMoney = userBankAccount.getMoney();
+        Double currentUserMoney = userBankAccount.getMoney();
         userBankAccount.setMoney(currentUserMoney - moneyToAdd);
 
         Long userId = organisationService.getOrgById(selectedOrg).getUser_id();
         User user = userDaoService.getUserById(userId);
         BankAccount orgBankAccount = new ArrayList<>(user.getBankAccounts()).get(0);
-        Integer orgCurrentMoney = orgBankAccount.getMoney();
+        Double orgCurrentMoney = orgBankAccount.getMoney();
         orgBankAccount.setMoney(orgCurrentMoney + moneyToAdd);
 
         bankAccountService.updateBankAccount(userBankAccount);
