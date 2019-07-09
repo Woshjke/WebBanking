@@ -10,6 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -48,9 +50,9 @@ public class AdminAccountController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerUser(HttpServletRequest request) {
+    public RedirectView registerUser(HttpServletRequest request) {
         adminService.registerUser(request);
-        return ADMIN_PAGE;
+        return new RedirectView(ADMIN_PAGE);
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
@@ -64,7 +66,7 @@ public class AdminAccountController {
 
     // TODO: 08.07.2019 Перенести в сервис
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
-    public String doUpdate(HttpServletRequest request) {
+    public RedirectView doUpdate(HttpServletRequest request) {
         Long userToUpdateId = Long.parseLong(request.getParameter("id"));
         User userToUpdate = userDaoService.getUserById(userToUpdateId);
         String newUsername = request.getParameter("username");
@@ -74,7 +76,7 @@ public class AdminAccountController {
             userToUpdate.setPassword(new BCryptPasswordEncoder(11).encode(newPassword));
             userDaoService.updateUser(userToUpdate);
         }
-        return ADMIN_PAGE;
+        return new RedirectView(ADMIN_PAGE);
     }
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)

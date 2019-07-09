@@ -75,7 +75,7 @@ public class AdminService {
         bankAccount.setUser(user);
 
         bankAccountService.createBankAccount(bankAccount);
-        bankAccount = bankAccountService.getBankAccountByUserId(user.getId()).get(0);
+        //bankAccount = bankAccountService.getBankAccountByUserId(user.getId()).get(0);
 
         List<BankAccount> bankAccountList = new ArrayList<>();
         bankAccountList.add(bankAccount);
