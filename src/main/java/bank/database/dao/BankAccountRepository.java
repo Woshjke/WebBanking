@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BankAccountRepository extends CrudRepository<BankAccount, Integer>, JpaSpecificationExecutor<BankAccount> {
-    List<BankAccount> getAllByUser_Id(long id);
+    List<BankAccount> getAllByUser_Id(Long id);
+    BankAccount findById(Long id);
 }

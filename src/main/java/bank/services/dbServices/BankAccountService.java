@@ -1,6 +1,6 @@
 package bank.services.dbServices;
 
-import bank.database.dao.BankAccountDao;
+import bank.database.dao.BankAccountRepository;
 import bank.database.entity.BankAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,35 +12,35 @@ import java.util.List;
 @Transactional
 public class BankAccountService {
 
-    private final BankAccountDao bankAccountDao;
+    private final BankAccountRepository bankAccountDao;
 
     @Autowired
-    public BankAccountService(BankAccountDao bankAccountDao) {
+    public BankAccountService(BankAccountRepository bankAccountDao) {
         this.bankAccountDao = bankAccountDao;
     }
 
 
     public void createBankAccount(BankAccount bankAccount) {
-        bankAccountDao.createBankAccount(bankAccount);
+        bankAccountDao.save(bankAccount);
     }
 
     public List<BankAccount> getAllBankAccounts() {
-        return bankAccountDao.getAllBankAccounts();
+        return (List<BankAccount>) bankAccountDao.findAll();
     }
 
     public BankAccount getBankAccountById(Long id) {
-        return bankAccountDao.getBankAccountById(id);
+        return bankAccountDao.findById(id);
     }
 
     public void updateBankAccount(BankAccount bankAccount) {
-        bankAccountDao.updateBankAccount(bankAccount);
+        bankAccountDao.save(bankAccount);
     }
 
     public void deleteBankAccount(BankAccount bankAccount) {
-        bankAccountDao.deleteBankAccount(bankAccount);
+        bankAccountDao.delete(bankAccount);
     }
 
     public List<BankAccount> getBankAccountByUserId(long id) {
-        return bankAccountDao.getBankAccountsByUserId(id);
+        return bankAccountDao.getAllByUser_Id(id);
     }
 }

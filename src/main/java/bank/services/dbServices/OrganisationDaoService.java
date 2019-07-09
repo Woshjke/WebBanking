@@ -1,6 +1,6 @@
 package bank.services.dbServices;
 
-import bank.database.dao.OrganisationDao;
+import bank.database.dao.OrganisationRepository;
 import bank.database.entity.Organisations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,18 +11,18 @@ import java.util.List;
 @Service
 @Transactional
 public class OrganisationDaoService {
-    private final OrganisationDao organisationDao;
+    private final OrganisationRepository organisationDao;
 
     @Autowired
-    public OrganisationDaoService(OrganisationDao organisationDao) {
+    public OrganisationDaoService(OrganisationRepository organisationDao) {
         this.organisationDao = organisationDao;
     }
 
     public List<Organisations> getOrgs() {
-        return organisationDao.getOrgsList();
+        return (List<Organisations>) organisationDao.findAll();
     }
 
     public Organisations getOrgById(Long id) {
-        return organisationDao.getOrgById(id);
+        return organisationDao.findById(id);
     }
 }

@@ -1,28 +1,40 @@
 package bank.configuration;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
 
 @Configuration
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "bank")
 public class HibernateConfig {
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean sessionFactory = new LocalContainerEntityManagerFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(
-                "bank.database.entity");
-        sessionFactory.setHibernateProperties(hibernateProperties());
+                "bank.database.entity", "bank.database.dao");
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        sessionFactory.setJpaVendorAdapter(vendorAdapter);
+        sessionFactory.setJpaProperties(hibernateProperties());
 
         return sessionFactory;
     }
@@ -39,12 +51,13 @@ public class HibernateConfig {
     }
 
     @Bean
-    public PlatformTransactionManager hibernateTransactionManager() {
-        HibernateTransactionManager transactionManager
-                = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+
         return transactionManager;
     }
+
 
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();

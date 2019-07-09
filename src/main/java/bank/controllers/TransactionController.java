@@ -40,7 +40,7 @@ public class TransactionController {
 
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
     public String doTransaction(HttpServletRequest request) {
-        transactionService.createTransaction(request);
+        //transactionService.createTransaction(request);
         return USER_PAGE;
     }
 

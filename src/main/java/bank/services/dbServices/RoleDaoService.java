@@ -1,6 +1,6 @@
 package bank.services.dbServices;
 
-import bank.database.dao.RoleDao;
+import bank.database.dao.RoleRepository;
 import bank.database.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,14 +12,14 @@ import java.util.List;
 @Transactional
 public class RoleDaoService {
 
-    private RoleDao roleDao;
+    private RoleRepository roleDao;
 
     @Autowired
-    public RoleDaoService(RoleDao roleDao) {
+    public RoleDaoService(RoleRepository roleDao) {
         this.roleDao = roleDao;
     }
 
     public List<Role> getRoles() {
-        return roleDao.getRoles();
+        return (List<Role>) roleDao.findAll();
     }
 }
