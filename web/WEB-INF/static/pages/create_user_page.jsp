@@ -8,6 +8,12 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Registration page</title>
 </head>
+
+<style>
+    <%@include file="/WEB-INF/resources/css/buttonStyle.css"%>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
+</style>
+
 <body>
 <h1>Зарегистрируйте новый аккаунт</h1>
 <form:form method="post" action="/register">

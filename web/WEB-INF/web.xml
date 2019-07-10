@@ -6,7 +6,7 @@
 
     <session-config>
         <cookie-config>
-            <max-age>600</max-age>
+            <max-age>300000</max-age>
         </cookie-config>
     </session-config>
 

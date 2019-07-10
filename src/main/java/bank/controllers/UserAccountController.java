@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -33,9 +34,13 @@ public class UserAccountController {
     }
 
     @RequestMapping(value = "/user_page", method = RequestMethod.GET)
-    public String getUserPage(ModelMap model, Principal principal) {
-        System.out.println(principal.toString());
+    public String getUserPage() {
         return USER_PAGE;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public RedirectView redirectToUserPage() {
+        return new RedirectView(USER_PAGE);
     }
 
     @RequestMapping(value = "/payment", method = RequestMethod.POST)

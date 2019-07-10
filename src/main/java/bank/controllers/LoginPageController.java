@@ -17,13 +17,13 @@ import static bank.PageNameConstants.LOGIN_PAGE;
 @Controller
 public class LoginPageController {
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
-    public String goToLoginPage(ModelMap model, HttpServletRequest request) {
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String goToLoginPage() {
         return LOGIN_PAGE;
     }
 
     @RequestMapping(value = {"/login", "/"}, method = RequestMethod.POST)
-    public String goToLoginPagePost(ModelMap model, HttpServletRequest request) {
+    public String goToLoginPagePost() {
         return LOGIN_PAGE;
     }
 

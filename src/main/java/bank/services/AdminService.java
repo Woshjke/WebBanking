@@ -57,6 +57,7 @@ public class AdminService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(new BCryptPasswordEncoder(11).encode(password));
+        user.setPassword(password);
 
         Set<Role> userRoles = new HashSet<>();
         List<Role> roles = roleDaoService.getRoles();
@@ -83,5 +84,17 @@ public class AdminService {
 
         userDaoService.updateUser(user);
         bankAccountService.updateBankAccount(bankAccount);
+    }
+
+    public void updateUser(HttpServletRequest request) {
+        Long userToUpdateId = Long.parseLong(request.getParameter("id"));
+        User userToUpdate = userDaoService.getUserById(userToUpdateId);
+        String newUsername = request.getParameter("username");
+        String newPassword = request.getParameter("password");
+        if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
+            userToUpdate.setUsername(newUsername);
+            userToUpdate.setPassword(newPassword);
+            userDaoService.updateUser(userToUpdate);
+        }
     }
 }

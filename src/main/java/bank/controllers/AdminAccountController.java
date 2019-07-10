@@ -4,13 +4,11 @@ import bank.database.entity.User;
 import bank.services.AdminService;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import java.util.List;
 import static bank.PageNameConstants.*;
 
 
-// TODO: 29.06.2019 Вся админка сломана из-за новой схемы БД. Чинить !
 @Controller
 public class AdminAccountController {
 
@@ -64,18 +61,9 @@ public class AdminAccountController {
         return UPDATE_USER_PAGE;
     }
 
-    // TODO: 08.07.2019 Перенести в сервис
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     public RedirectView doUpdate(HttpServletRequest request) {
-        Long userToUpdateId = Long.parseLong(request.getParameter("id"));
-        User userToUpdate = userDaoService.getUserById(userToUpdateId);
-        String newUsername = request.getParameter("username");
-        String newPassword = request.getParameter("password");
-        if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
-            userToUpdate.setUsername(newUsername);
-            userToUpdate.setPassword(new BCryptPasswordEncoder(11).encode(newPassword));
-            userDaoService.updateUser(userToUpdate);
-        }
+        adminService.updateUser(request);
         return new RedirectView(ADMIN_PAGE);
     }
 

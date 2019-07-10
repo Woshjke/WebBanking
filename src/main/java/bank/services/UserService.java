@@ -44,14 +44,14 @@ public class UserService {
         Double currentUserMoney = userBankAccount.getMoney();
         userBankAccount.setMoney(currentUserMoney - moneyToAdd);
 
-        Long userId = organisationService.getOrgById(selectedOrg).getUser_id();
-        User user = userDaoService.getUserById(userId);
-        BankAccount orgBankAccount = new ArrayList<>(user.getBankAccounts()).get(0);
-        Double orgCurrentMoney = orgBankAccount.getMoney();
-        orgBankAccount.setMoney(orgCurrentMoney + moneyToAdd);
+//        Long userId = organisationService.getOrgById(selectedOrg).getUser_id();
+//        User user = userDaoService.getUserById(userId);
+//        BankAccount orgBankAccount = new ArrayList<>(user.getBankAccounts()).get(0);
+//        Double orgCurrentMoney = orgBankAccount.getMoney();
+//        orgBankAccount.setMoney(orgCurrentMoney + moneyToAdd);
 
-        bankAccountService.updateBankAccount(userBankAccount);
-        bankAccountService.updateBankAccount(orgBankAccount);
+//        bankAccountService.updateBankAccount(userBankAccount);
+//        bankAccountService.updateBankAccount(orgBankAccount);
     }
 
     public User getAuthenticatedUser() {

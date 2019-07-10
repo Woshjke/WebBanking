@@ -26,6 +26,10 @@ public class BankAccount implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "organisation_id")
+    private Organisations organisation;
+
     public void addMoney(Integer money) {
         double targetMoney = getMoney() + money;
         this.setMoney(targetMoney);

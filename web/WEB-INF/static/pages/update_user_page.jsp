@@ -31,8 +31,8 @@
     <p></p>
 
     <c:if test="${userToUpdate.id > 0}">
-        <form:form name="doUpdate" method="post" action="/doUpdate" modelAttribute="userToUpdate" >
-            <input name="id" value="${userToUpdate.id}" style="visibility: hidden"/>
+        <form:form name="doUpdate" method="post" action="/doUpdate" >
+            <input name="id" value="${userToUpdate.id}" readonly/>
             <p></p>
             <label>Username</label>
             <p></p>

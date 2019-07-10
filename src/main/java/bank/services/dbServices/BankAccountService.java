@@ -41,6 +41,6 @@ public class BankAccountService {
     }
 
     public List<BankAccount> getBankAccountByUserId(long id) {
-        return bankAccountDao.getAllByUser_Id(id);
+        return bankAccountDao.getAllByUserId(id);
     }
 }
