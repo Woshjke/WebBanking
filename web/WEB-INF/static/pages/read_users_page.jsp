@@ -1,6 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,31 +8,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Admin page</title>
-
+    <title>Read users</title>
 </head>
 
+<script>
+    <%@include file="/WEB-INF/resources/js/getUsers.js"%>
+</script>
+
 <style>
-    <%@include file="/WEB-INF/resources/css/buttonStyle.css" %>
-    <%@include file="/WEB-INF/resources/css/bodyStyle.css" %>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
 </style>
 
-<body>
-<form:form name="createUserPage" method="post" action="/createUser">
-    <button type="submit" class="btn btn-outline-primary">Create user</button>
-</form:form>
+<body style="margin-left: 10px; margin-top: 10px">
 
-<form:form name="getUserPage" method="get" action="/readUsers">
-    <button type="submit" class="btn btn-outline-primary">Read users</button>
-</form:form>
+<div class="form-group">
+    <label for="myInfo" style="color: white">Filter</label>
+    <input id="myInfo" name="myInfo" type="text" class="form-text text-input">
+    <p></p>
+    <button id="getAllUsers" type="button" onclick="" class="btn btn-outline-primary">Get Users</button>
+</div>
 
-<form:form name="updateUserPage" method="post" action="/updateUser">
-    <button type="submit" class="btn btn-outline-primary">Update user</button>
-</form:form>
-
-<form:form name="deleteUserPage" method="post" action="/deleteUser">
-    <button type="submit" class="btn btn-outline-primary">Delete user</button>
-</form:form>
+<div id="getResult">
+    <ul class="list-group" style="color: white"></ul>
+</div>
 
 
 <%--Bootstrap JS classes--%>
@@ -44,6 +40,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-
 </body>
 </html>
+

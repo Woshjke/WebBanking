@@ -19,14 +19,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class AdminService {
+public class AdminAccountService {
 
     private UserDaoService userDaoService;
     private RoleDaoService roleDaoService;
     private BankAccountService bankAccountService;
 
     @Autowired
-    public AdminService(UserDaoService userDaoService, RoleDaoService roleDaoService, BankAccountService bankAccountService) {
+    public AdminAccountService(UserDaoService userDaoService, RoleDaoService roleDaoService, BankAccountService bankAccountService) {
         this.userDaoService = userDaoService;
         this.roleDaoService = roleDaoService;
         this.bankAccountService = bankAccountService;

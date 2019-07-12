@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import static bank.PageNameConstants.MONEY_TRANSFER_PAGE;
 
@@ -12,7 +13,7 @@ import static bank.PageNameConstants.MONEY_TRANSFER_PAGE;
 public class MoneyTransferController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String transferMoney() {
-        return MONEY_TRANSFER_PAGE;
+    public ModelAndView transferMoney() {
+        return new ModelAndView(MONEY_TRANSFER_PAGE);
     }
 }

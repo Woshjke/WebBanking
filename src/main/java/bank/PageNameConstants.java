@@ -8,7 +8,7 @@ public class PageNameConstants {
     public static final String LOGIN_PAGE = "login_page";
     public static final String MONEY_TRANSFER_PAGE = "money_transfer_page";
     public static final String PAYMENT_PAGE = "payment_page";
-    public static final String SHOW_USER_PAGE = "show_user_page";
+    public static final String READ_USERS_PAGE = "read_users_page";
     public static final String UPDATE_USER_PAGE = "update_user_page";
     public static final String USER_PAGE = "user_page";
 }

@@ -1,8 +1,10 @@
 package bank.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.DataOutputStream;
@@ -24,7 +26,7 @@ public class HomeController {
 
     // TODO: 07.07.2019 Сделать курс валют
     @RequestMapping(value = "/home_page", method = RequestMethod.GET)
-    public String getHomepage() {
+    public ModelAndView getHomepage() {
         URL urlObj = null;
         try {
             urlObj = new URL(NBRB_URL);
@@ -42,7 +44,7 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        return HOME_PAGE;
+        return new ModelAndView(HOME_PAGE);
     }
 
 }

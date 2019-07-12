@@ -1,16 +1,12 @@
 package bank.controllers;
 
 import bank.database.entity.User;
-import bank.services.UserService;
-import bank.services.dbServices.UserDaoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import static bank.PageNameConstants.LOGIN_PAGE;
 
@@ -28,9 +24,10 @@ public class LoginPageController {
     }
 
     @RequestMapping(value = {"/login?error"}, method = RequestMethod.GET)
-    public String loginError(ModelMap model) {
-        model.addAttribute("errorMessage", "Error");
-        return LOGIN_PAGE;
+    public ModelAndView loginError() {
+        ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
+        mnv.addObject("errorMessage", "Error");
+        return mnv;
     }
 
     @ModelAttribute("user")

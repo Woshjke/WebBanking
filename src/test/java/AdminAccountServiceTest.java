@@ -3,7 +3,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static junit.framework.TestCase.assertTrue;
 
-public class AdminServiceTest {
+public class AdminAccountServiceTest {
 
     @Test
     public void encryptTest() {

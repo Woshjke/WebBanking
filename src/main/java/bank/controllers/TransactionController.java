@@ -2,8 +2,7 @@ package bank.controllers;
 
 import bank.database.entity.Transaction;
 import bank.database.entity.User;
-import bank.services.UserService;
-import bank.services.dbServices.BankAccountService;
+import bank.services.UserAccountService;
 import bank.services.dbServices.TransactionDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -22,26 +22,27 @@ import static bank.PageNameConstants.USER_PAGE;
 public class TransactionController {
 
     private TransactionDaoService transactionService;
-    private UserService userService;
+    private UserAccountService userService;
 
     @Autowired
-    public TransactionController(TransactionDaoService transactionService, UserService userService) {
+    public TransactionController(TransactionDaoService transactionService, UserAccountService userService) {
         this.transactionService = transactionService;
         this.userService = userService;
     }
 
 
     @RequestMapping(value = "/transaction", method = RequestMethod.GET)
-    public String goToTransaction(ModelMap map) {
+    public ModelAndView goToTransaction() {
+        ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
         User user = userService.getAuthenticatedUser();
-        map.addAttribute("bankAccounts", new ArrayList<>(user.getBankAccounts()));
-        return MONEY_TRANSFER_PAGE;
+        mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
+        return mnv;
     }
 
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
-    public String doTransaction(HttpServletRequest request) {
+    public ModelAndView doTransaction(HttpServletRequest request) {
         //transactionService.createTransaction(request);
-        return USER_PAGE;
+        return new ModelAndView(USER_PAGE);
     }
 
     @ModelAttribute("transaction")

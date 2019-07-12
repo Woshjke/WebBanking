@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import static bank.PageNameConstants.*;
 
 @Service
-public class UserService {
+public class UserAccountService {
 
     private OrganisationDaoService organisationService;
     private UserDaoService userDaoService;
     private BankAccountService bankAccountService;
 
     @Autowired
-    public UserService(OrganisationDaoService organisationService, UserDaoService userDaoService, BankAccountService bankAccountService) {
+    public UserAccountService(OrganisationDaoService organisationService, UserDaoService userDaoService, BankAccountService bankAccountService) {
         this.organisationService = organisationService;
         this.userDaoService = userDaoService;
         this.bankAccountService = bankAccountService;
@@ -44,14 +44,17 @@ public class UserService {
         Double currentUserMoney = userBankAccount.getMoney();
         userBankAccount.setMoney(currentUserMoney - moneyToAdd);
 
-//        Long userId = organisationService.getOrgById(selectedOrg).getUser_id();
-//        User user = userDaoService.getUserById(userId);
-//        BankAccount orgBankAccount = new ArrayList<>(user.getBankAccounts()).get(0);
-//        Double orgCurrentMoney = orgBankAccount.getMoney();
-//        orgBankAccount.setMoney(orgCurrentMoney + moneyToAdd);
+        Long userId = organisationService.getOrgById(selectedOrg)
+                .getBankAccountList().get(0)
+                .getUser().getId();
 
-//        bankAccountService.updateBankAccount(userBankAccount);
-//        bankAccountService.updateBankAccount(orgBankAccount);
+        User user = userDaoService.getUserById(userId);
+        BankAccount orgBankAccount = new ArrayList<>(user.getBankAccounts()).get(0);
+        Double orgCurrentMoney = orgBankAccount.getMoney();
+        orgBankAccount.setMoney(orgCurrentMoney + moneyToAdd);
+
+        bankAccountService.updateBankAccount(userBankAccount);
+        bankAccountService.updateBankAccount(orgBankAccount);
     }
 
     public User getAuthenticatedUser() {
