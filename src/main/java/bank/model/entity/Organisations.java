@@ -1,4 +1,4 @@
-package bank.database.entity;
+package bank.model.entity;
 
 import lombok.*;
 
@@ -24,6 +24,6 @@ public class Organisations implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "organisation")
+    @OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
     private List<BankAccount> bankAccountList;
 }

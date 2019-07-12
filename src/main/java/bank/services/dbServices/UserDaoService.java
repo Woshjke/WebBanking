@@ -1,14 +1,13 @@
 package bank.services.dbServices;
 
-import bank.database.dao.UserRepository;
-import bank.database.dto.UserDTO;
-import bank.database.entity.User;
+import bank.model.dao.UserRepository;
+import bank.model.dto.UserDTO;
+import bank.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

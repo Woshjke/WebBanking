@@ -23,7 +23,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "bank")
+@EnableJpaRepositories(basePackages = "bank.model.dao")
 public class HibernateConfig {
 
     @Bean
@@ -31,7 +31,7 @@ public class HibernateConfig {
         LocalContainerEntityManagerFactoryBean sessionFactory = new LocalContainerEntityManagerFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(
-                "bank.database.entity", "bank.database.dao");
+                "bank.model.entity");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         sessionFactory.setJpaVendorAdapter(vendorAdapter);
         sessionFactory.setJpaProperties(hibernateProperties());
@@ -63,7 +63,7 @@ public class HibernateConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
-        hibernateProperties.setProperty("show_sql", "true");
+        hibernateProperties.setProperty("hibernate.show_sql", "true");
         hibernateProperties.setProperty("hibernate.default_schema", "mydatabase");
 
         return hibernateProperties;

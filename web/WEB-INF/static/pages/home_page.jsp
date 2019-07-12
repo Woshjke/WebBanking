@@ -14,7 +14,11 @@
 
 <body>
 
-<label>Hello world</label>
+<label>Валюта: </label>
+<label>${USDCurRate.name}</label>
+<p></p>
+<label>Курс к рублю: </label>
+<label>${USDCurRate.rate}</label>
 
 
 <%--Bootstrap JS classes--%>

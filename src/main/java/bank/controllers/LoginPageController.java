@@ -1,8 +1,7 @@
 package bank.controllers;
 
-import bank.database.entity.User;
+import bank.model.entity.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +22,7 @@ public class LoginPageController {
         return LOGIN_PAGE;
     }
 
-    @RequestMapping(value = {"/login?error"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/login?error=true"}, method = RequestMethod.GET)
     public ModelAndView loginError() {
         ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
         mnv.addObject("errorMessage", "Error");

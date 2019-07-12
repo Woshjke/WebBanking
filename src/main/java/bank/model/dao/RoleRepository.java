@@ -1,7 +1,6 @@
-package bank.database.dao;
+package bank.model.dao;
 
-import bank.database.entity.Role;
-import bank.database.entity.Transaction;
+import bank.model.entity.Role;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

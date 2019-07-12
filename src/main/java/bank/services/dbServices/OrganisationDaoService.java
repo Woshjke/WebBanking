@@ -1,7 +1,7 @@
 package bank.services.dbServices;
 
-import bank.database.dao.OrganisationRepository;
-import bank.database.entity.Organisations;
+import bank.model.dao.OrganisationRepository;
+import bank.model.entity.Organisations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

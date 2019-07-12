@@ -1,7 +1,7 @@
 package bank.configuration;
 
-import bank.database.entity.Role;
-import bank.database.entity.User;
+import bank.model.entity.Role;
+import bank.model.entity.User;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

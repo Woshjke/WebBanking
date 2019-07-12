@@ -1,13 +1,12 @@
 package bank.services;
 
-import bank.database.entity.BankAccount;
-import bank.database.entity.Role;
-import bank.database.entity.User;
+import bank.model.entity.BankAccount;
+import bank.model.entity.Role;
+import bank.model.entity.User;
 import bank.services.dbServices.BankAccountService;
 import bank.services.dbServices.RoleDaoService;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class AdminAccountService {

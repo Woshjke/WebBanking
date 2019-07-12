@@ -1,22 +1,23 @@
 package bank.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import bank.model.json.CurrencyRate;
+import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Scanner;
 
 import static bank.PageNameConstants.HOME_PAGE;
 
-@Controller
+@RestController
 public class HomeController {
 
-    private static final String NBRB_URL = "http://www.nbrb.by/API/";
+    private static final String NBRB_USD_RATE_URL = "http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2";
 
     @RequestMapping(value = "/home_page", method = RequestMethod.POST)
     public String postHomepage() {
@@ -24,27 +25,24 @@ public class HomeController {
     }
 
 
-    // TODO: 07.07.2019 Сделать курс валют
     @RequestMapping(value = "/home_page", method = RequestMethod.GET)
     public ModelAndView getHomepage() {
-        URL urlObj = null;
+        ModelAndView mnv = new ModelAndView(HOME_PAGE);
+        URL urlObj;
         try {
-            urlObj = new URL(NBRB_URL);
+            urlObj = new URL(null, NBRB_USD_RATE_URL, new sun.net.www.protocol.https.Handler());
             HttpsURLConnection connection = (HttpsURLConnection) urlObj.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            DataOutputStream dataOutputStream = null;
-            dataOutputStream = new DataOutputStream(connection.getOutputStream());
-            dataOutputStream.writeBytes("something");
+            connection.setRequestMethod("GET");
             InputStream response = connection.getInputStream();
-            String json = new java.util.Scanner(response).nextLine();
-            //TranslatorMapper reader = new TranslatorMapper();
-            //return (TranslatorResponse) reader.map(json);
+            String json = new Scanner(response, "UTF-8").nextLine();
+
+            Gson gson = new Gson();
+            CurrencyRate currencyRate = gson.fromJson(json, CurrencyRate.class);
+            mnv.addObject("USDCurRate", currencyRate);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return new ModelAndView(HOME_PAGE);
+        return mnv;
     }
 
 }

@@ -1,4 +1,4 @@
-package bank.database.entity;
+package bank.model.entity;
 
 import lombok.*;
 

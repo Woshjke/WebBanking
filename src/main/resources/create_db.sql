@@ -1,7 +1,7 @@
 create database postgres
     with owner postgres;
 
-comment on database postgres is 'default administrative connection database';
+comment on database postgres is 'default administrative connection model';
 
 create table mydatabase.usr
 (

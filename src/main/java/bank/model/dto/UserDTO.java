@@ -1,4 +1,4 @@
-package bank.database.dto;
+package bank.model.dto;
 
 
 import lombok.AllArgsConstructor;

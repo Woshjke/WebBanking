@@ -1,7 +1,7 @@
 import bank.configuration.FrontControllerConfig;
 import bank.configuration.HibernateConfig;
 import bank.configuration.WebMvcConfig;
-import bank.database.entity.User;
+import bank.model.entity.User;
 import bank.services.dbServices.UserDaoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
