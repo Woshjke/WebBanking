@@ -124,8 +124,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bank/controllers/UserAccountController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="83" selection-start-line="83" selection-end-line="83" />
+            <state relative-caret-position="1272">
+              <caret line="91" selection-start-line="91" selection-end-line="91" />
             </state>
           </provider>
         </entry>
@@ -133,8 +133,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bank/services/UserAccountService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="134" column="44" lean-forward="true" selection-start-line="134" selection-start-column="44" selection-end-line="134" selection-end-column="44" />
+            <state relative-caret-position="1272">
+              <caret line="140" selection-start-line="140" selection-end-line="140" />
             </state>
           </provider>
         </entry>
@@ -142,8 +142,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bank/model/entity/BankAccount.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="18" column="112" selection-start-line="18" selection-start-column="112" selection-end-line="18" selection-end-column="112" />
+            <state relative-caret-position="480">
+              <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -152,9 +152,7 @@
         <entry file="das://2b1f0a91-0b0e-4793-9682-15d7053c6bf7/database/postgres/schema/mydatabase/table/bank_account">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state projectRestartId="f21b8881-000a-4999-acb7-69a375453324">
-              <filtering>
-                <filter text="" />
-              </filtering>
+              <filtering />
             </state>
           </provider>
         </entry>
@@ -171,8 +169,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bank/model/entity/Transaction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="23" column="31" lean-forward="true" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+            <state relative-caret-position="480">
+              <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -183,7 +181,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bank/model/entity/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-29">
+            <state relative-caret-position="288">
               <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
             </state>
           </provider>
@@ -192,26 +190,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bank/controllers/TransactionController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="52" column="26" lean-forward="true" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+            <state relative-caret-position="816">
+              <caret line="61" selection-start-line="61" selection-end-line="61" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/WEB-INF/static/pages/home_page.jsp">
+        <entry file="file://$PROJECT_DIR$/web/WEB-INF/static/pages/update_user_page.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="17" column="40" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/WEB-INF/static/pages/payment_page.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="46" column="53" selection-start-line="46" selection-start-column="53" selection-end-line="46" selection-end-column="53" />
+            <state relative-caret-position="176">
+              <caret line="37" column="66" selection-start-line="37" selection-start-column="66" selection-end-line="37" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -249,7 +238,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="spring_sec_test" />
+        <entry key="$PROJECT_DIR$" value="release_0.1" />
       </map>
     </option>
   </component>
@@ -575,12 +564,8 @@
     <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\resources\img" />
-      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\resources\css" />
-      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\resources\js" />
-      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\src\main\resources" />
-      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\static\pages" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="bank.database.entity" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\resources\css" />
@@ -592,8 +577,12 @@
     <key name="ImportMappingsDialog.RecentPackages">
       <recent name="bank.database.entity" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="bank.database.entity" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\resources\img" />
+      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\resources\css" />
+      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\resources\js" />
+      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\src\main\resources" />
+      <recent name="C:\Users\zvash\IdeaProjects\WebBanking\web\WEB-INF\static\pages" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -725,7 +714,7 @@
         <item itemvalue="JUnit.AdminAccountServiceTest.encryptTest" />
         <item itemvalue="JUnit.GetUserTest.testGetUser" />
         <item itemvalue="JUnit.GetUserTest" />
-        <item itemvalue="JUnit.GetUserTest" />
+        <item itemvalue="JUnit.AdminAccountServiceTest.encryptTest" />
         <item itemvalue="JUnit.GetUserTest.testGetUser" />
       </list>
     </recent_temporary>
@@ -1104,7 +1093,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="494906000" />
+    <option name="totallyTimeSpent" value="494910000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1599,8 +1588,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bank/model/entity/Transaction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="23" column="31" lean-forward="true" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+        <state relative-caret-position="480">
+          <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1609,45 +1598,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bank/controllers/UserAccountController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="83" selection-start-line="83" selection-end-line="83" />
+        <state relative-caret-position="1272">
+          <caret line="91" selection-start-line="91" selection-end-line="91" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bank/model/entity/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-29">
+        <state relative-caret-position="288">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bank/controllers/TransactionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="52" column="26" lean-forward="true" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+        <state relative-caret-position="816">
+          <caret line="61" selection-start-line="61" selection-end-line="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bank/services/UserAccountService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="134" column="44" lean-forward="true" selection-start-line="134" selection-start-column="44" selection-end-line="134" selection-end-column="44" />
+        <state relative-caret-position="1272">
+          <caret line="140" selection-start-line="140" selection-end-line="140" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bank/model/entity/BankAccount.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="18" column="112" selection-start-line="18" selection-start-column="112" selection-end-line="18" selection-end-column="112" />
+        <state relative-caret-position="480">
+          <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="das://2b1f0a91-0b0e-4793-9682-15d7053c6bf7/database/postgres/schema/mydatabase/table/bank_account">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state projectRestartId="f21b8881-000a-4999-acb7-69a375453324">
-          <filtering>
-            <filter text="" />
-          </filtering>
+          <filtering />
         </state>
       </provider>
     </entry>
