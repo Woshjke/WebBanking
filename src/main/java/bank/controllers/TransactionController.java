@@ -18,29 +18,39 @@ import static bank.PageNameConstants.MONEY_TRANSFER_PAGE;
 import static bank.PageNameConstants.USER_PAGE;
 
 @Controller
+@RequestMapping(value = "/user")
 public class TransactionController {
 
-    private TransactionDaoService transactionService;
     private UserAccountService userService;
 
+
+
     @Autowired
-    public TransactionController(TransactionDaoService transactionService, UserAccountService userService) {
-        this.transactionService = transactionService;
+    public TransactionController(UserAccountService userService) {
         this.userService = userService;
     }
 
-
     @RequestMapping(value = "/transaction", method = RequestMethod.GET)
-    public ModelAndView goToTransaction() {
+    public ModelAndView getTransaction() {
         ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
         User user = userService.getAuthenticatedUser();
         mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
         return mnv;
     }
 
+    @RequestMapping(value = "/transaction", method = RequestMethod.POST)
+    public ModelAndView postTransaction() {
+        ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
+        User user = userService.getAuthenticatedUser();
+        mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
+        return mnv;
+    }
+
+
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
     public ModelAndView doTransaction(HttpServletRequest request) {
-        //transactionService.createTransaction(request);
+
+        userService.doTransaction(request);
         return new ModelAndView(USER_PAGE);
     }
 

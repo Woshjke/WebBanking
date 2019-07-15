@@ -70,7 +70,7 @@ public class AdminAccountService {
         user = userDaoService.getUserByUsername(username);
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setMoney(0);
+        bankAccount.setMoney(0.);
         bankAccount.setUser(user);
 
         bankAccountService.createBankAccount(bankAccount);

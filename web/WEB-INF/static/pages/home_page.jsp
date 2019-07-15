@@ -9,16 +9,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/resources/css/homepage.css">
     <title>Homepage</title>
 </head>
 
 <body>
 
-<label>Валюта: </label>
-<label>${USDCurRate.name}</label>
-<p></p>
-<label>Курс к рублю: </label>
-<label>${USDCurRate.rate}</label>
+<!-- todo починить ссылку на homepage-->
+
+<div>
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+        <div class="container"><a class="navbar-brand" href="#">Мой банк</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"
+                 id="navcol-1">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">Счета</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Second Item</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false" href="#">Dropdown </a>
+                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First
+                            Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a
+                                class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                    </li>
+                </ul>
+                <span class="navbar-text actions"> <a href="#" class="login">Log In</a></span></div>
+        </div>
+    </nav>
+</div>
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div style="margin-top:10px;">
+                    <button class="btn btn-primary" type="button">Button</button>
+                </div>
+                <div style="margin-top:10px;">
+                    <button class="btn btn-primary" type="button">Button</button>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+</div>
 
 
 <%--Bootstrap JS classes--%>

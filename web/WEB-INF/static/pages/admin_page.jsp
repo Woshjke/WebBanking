@@ -20,19 +20,23 @@
 </style>
 
 <body>
-<form:form name="createUserPage" method="post" action="/createUser">
+<form:form name="createUserPage" method="post" action="/admin/createUser">
     <button type="submit" class="btn btn-outline-primary">Create user</button>
 </form:form>
 
-<form:form name="getUserPage" method="get" action="/readUsers">
+<form:form name="getUsersPage" method="get" action="/admin/readUsers">
     <button type="submit" class="btn btn-outline-primary">Read users</button>
 </form:form>
 
-<form:form name="updateUserPage" method="post" action="/updateUser">
+<form:form name="getBankAccountsPage" method="get" action="/admin/readBankAccounts">
+    <button type="submit" class="btn btn-outline-primary">Read bank accounts</button>
+</form:form>
+
+<form:form name="updateUserPage" method="post" action="/admin/updateUser">
     <button type="submit" class="btn btn-outline-primary">Update user</button>
 </form:form>
 
-<form:form name="deleteUserPage" method="post" action="/deleteUser">
+<form:form name="deleteUserPage" method="post" action="/admin/deleteUser">
     <button type="submit" class="btn btn-outline-primary">Delete user</button>
 </form:form>
 

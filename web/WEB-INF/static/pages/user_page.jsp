@@ -13,6 +13,7 @@
 </head>
 <style>
     <%@include file="/WEB-INF/resources/css/user.css"%>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
 </style>
 
 <body>
@@ -30,14 +31,34 @@
                     Банковские операции
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/payment">Сделать платеж</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/transaction">Сделать перевод на счет</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/payment">Сделать платеж</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/transaction">Сделать перевод на счет</a>
                 </div>
             </li>
                 <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Выйти</a>
+                <a href="${pageContext.request.contextPath}/user/home_page" class="nav-link">${authUser.username}</a>
         </ul>
     </div>
 </nav>
+
+
+<label style="margin-top: 100px;">Дата: </label>
+<label>${usdRate.date}</label>
+<br>
+<label>Валюта: </label>
+<label>${usdRate.name}</label>
+<br>
+<label>Курс к рублю: </label>
+<label>${usdRate.rate}</label>
+
+<p></p>
+<p></p>
+
+<label>Валюта: </label>
+<label>${eurRate.name}</label>
+<br>
+<label>Курс к рублю: </label>
+<label>${eurRate.rate}</label>
 
 
 <%--Bootstrap JS classes--%>

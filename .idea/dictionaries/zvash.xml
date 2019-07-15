@@ -2,8 +2,10 @@
   <dictionary name="zvash">
     <words>
       <w>mydatabase</w>
+      <w>navbar</w>
       <w>postgre</w>
       <w>postgresql</w>
+      <w>toggler</w>
       <w>zvashkevich</w>
     </words>
   </dictionary>

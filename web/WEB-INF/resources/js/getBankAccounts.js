@@ -8,7 +8,7 @@ $(document).ready(
         function ajaxGet() {
             $.ajax({
                 type: "GET",
-                url: "filterUsers",
+                url: "filterBankAccounts",
                 data: {"username": $("#username").val()},
                 success: function (result) {
 
@@ -17,11 +17,11 @@ $(document).ready(
 
                     //Проходимся по коллекции, для каждого объекта создаем строку с его данными и добавляем на экран
                     $.each(result.data,
-                        function (i, user) {
+                        function (i, bankAccount) {
                             var resultStr = "Id: "
-                                + user.id + "<br>"
-                                + " Username:  "
-                                + user.username
+                                + bankAccount.id + "<br>"
+                                + " Money:  "
+                                + bankAccount.money
                                 + "<p></p>";
                             $('#getResult .list-group').append(
                                 resultStr)

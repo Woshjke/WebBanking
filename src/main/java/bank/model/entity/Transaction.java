@@ -15,9 +15,9 @@ import java.io.Serializable;
 public class Transaction implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "source")
@@ -28,5 +28,11 @@ public class Transaction implements Serializable {
     private BankAccount destination;
 
     @Column(name = "val")
-    private int value;
+    private Integer value;
+
+    public Transaction(BankAccount source, BankAccount destination, int value) {
+        this.source = source;
+        this.destination = destination;
+        this.value = value;
+    }
 }

@@ -32,8 +32,8 @@
                     Банковские операции
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/payment">Сделать платеж</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/doTransaction">Сделать перевод на
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/payment">Сделать платеж</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/doTransaction">Сделать перевод на
                         счет</a>
                 </div>
             </li>
@@ -43,8 +43,12 @@
     </div>
 </nav>
 
+<!-- //TODO Вернуть информацию о выполненом платеже -->
+<!-- //TODO Проверять введеные числа на фронте и бэке -->
+
+
 <div class="form-group" style="margin-top: 80px; margin-left: 30px">
-    <form:form action="/doPayment" method="post">
+    <form:form action="/user/doPayment" method="post">
 
         <label style="color: white">Куда:</label>
         <p></p>

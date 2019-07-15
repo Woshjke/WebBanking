@@ -30,8 +30,7 @@ public class HibernateConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean sessionFactory = new LocalContainerEntityManagerFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(
-                "bank.model.entity");
+        sessionFactory.setPackagesToScan("bank.model.entity");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         sessionFactory.setJpaVendorAdapter(vendorAdapter);
         sessionFactory.setJpaProperties(hibernateProperties());

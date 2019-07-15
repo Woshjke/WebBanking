@@ -14,13 +14,18 @@ import java.io.Serializable;
 @Table(name = "bank_account")
 public class BankAccount implements Serializable {
 
+    // TODO: 15.07.2019 Провести  эксперемент с синхронизацией базы данных (одновременно два платежа Один запускает в ране, второй в дебаге, одновременно снимают деньги. По идее должен выпасть OptimisticLockException
+
+    // TODO: 15.07.2019 Найти решения проблемы с переводом средств на один аккаунт (вылетает на втором переводе)
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "money")
-    private double money;
+    private Double money;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

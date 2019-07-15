@@ -21,7 +21,7 @@
 
 <body>
 <div style="margin-top: 20px; margin-left: 20px">
-    <form:form name="getUserForm" method="post" action="/updateUser">
+    <form:form name="getUserForm" method="post" action="/admin/updateUser">
         <select name="users" class="form-control col-1">
             <c:forEach items="${usersList}" var="user">
                 <option value="${user.id}">${user.username}</option>
@@ -34,15 +34,15 @@
     <p></p>
 
     <c:if test="${userToUpdate.id > 0}">
-        <form:form name="doUpdate" method="post" action="/doUpdate" >
+        <form:form name="doUpdate" method="post" action="/admin/doUpdate" >
             <input name="id" value="${userToUpdate.id}" readonly/>
             <p></p>
             <label>Username</label>
             <p></p>
             <input name="username" value="${userToUpdate.username}"/> <p></p>
-            <label>Password</label>
+            <label>New password</label>
             <p></p>
-            <input name="password" value="${userToUpdate.password}" type="password"> <p></p>
+            <input name="password" value="" type="password"> <p></p>
             <p></p>
             <input type="submit" class="btn btn-outline-primary" value="Submit"/>
         </form:form>

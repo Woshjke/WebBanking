@@ -1,5 +1,6 @@
 package bank.controllers;
 
+import bank.model.dto.BankAccountDTO;
 import bank.model.dto.UserDTO;
 import bank.model.entity.User;
 import bank.services.AdminAccountService;
@@ -18,6 +19,7 @@ import java.util.List;
 import static bank.PageNameConstants.*;
 
 @RestController
+@RequestMapping(value = "/admin")
 public class AdminAccountController {
 
     private UserDaoService userDaoService;
@@ -29,6 +31,7 @@ public class AdminAccountController {
         this.adminService = adminService;
     }
 
+    // TODO: 15.07.2019 Добавить в базу несколько организаций, РУП Белтехосмотр (Дорожный налог), штраф (фотофиксация) и тд
 
     @RequestMapping(value = "/admin_page", method = RequestMethod.GET)
     public ModelAndView getAdminPage() {
@@ -82,19 +85,36 @@ public class AdminAccountController {
         return new ModelAndView(READ_USERS_PAGE);
     }
 
-    @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
+    @RequestMapping(value = "/readBankAccounts", method = RequestMethod.GET)
+    public ModelAndView readBankAccounts() {
+        return new ModelAndView(READ_BANK_ACCOUNTS);
+    }
+
     @ResponseBody
-    public ResponseEntity<Object> getAllUsers(@RequestParam String myInfo) {
-        if (myInfo.equals("")) {
+    @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllUsers(@RequestParam String username) {
+        if (username.equals("")) {
             List<UserDTO> users = userDaoService.getUserDtoList();
             ServiceResponse<List<UserDTO>> response = new ServiceResponse<>("success", users);
-            System.out.println(myInfo);
             return ResponseEntity.ok(response);
         } else {
             List<UserDTO> userDTOS = new ArrayList<>();
-            userDTOS.add(userDaoService.getUserDtoByUsername(myInfo));
+            userDTOS.add(userDaoService.getUserDtoByUsername(username));
             ServiceResponse<List<UserDTO>> response = new ServiceResponse<>("success", userDTOS);
-            System.out.println(myInfo);
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/filterBankAccounts", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllBankAccounts(@RequestParam String username) {
+        if (username.equals("")) {
+            List<BankAccountDTO> bankAccounts = userDaoService.getBankAccountDTOList();
+            ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccounts);
+            return ResponseEntity.ok(response);
+        } else {
+            List<BankAccountDTO> bankAccountDTOS = userDaoService.getBankAccountsByUsername(username);
+            ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccountDTOS);
             return ResponseEntity.ok(response);
         }
     }

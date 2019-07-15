@@ -22,8 +22,8 @@
 <body style="margin-left: 10px; margin-top: 10px">
 
 <div class="form-group">
-    <label for="myInfo" style="color: white">Filter</label>
-    <input id="myInfo" name="myInfo" type="text" class="form-text text-input">
+    <label for="username" style="color: white">Username</label>
+    <input id="username" name="username" type="text" class="form-text text-input">
     <p></p>
     <button id="getAllUsers" type="button" onclick="" class="btn btn-outline-primary">Get Users</button>
 </div>
