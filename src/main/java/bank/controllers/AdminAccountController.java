@@ -31,8 +31,6 @@ public class AdminAccountController {
         this.adminService = adminService;
     }
 
-    // TODO: 15.07.2019 Добавить в базу несколько организаций, РУП Белтехосмотр (Дорожный налог), штраф (фотофиксация) и тд
-
     @RequestMapping(value = "/admin_page", method = RequestMethod.GET)
     public ModelAndView getAdminPage() {
         return new ModelAndView(ADMIN_PAGE);

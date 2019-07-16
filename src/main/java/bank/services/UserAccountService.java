@@ -57,8 +57,6 @@ public class UserAccountService {
             return false;
         }
 
-        // TODO: 28.06.2019 BigDecimal
-        // TODO: 29.06.2019 Код - кусок ***
         BankAccount sourceBankAccount = bankAccountService.getBankAccountById(selectedBankAccountId);
 
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();

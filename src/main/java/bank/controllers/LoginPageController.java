@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import static bank.PageNameConstants.LOGIN_PAGE;
 
-// TODO: 15.07.2019 Поискать на .equals и развернуть
 @Controller
 public class LoginPageController {
 
