@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 @Service
@@ -32,33 +33,41 @@ public class UserAccountService {
     private BankAccountService bankAccountService;
     private TransactionDaoService transactionDaoService;
 
-    @Autowired
-    public UserAccountService(OrganisationDaoService organisationService,
-                              UserDaoService userDaoService,
-                              BankAccountService bankAccountService,
-                              TransactionDaoService transactionDaoService) {
+    public static final String NBRB_RATES_URL = "http://www.nbrb.by/API/ExRates/Rates/";
 
+    @Autowired
+    public UserAccountService(OrganisationDaoService organisationService, UserDaoService userDaoService, BankAccountService bankAccountService, TransactionDaoService transactionDaoService) {
         this.organisationService = organisationService;
         this.userDaoService = userDaoService;
         this.bankAccountService = bankAccountService;
         this.transactionDaoService = transactionDaoService;
     }
 
+    public boolean doPayment(HttpServletRequest request) {
 
-    public void doPayment(Long selectedOrg, Integer moneyToAdd, Long selectedBankAccount) {
-        // TODO: 28.06.2019 BigDecimal
-        // TODO: 29.06.2019 Код - кусок ***
-        BankAccount userBankAccount = bankAccountService.getBankAccountById(selectedBankAccount);
+        Long selectedOrgId;
+        Integer moneyToAdd;
+        Long selectedBankAccountId;
 
-        // TODO: 14.07.2019 Добавить на экран информацию о отмене перевода
-        if (userBankAccount.getMoney() < moneyToAdd) {
-            return;
+        try {
+            selectedOrgId = Long.parseLong(request.getParameter("organisation"));
+            moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
+            selectedBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
+        } catch (NumberFormatException ex) {
+            return false;
         }
 
-        // TODO: 15.07.2019 Сделать проверку банкавского аккаунта  (принадлежит мне или нет)
+        // TODO: 28.06.2019 BigDecimal
+        // TODO: 29.06.2019 Код - кусок ***
+        BankAccount sourceBankAccount = bankAccountService.getBankAccountById(selectedBankAccountId);
 
-        userBankAccount.takeMoney(moneyToAdd);
-        Long userId = organisationService.getOrgById(selectedOrg)
+        List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
+        if (!isContainsBankAccount(authUserBankAccounts, sourceBankAccount)) {
+            return false;
+        }
+
+        sourceBankAccount.takeMoney(moneyToAdd);
+        Long userId = organisationService.getOrgById(selectedOrgId)
                 .getBankAccountList().get(0)
                 .getUser().getId();
 
@@ -66,49 +75,60 @@ public class UserAccountService {
         BankAccount orgBankAccount = new ArrayList<>(user.getBankAccounts()).get(0);
         orgBankAccount.addMoney(moneyToAdd);
 
-        Transaction transaction = new Transaction(userBankAccount, orgBankAccount, moneyToAdd);
+        Transaction transaction = new Transaction(sourceBankAccount, orgBankAccount, moneyToAdd);
         transactionDaoService.createTransaction(transaction);
 
-        bankAccountService.updateBankAccount(userBankAccount);
+        bankAccountService.updateBankAccount(sourceBankAccount);
         bankAccountService.updateBankAccount(orgBankAccount);
+        return true;
     }
 
-    public void doTransaction(HttpServletRequest request) {
+    public boolean doTransaction(HttpServletRequest request) {
 
-            // TODO: 15.07.2019 Сделать проверку банкавского аккаунта  (принадлежит мне или нет)
+        BankAccount sourceBankAccount;
+        BankAccount destinationBankAccount;
+        Integer money_value;
 
-            BankAccount sourceBankAccount = bankAccountService.
+        try {
+            sourceBankAccount = bankAccountService.
                     getBankAccountById(Long.parseLong(request.getParameter("source")));
-            BankAccount destinationBankAccount = bankAccountService.
+            destinationBankAccount = bankAccountService.
                     getBankAccountById(Long.parseLong(request.getParameter("destination")));
+            money_value = Integer.parseInt(request.getParameter("value"));
+        } catch (NumberFormatException ex) {
+            return false;
+        }
 
-            Integer money_value = Integer.parseInt(request.getParameter("value"));
+        List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
+        if (!isContainsBankAccount(authUserBankAccounts, sourceBankAccount)) {
+            return false;
+        }
 
-            if (destinationBankAccount == null) {
-                System.out.println("Cannot find bank account with id: " +
-                        Long.parseLong(request.getParameter("destination")));
-                return;
-            }
-            if (money_value > sourceBankAccount.getMoney()) {
-                System.out.println("Not enough money!");
-                return;
-            }
+        if (destinationBankAccount == null) {
+            System.out.println("Cannot find bank account with id: " +
+                    Long.parseLong(request.getParameter("destination")));
+            return false;
+        }
+        if (money_value > sourceBankAccount.getMoney()) {
+            System.out.println("Not enough money!");
+            return false;
+        }
 
-            sourceBankAccount.takeMoney(money_value);
-            destinationBankAccount.addMoney(money_value);
+        sourceBankAccount.takeMoney(money_value);
+        destinationBankAccount.addMoney(money_value);
 
-            bankAccountService.updateBankAccount(sourceBankAccount);
-            bankAccountService.updateBankAccount(destinationBankAccount);
+        bankAccountService.updateBankAccount(sourceBankAccount);
+        bankAccountService.updateBankAccount(destinationBankAccount);
 
-            Transaction transaction = new Transaction(sourceBankAccount,
-                                                      destinationBankAccount,
-                                                      money_value);
-            transactionDaoService.createTransaction(transaction);
+        Transaction transaction = new Transaction(sourceBankAccount,
+                destinationBankAccount,
+                money_value);
+        transactionDaoService.createTransaction(transaction);
+        return true;
     }
 
     public CurrencyRate getCurrencyRate(String currency) {
-        // TODO: 15.07.2019 Вынести в константу
-        String url = "http://www.nbrb.by/API/ExRates/Rates/" + currency + "?ParamMode=2";
+        String url = NBRB_RATES_URL + currency + "?ParamMode=2";
         URL urlObj;
         CurrencyRate currencyRate = new CurrencyRate();
         try {
@@ -135,6 +155,16 @@ public class UserAccountService {
             username = principal.toString();
         }
         return userDaoService.getUserByUsername(username);
+    }
+
+    boolean isContainsBankAccount(List<BankAccount> bankAccounts, BankAccount bankAccount) {
+        boolean isContainsBankAccount = false;
+        for (BankAccount iter : bankAccounts) {
+            if (iter.getId().equals(bankAccount.getId())) {
+                isContainsBankAccount = true;
+            }
+        }
+        return isContainsBankAccount;
     }
 
 }

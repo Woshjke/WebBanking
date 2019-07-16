@@ -19,6 +19,11 @@
 </style>
 
 <body>
+
+<label>Delete user</label>
+<p></p>
+<p></p>
+
 <form:form name="deleteUserForm" action="/admin/deleteUser" method="post">
     <select name="users" class="form-control col-1">
         <c:forEach items="${usersList}" var="user">

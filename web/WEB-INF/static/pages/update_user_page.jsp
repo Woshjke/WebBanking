@@ -39,10 +39,10 @@
             <p></p>
             <label>Username</label>
             <p></p>
-            <input name="username" value="${userToUpdate.username}"/> <p></p>
+            <input name="username" value="${userToUpdate.username}" required/> <p></p>
             <label>New password</label>
             <p></p>
-            <input name="password" value="" type="password"> <p></p>
+            <input name="password" value="" type="password" required> <p></p>
             <p></p>
             <input type="submit" class="btn btn-outline-primary" value="Submit"/>
         </form:form>

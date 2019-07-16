@@ -21,6 +21,10 @@
 <body>
 <h1>Зарегистрируйте новый аккаунт</h1>
 <form:form method="post" action="/admin/register">
+    <label>Create user</label>
+    <p></p>
+    <p></p>
+
     <label>Login</label>
     <p></p>
     <input name="username"/>

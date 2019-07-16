@@ -36,7 +36,8 @@
                 </div>
             </li>
                 <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Выйти</a>
-                <a href="${pageContext.request.contextPath}/user/home_page" class="nav-link">${authUser.username}</a>
+<%--                <a href="${pageContext.request.contextPath}/user/home_page" class="nav-link">${authUser.username}</a>--%>
+                <a href="${pageContext.request.contextPath}/admin/admin_page" class="nav-link">Admin page</a>
         </ul>
     </div>
 </nav>
@@ -44,7 +45,10 @@
 
 <label style="margin-top: 100px;">Дата: </label>
 <label>${usdRate.date}</label>
-<br>
+
+<p></p>
+<p></p>
+
 <label>Валюта: </label>
 <label>${usdRate.name}</label>
 <br>
@@ -59,6 +63,13 @@
 <br>
 <label>Курс к рублю: </label>
 <label>${eurRate.rate}</label>
+
+<p></p>
+<p></p>
+
+<label style="color: red;">${resultMessage}</label>
+
+
 
 
 <%--Bootstrap JS classes--%>

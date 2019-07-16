@@ -22,6 +22,9 @@
 <body style="margin-left: 10px; margin-top: 10px">
 
 <div class="form-group">
+    <label for="username" style="color: white">Write specific username or get all users</label>
+    <p></p>
+    <p></p>
     <label for="username" style="color: white">Username</label>
     <input id="username" name="username" type="text" class="form-text text-input">
     <p></p>

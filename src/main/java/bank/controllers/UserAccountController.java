@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -40,8 +41,14 @@ public class UserAccountController {
 
 
     @RequestMapping(value = "/user_page", method = RequestMethod.GET)
-    public ModelAndView getUserPage() {
+    public ModelAndView getUserPage(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(USER_PAGE);
+
+        String resultMessage = request.getParameter("resultMessage");
+        if (resultMessage != null) {
+            mnv.addObject("resultMessage", resultMessage);
+        }
+
         CurrencyRate usdRate = userAccountService.getCurrencyRate("USD");
         CurrencyRate eurRate = userAccountService.getCurrencyRate("EUR");
         mnv.addObject("usdRate", usdRate);
@@ -58,15 +65,6 @@ public class UserAccountController {
         return new RedirectView(USER_PAGE);
     }
 
-    //todo Разобраться почему два /payment
-    @RequestMapping(value = "/payment", method = RequestMethod.POST)
-    public ModelAndView payment() {
-        ModelAndView mnv = new ModelAndView(PAYMENT_PAGE);
-        List<Organisations> organisations = organisationService.getOrgs();
-        mnv.addObject("orgs", organisations);
-        return mnv;
-    }
-
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
     public ModelAndView getPaymentPage() {
         ModelAndView mnv = new ModelAndView(PAYMENT_PAGE);
@@ -81,11 +79,10 @@ public class UserAccountController {
 
     @RequestMapping(value = "/doPayment", method = RequestMethod.POST)
     public RedirectView doPayment(HttpServletRequest request) {
-        Long selectedOrg = Long.parseLong(request.getParameter("organisation"));
-        Integer moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
-        Long selectedBankAccount = Long.parseLong(request.getParameter("bankAccounts"));
-        userAccountService.doPayment(selectedOrg, moneyToAdd, selectedBankAccount);
-        return new RedirectView(USER_PAGE);
-        // TODO: 15.07.2019 разобраться почему возвращает 302
+        if (!userAccountService.doPayment(request)) {
+            return new RedirectView(USER_PAGE + "?resultMessage=Transaction failed");
+        } else {
+            return new RedirectView(USER_PAGE + "?resultMessage=Transaction completed");
+        }
     }
 }

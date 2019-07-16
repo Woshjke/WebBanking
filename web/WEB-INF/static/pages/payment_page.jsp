@@ -19,38 +19,10 @@
 
 <body>
 
-<nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
-    <a href="#" class="navbar-brand">Мой банк</a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Банковские операции
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/payment">Сделать платеж</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/doTransaction">Сделать перевод на
-                        счет</a>
-                </div>
-            </li>
-            <a href="${pageContext.request.contextPath}/logout" class="nav-link">Выйти</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<!-- //TODO Вернуть информацию о выполненом платеже -->
-<!-- //TODO Проверять введеные числа на фронте и бэке -->
-
-
 <div class="form-group" style="margin-top: 80px; margin-left: 30px">
     <form:form action="/user/doPayment" method="post">
 
-        <label style="color: white">Куда:</label>
+        <label style="color: white">To Bank Account:</label>
         <p></p>
         <select name="organisation" class="form-control col-1">
             <c:forEach items="${orgs}" var="org">
@@ -58,18 +30,18 @@
             </c:forEach>
         </select>
         <p></p>
-        <label style="color: white">Размер платежа:</label>
+        <label style="color: white">How Much:</label>
         <p></p>
-        <input type="number" class="input-group-text" name="money_count">
+        <input type="number" class="input-group-text" name="money_count" required>
         <p></p>
-        <label style="color: white">С какого счета:</label>
+        <label style="color: white">From Bank Account:</label>
         <select name="bankAccounts" class="form-control col-1">
             <c:forEach items="${bankAccounts}" var="bankAccount">
                 <option value="${bankAccount.id}">${bankAccount.id}</option>
             </c:forEach>
         </select>
         <p></p>
-        <input type="submit" class="btn btn-outline-primary" name="submitPayment" value="Подтвердить платеж"/>
+        <input type="submit" class="btn btn-outline-primary" name="submitPayment" value="Do transaction"/>
     </form:form>
 </div>
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -48,10 +49,13 @@ public class TransactionController {
 
 
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
-    public ModelAndView doTransaction(HttpServletRequest request) {
-
-        userService.doTransaction(request);
-        return new ModelAndView(USER_PAGE);
+    public RedirectView doTransaction(HttpServletRequest request) {
+        RedirectView rv = new RedirectView(USER_PAGE);
+        if (!userService.doTransaction(request)) {
+            return new RedirectView(USER_PAGE + "?resultMessage=Transaction failed");
+        } else {
+            return new RedirectView(USER_PAGE + "?resultMessage=Transaction completed");
+        }
     }
 
     @ModelAttribute("transaction")

@@ -21,18 +21,18 @@
 <body>
 <form:form method="POST" action="/user/doTransaction">
     <div style="margin-left: 10px; margin-top: 10px">
-        <p style="color: white">Куда</p>
-        <input  name="destination"/>
-        <p style="color: white">Сколько:</p>
-        <input name="value"/>
-        <p style="color: white">С какого счета</p>
+        <p style="color: white">To Bank Account</p>
+        <input  name="destination" type="number" class="input-group-text" required/>
+        <p style="color: white">How much:</p>
+        <input name="value" type="number" class="input-group-text" required/>
+        <p style="color: white">From Bank Account:</p>
         <select name="source" class="form-control col-1">
             <c:forEach items="${bankAccounts}" var="bankAccount">
                 <option value="${bankAccount.id}">${bankAccount.id}</option>
             </c:forEach>
         </select>
         <p></p>
-        <input type="submit" value="Перевести"/>
+        <input type="submit" value="Do Transfer" class="btn btn-outline-primary"/>
     </div>
 </form:form>
 

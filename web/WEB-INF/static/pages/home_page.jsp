@@ -15,8 +15,6 @@
 
 <body>
 
-<!-- todo починить ссылку на homepage-->
-
 <div>
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
         <div class="container"><a class="navbar-brand" href="#">Мой банк</a>

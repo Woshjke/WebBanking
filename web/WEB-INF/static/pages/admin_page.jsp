@@ -40,6 +40,10 @@
     <button type="submit" class="btn btn-outline-primary">Delete user</button>
 </form:form>
 
+<form:form name="deleteUserPage" method="get" action="/user/user_page">
+    <button type="submit" class="btn btn-outline-primary">User page</button>
+</form:form>
+
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

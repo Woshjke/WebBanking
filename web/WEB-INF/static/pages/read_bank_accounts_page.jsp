@@ -20,9 +20,10 @@
 
 <body style="margin-left: 10px; margin-top: 10px">
 
-<!-- //todo Сделать лейблы для полей ввода, подробно поясняющие что к чему -->
-
 <div class="form-group">
+    <label for="username" style="color: white">Write specific username or get all bank accounts</label>
+    <p></p>
+    <p></p>
     <label for="username" style="color: white">Username</label>
     <input id="username" name="username" type="text" class="form-text text-input">
     <p></p>

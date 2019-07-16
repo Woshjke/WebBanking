@@ -19,7 +19,7 @@ public class LoginPageController {
     public ModelAndView goToLoginPage(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
         String isError = request.getParameter("error");
-        if ("true".equals(request.getParameter("error"))) {
+        if ("true".equals(isError)) {
             mnv.addObject("errorMessage", "Wrong credentials");
         }
 
@@ -31,12 +31,6 @@ public class LoginPageController {
         return LOGIN_PAGE;
     }
 
-//    @RequestMapping(value = {"/login?error=true"}, method = RequestMethod.GET)
-//    public ModelAndView loginError() {
-//        ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
-//        mnv.addObject("errorMessage", "Error");
-//        return mnv;
-//    }
 
     @ModelAttribute("user")
     public User setSignUpForm() {
