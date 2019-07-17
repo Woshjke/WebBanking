@@ -1,16 +1,20 @@
 package bank.model.json;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * This class represents currency rate form JSON
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class CurrencyRate {
 
     @SerializedName(value = "Cur_ID")
@@ -30,5 +34,4 @@ public class CurrencyRate {
 
     @SerializedName(value = "Cur_OfficialRate")
     private double rate;
-
 }

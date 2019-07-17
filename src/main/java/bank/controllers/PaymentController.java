@@ -15,8 +15,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static bank.PageNameConstants.PAYMENT_PAGE;
-import static bank.PageNameConstants.USER_PAGE;
+import static bank.ApplicationProperties.PAYMENT_PAGE;
+import static bank.ApplicationProperties.USER_PAGE;
 
 /**
  * user to organization transactions controller

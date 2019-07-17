@@ -1,5 +1,7 @@
 package bank.controllers;
 
+import bank.ApplicationProperties;
+import javafx.application.Application;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static bank.PageNameConstants.LOGIN_PAGE;
+import static bank.ApplicationProperties.LOGIN_PAGE;
 
 /**
  * Authentication controller
@@ -27,6 +29,7 @@ public class LoginPageController {
         if ("true".equals(isError)) {
             mnv.addObject("errorMessage", "Wrong credentials");
         }
+        System.out.println(new ApplicationProperties().getProperty("database.username"));
         return mnv;
     }
 

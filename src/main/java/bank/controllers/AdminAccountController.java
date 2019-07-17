@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static bank.PageNameConstants.*;
+import static bank.ApplicationProperties.*;
 
 /**
  * Admin features controller

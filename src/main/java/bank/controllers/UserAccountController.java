@@ -1,7 +1,5 @@
 package bank.controllers;
 
-import bank.model.entity.BankAccount;
-import bank.model.entity.Organisations;
 import bank.model.entity.User;
 import bank.model.json.CurrencyRate;
 import bank.services.UserAccountService;
@@ -14,10 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
-import static bank.PageNameConstants.PAYMENT_PAGE;
-import static bank.PageNameConstants.USER_PAGE;
+import static bank.ApplicationProperties.USER_PAGE;
 
 /**
  * User features controller

@@ -1,6 +1,8 @@
 package bank.configuration;
 
+import bank.ApplicationProperties;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,6 +26,8 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "bank.model.dao")
 public class HibernateConfig {
 
+    private ApplicationProperties applicationProperties = new ApplicationProperties();
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean sessionFactory = new LocalContainerEntityManagerFactoryBean();
@@ -40,9 +44,12 @@ public class HibernateConfig {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("Zvashkevich1999");
+        //dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
+        dataSource.setUrl(applicationProperties.getProperty("database.url"));
+        //dataSource.setUsername("postgres");
+        dataSource.setUsername(applicationProperties.getProperty("database.username"));
+        //dataSource.setPassword("Zvashkevich1999");
+        dataSource.setPassword(applicationProperties.getProperty("database.password"));
 
         return dataSource;
     }

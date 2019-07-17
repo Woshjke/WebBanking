@@ -1,11 +1,9 @@
 package bank.controllers;
 
-import bank.model.entity.Transaction;
 import bank.model.entity.User;
 import bank.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,8 +12,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
-import static bank.PageNameConstants.MONEY_TRANSFER_PAGE;
-import static bank.PageNameConstants.USER_PAGE;
+import static bank.ApplicationProperties.MONEY_TRANSFER_PAGE;
+import static bank.ApplicationProperties.USER_PAGE;
 
 /**
  * direct bank account-bank account transactions controller
