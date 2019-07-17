@@ -2,6 +2,7 @@ package bank.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+
 public class FrontControllerConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
