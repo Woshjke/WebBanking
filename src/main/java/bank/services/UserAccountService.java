@@ -9,8 +9,6 @@ import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.TransactionDaoService;
 import bank.services.dbServices.UserDaoService;
 import com.google.gson.Gson;
-import org.apache.logging.log4j.util.PropertySource;
-import org.omg.IOP.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,13 +33,21 @@ public class UserAccountService {
     public static final String NBRB_RATES_URL = "http://www.nbrb.by/API/ExRates/Rates/";
 
     @Autowired
-    public UserAccountService(OrganisationDaoService organisationService, UserDaoService userDaoService, BankAccountService bankAccountService, TransactionDaoService transactionDaoService) {
+    public UserAccountService(OrganisationDaoService organisationService,
+                              UserDaoService userDaoService,
+                              BankAccountService bankAccountService,
+                              TransactionDaoService transactionDaoService) {
         this.organisationService = organisationService;
         this.userDaoService = userDaoService;
         this.bankAccountService = bankAccountService;
         this.transactionDaoService = transactionDaoService;
     }
 
+    /**
+     * This method transfers money from the user account to the organization account
+     * @param request - request form JSP with needed parameters
+     * @return was payment completed or not
+     */
     public boolean doPayment(HttpServletRequest request) {
 
         Long selectedOrgId;
@@ -65,7 +70,7 @@ public class UserAccountService {
         }
 
         sourceBankAccount.takeMoney(moneyToAdd);
-        Long userId = organisationService.getOrgById(selectedOrgId)
+        Long userId = organisationService.getOrganisationsById(selectedOrgId)
                 .getBankAccountList().get(0)
                 .getUser().getId();
 
@@ -81,6 +86,11 @@ public class UserAccountService {
         return true;
     }
 
+    /**
+     * This method transfers money direct from the user account to the another user account
+     * @param request - request form JSP with needed parameters
+     * @return was transaction completed or not
+     */
     public boolean doTransaction(HttpServletRequest request) {
 
         BankAccount sourceBankAccount;
@@ -125,6 +135,13 @@ public class UserAccountService {
         return true;
     }
 
+    /**
+     * This method getting currency rate form National Bank of the Republic of Belarus in JSON,
+     * converting it to object and returning this object
+     *
+     * @param currency - needed currency to get form NBRB
+     * @return CurrencyRate object
+     */
     public CurrencyRate getCurrencyRate(String currency) {
         String url = NBRB_RATES_URL + currency + "?ParamMode=2";
         URL urlObj;
@@ -144,6 +161,10 @@ public class UserAccountService {
         return currencyRate;
     }
 
+    /**
+     * This method returns authenticated user object form database
+     * @return authenticated user object form database
+     */
     public User getAuthenticatedUser() {
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -155,7 +176,14 @@ public class UserAccountService {
         return userDaoService.getUserByUsername(username);
     }
 
-    boolean isContainsBankAccount(List<BankAccount> bankAccounts, BankAccount bankAccount) {
+    /**
+     * This methods checking if list of bank accounts contains specific bank account
+     * list.contains() not working cuz different objects hash
+     * @param bankAccounts - list of bank accounts
+     * @param bankAccount - bank account that we checking
+     * @return contains list needed bank account or not
+     */
+    private boolean isContainsBankAccount(List<BankAccount> bankAccounts, BankAccount bankAccount) {
         boolean isContainsBankAccount = false;
         for (BankAccount iter : bankAccounts) {
             if (iter.getId().equals(bankAccount.getId())) {

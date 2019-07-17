@@ -5,6 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Entity of bank_account table
+ */
 @Entity
 @Getter
 @Setter

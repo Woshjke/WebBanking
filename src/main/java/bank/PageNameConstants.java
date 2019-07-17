@@ -1,5 +1,8 @@
 package bank;
 
+/**
+ * Constants container
+ */
 public class PageNameConstants {
     public static final String ADMIN_PAGE = "admin_page";
     public static final String CREATE_USER_PAGE = "create_user_page";

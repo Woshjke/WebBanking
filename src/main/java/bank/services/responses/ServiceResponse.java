@@ -5,6 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * This class using for send response back to JSON from controller
+ * @param <T>
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

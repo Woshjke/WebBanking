@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Entity of organisations table
+ */
 @Entity
 @Getter
 @Setter

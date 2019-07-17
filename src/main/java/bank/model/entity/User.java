@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Entity of usr table
+ */
 @Entity
 @Getter
 @Setter

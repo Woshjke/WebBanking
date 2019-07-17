@@ -3,7 +3,6 @@ package bank.controllers;
 import bank.model.entity.Transaction;
 import bank.model.entity.User;
 import bank.services.UserAccountService;
-import bank.services.dbServices.TransactionDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,19 +17,24 @@ import java.util.ArrayList;
 import static bank.PageNameConstants.MONEY_TRANSFER_PAGE;
 import static bank.PageNameConstants.USER_PAGE;
 
+/**
+ * direct bank account-bank account transactions controller
+ */
 @Controller
 @RequestMapping(value = "/user")
 public class TransactionController {
 
     private UserAccountService userService;
 
-
-
     @Autowired
     public TransactionController(UserAccountService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Handling request of getting transaction page
+     * @return transaction page view
+     */
     @RequestMapping(value = "/transaction", method = RequestMethod.GET)
     public ModelAndView getTransaction() {
         ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
@@ -39,6 +43,10 @@ public class TransactionController {
         return mnv;
     }
 
+    /**
+     * Handling request of getting transaction page, but POST
+     * @return transaction page view
+     */
     @RequestMapping(value = "/transaction", method = RequestMethod.POST)
     public ModelAndView postTransaction() {
         ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
@@ -48,18 +56,17 @@ public class TransactionController {
     }
 
 
+    /**
+     * handling transaction request and calls transaction service
+     * @param request - request from JSP
+     * @return user page view with transaction result
+     */
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
     public RedirectView doTransaction(HttpServletRequest request) {
-        RedirectView rv = new RedirectView(USER_PAGE);
         if (!userService.doTransaction(request)) {
             return new RedirectView(USER_PAGE + "?resultMessage=Transaction failed");
         } else {
             return new RedirectView(USER_PAGE + "?resultMessage=Transaction completed");
         }
-    }
-
-    @ModelAttribute("transaction")
-    public Transaction setSignUpForm() {
-        return new Transaction();
     }
 }

@@ -6,26 +6,22 @@ import bank.model.entity.User;
 import bank.model.json.CurrencyRate;
 import bank.services.UserAccountService;
 import bank.services.dbServices.OrganisationDaoService;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
-import java.util.Scanner;
 
 import static bank.PageNameConstants.PAYMENT_PAGE;
 import static bank.PageNameConstants.USER_PAGE;
 
-
+/**
+ * User features controller
+ */
 @Controller
 @RequestMapping(value = "/user")
 public class UserAccountController {
@@ -39,7 +35,11 @@ public class UserAccountController {
         this.userAccountService = userAccountService;
     }
 
-
+    /**
+     * Handling request of getting user page, adding currency rate, needed messages.
+     * @param request - request from JSP with messages of completed/failed transaction, etc.
+     * @return user page view
+     */
     @RequestMapping(value = "/user_page", method = RequestMethod.GET)
     public ModelAndView getUserPage(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(USER_PAGE);
@@ -60,29 +60,12 @@ public class UserAccountController {
         return mnv;
     }
 
+    /**
+     * Redirection empty url to user page
+     * @return redirect to user page
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public RedirectView redirectToUserPage() {
         return new RedirectView(USER_PAGE);
-    }
-
-    @RequestMapping(value = "/payment", method = RequestMethod.GET)
-    public ModelAndView getPaymentPage() {
-        ModelAndView mnv = new ModelAndView(PAYMENT_PAGE);
-        List<Organisations> organisations = organisationService.getOrgs();
-        mnv.addObject("orgs", organisations);
-
-        User user = userAccountService.getAuthenticatedUser();
-        List<BankAccount> bankAccountSet = user.getBankAccounts();
-        mnv.addObject("bankAccounts", bankAccountSet);
-        return mnv;
-    }
-
-    @RequestMapping(value = "/doPayment", method = RequestMethod.POST)
-    public RedirectView doPayment(HttpServletRequest request) {
-        if (!userAccountService.doPayment(request)) {
-            return new RedirectView(USER_PAGE + "?resultMessage=Transaction failed");
-        } else {
-            return new RedirectView(USER_PAGE + "?resultMessage=Transaction completed");
-        }
     }
 }

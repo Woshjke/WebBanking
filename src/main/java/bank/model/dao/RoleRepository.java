@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data repository for Role table
+ */
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Integer>, JpaSpecificationExecutor<Role> {
     List<Role> getAllById(Long id);

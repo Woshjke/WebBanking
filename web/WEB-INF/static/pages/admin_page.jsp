@@ -44,6 +44,8 @@
     <button type="submit" class="btn btn-outline-primary">User page</button>
 </form:form>
 
+<label>${resultMessage}</label>
+
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

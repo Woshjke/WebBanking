@@ -24,14 +24,14 @@
 <p></p>
 <p></p>
 
-<form:form name="deleteUserForm" action="/admin/deleteUser" method="post">
+<form:form name="deleteUserForm" action="/admin/doDelete" method="post">
     <select name="users" class="form-control col-1">
         <c:forEach items="${usersList}" var="user">
             <option value="${user.id}">${user.username}</option>
         </c:forEach>
     </select>
     <p></p>
-    <button type="submit" class="btn btn-outline-primary">Удалить</button>
+    <button type="submit" class="btn btn-outline-primary">Delete</button>
 </form:form>
 
 <%--Bootstrap JS classes--%>

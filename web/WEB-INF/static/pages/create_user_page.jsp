@@ -25,7 +25,7 @@
     <p></p>
     <p></p>
 
-    <label>Login</label>
+    <label>Username</label>
     <p></p>
     <input name="username"/>
     <p></p>

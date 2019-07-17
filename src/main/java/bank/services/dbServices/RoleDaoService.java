@@ -19,7 +19,13 @@ public class RoleDaoService {
         this.roleDao = roleDao;
     }
 
+    /**
+     * Getting roles from database
+     * @return list of roles
+     */
     public List<Role> getRoles() {
         return (List<Role>) roleDao.findAll();
     }
+
+    //todo add crud
 }

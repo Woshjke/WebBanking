@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data repository for Organisation table
+ */
 @Repository
 public interface OrganisationRepository extends CrudRepository<Organisations, Integer>, JpaSpecificationExecutor<Organisations> {
     List<Organisations> getAllById(Long id);

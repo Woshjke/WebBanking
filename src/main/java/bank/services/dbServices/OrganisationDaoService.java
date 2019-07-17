@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @Transactional
 public class OrganisationDaoService {
+
     private final OrganisationRepository organisationDao;
 
     @Autowired
@@ -18,11 +19,20 @@ public class OrganisationDaoService {
         this.organisationDao = organisationDao;
     }
 
-    public List<Organisations> getOrgs() {
+    /**
+     * Getting organisations from database
+     * @return list of organisations
+     */
+    public List<Organisations> getOrganisations() {
         return (List<Organisations>) organisationDao.findAll();
     }
 
-    public Organisations getOrgById(Long id) {
+    /**
+     * Getting organisation form database by ID
+     * @param id - organisation ID
+     * @return organisation object
+     */
+    public Organisations getOrganisationsById(Long id) {
         return organisationDao.findById(id);
     }
 }

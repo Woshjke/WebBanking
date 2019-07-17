@@ -24,12 +24,20 @@ public class AdminAccountService {
     private BankAccountService bankAccountService;
 
     @Autowired
-    public AdminAccountService(UserDaoService userDaoService, RoleDaoService roleDaoService, BankAccountService bankAccountService) {
+    public AdminAccountService(UserDaoService userDaoService,
+                               RoleDaoService roleDaoService,
+                               BankAccountService bankAccountService) {
         this.userDaoService = userDaoService;
         this.roleDaoService = roleDaoService;
         this.bankAccountService = bankAccountService;
     }
 
+
+    /**
+     * This method returning user object to user update view by selected user id
+     * @param request - request from JSP with needed params (user id)
+     * @return user object
+     */
     public User getUserToUpdate(HttpServletRequest request) {
         long selectedUserId = 0L;
         if (request.getParameter("users") != null && !request.getParameter("users").equals("0")) {
@@ -42,13 +50,25 @@ public class AdminAccountService {
         return user;
     }
 
-    public void deleteUser(HttpServletRequest request) {
+    /**
+     * deleting user, selected in JSP, by calling SserDaoService method
+     * @param request - request form JSP with needed params (user id)
+     * @return user was deleted or not
+     */
+    public boolean deleteUser(HttpServletRequest request) {
         if (request.getParameter("users") != null && !request.getParameter("users").equals("0")) {
             User user = userDaoService.getUserById(Long.parseLong(request.getParameter("users")));
             userDaoService.deleteUser(user);
+            return true;
+        } else {
+            return false;
         }
     }
 
+    /**
+     * Registering user in system by calling UserDaoService method
+     * @param request - request from JSP with needed params (username, password)
+     */
     public void registerUser(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -73,7 +93,7 @@ public class AdminAccountService {
         bankAccount.setMoney(0.);
         bankAccount.setUser(user);
 
-        bankAccountService.createBankAccount(bankAccount);
+        bankAccountService.saveBankAccount(bankAccount);
 
         List<BankAccount> bankAccountList = new ArrayList<>();
         bankAccountList.add(bankAccount);
@@ -83,6 +103,10 @@ public class AdminAccountService {
         bankAccountService.updateBankAccount(bankAccount);
     }
 
+    /**
+     * Updating user in database by calling UserDaoService method
+     * @param request
+     */
     public void updateUser(HttpServletRequest request) {
         Long userToUpdateId = Long.parseLong(request.getParameter("id"));
         User userToUpdate = userDaoService.getUserById(userToUpdateId);

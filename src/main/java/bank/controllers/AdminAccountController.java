@@ -18,6 +18,9 @@ import java.util.List;
 
 import static bank.PageNameConstants.*;
 
+/**
+ * Admin features controller
+ */
 @RestController
 @RequestMapping(value = "/admin")
 public class AdminAccountController {
@@ -31,28 +34,49 @@ public class AdminAccountController {
         this.adminService = adminService;
     }
 
+    /**
+     * GET-request of admin page
+     * @return admin page view
+     */
     @RequestMapping(value = "/admin_page", method = RequestMethod.GET)
     public ModelAndView getAdminPage() {
         return new ModelAndView(ADMIN_PAGE);
     }
 
+    /**
+     * POST-request of admin page
+     * @return admin page view
+     */
     @RequestMapping(value = "/admin_page", method = RequestMethod.POST)
-    public ModelAndView getAdminPagePost() {
+    public ModelAndView postAdminPage() {
         return new ModelAndView(ADMIN_PAGE);
     }
 
-
+    /**
+     * Handling request of getting user registration page
+     * @return user registration view
+     */
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
     public ModelAndView createUser() {
         return new ModelAndView(CREATE_USER_PAGE);
     }
 
+    /**
+     * handling user registration request and calls registration service
+     * @param request - request from JSP
+     * @return admin page view
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public RedirectView registerUser(HttpServletRequest request) {
+    public RedirectView doCreateUser(HttpServletRequest request) {
         adminService.registerUser(request);
         return new RedirectView(ADMIN_PAGE);
     }
 
+    /**
+     * Handling request of getting user update page
+     * @param request - request from JSP with selected user param
+     * @return user updating view with list of users and selected user (if selected)
+     */
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public ModelAndView updateUser(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(UPDATE_USER_PAGE);
@@ -63,31 +87,66 @@ public class AdminAccountController {
         return mnv;
     }
 
+    /**
+     * handling user updating request and calls user updating service
+     * @param request - request from JSP
+     * @return admin view page
+     */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     public RedirectView doUpdate(HttpServletRequest request) {
         adminService.updateUser(request);
         return new RedirectView(ADMIN_PAGE);
     }
 
+    /**
+     * Handling request of getting user delete page
+     * @return user delete page with list of users
+     */
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-    public ModelAndView deleteUser(HttpServletRequest request) {
+    public ModelAndView deleteUser() {
         ModelAndView mnv = new ModelAndView(DELETE_USER_PAGE);
-        adminService.deleteUser(request);
         List<User> userList = userDaoService.getUsers();
         mnv.addObject("usersList", userList);
         return mnv;
     }
 
+    /**
+     * handling user deleting request and calls user delete service
+     * @param request - request from jsp with selected user param
+     * @return admin page view with result of user deletion message
+     */
+    @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
+    public RedirectView doDeletePage(HttpServletRequest request) {
+        if (adminService.deleteUser(request)) {
+           return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
+        } else {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Failed");
+        }
+    }
+
+    /**
+     * Handling request of  getting users info reading  page
+     * @return user info reading view
+     */
     @RequestMapping(value = "/readUsers", method = RequestMethod.GET)
     public ModelAndView readUsers() {
         return new ModelAndView(READ_USERS_PAGE);
     }
 
+    /**
+     * Handling request of  getting bank accounts info reading  page
+     * @return bank accounts info reading view
+     */
     @RequestMapping(value = "/readBankAccounts", method = RequestMethod.GET)
     public ModelAndView readBankAccounts() {
         return new ModelAndView(READ_BANK_ACCOUNTS);
     }
 
+    /**
+     * Handling AJAX call form users reading view
+     * @param username - specific username in
+     * @return all users if username field was empty or specific user if username field wasn't empty
+     */
     @ResponseBody
     @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllUsers(@RequestParam String username) {
@@ -103,6 +162,12 @@ public class AdminAccountController {
         }
     }
 
+    /**
+     * Handling AJAX call form bank accounts reading view
+     * @param username - specific username in
+     * @return all bank accounts if username field was empty
+     * or bank accounts of specific user if username field wasn't empty
+     */
     @ResponseBody
     @RequestMapping(value = "/filterBankAccounts", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllBankAccounts(@RequestParam String username) {
@@ -115,10 +180,5 @@ public class AdminAccountController {
             ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccountDTOS);
             return ResponseEntity.ok(response);
         }
-    }
-
-    @ModelAttribute("user")
-    public User setSignUpForm() {
-        return new User();
     }
 }
