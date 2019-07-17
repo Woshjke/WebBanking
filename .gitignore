@@ -24,7 +24,6 @@ hs_err_pid*
 
 
 *.iml
-.idea/**
+.idea
 out/**
 target/**
-src/main/resources/database.properties
