@@ -21,24 +21,8 @@ public class LoginPageController {
      * @param request - request with auth error from Spring Security
      * @return login page view
      */
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
-    public ModelAndView getLoginPage(HttpServletRequest request) {
-        ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
-        String isError = request.getParameter("error");
-        if ("true".equals(isError)) {
-            mnv.addObject("errorMessage", "Wrong credentials");
-        }
-        System.out.println(new ApplicationProperties().getProperty("database.username"));
-        return mnv;
-    }
-
-    /**
-     *
-     * @param request - request with auth error from Spring Security
-     * @return login page view
-     */
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.POST)
-    public ModelAndView postLoginPage(HttpServletRequest request) {
+    @RequestMapping(value = {"/login", "/"}, method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showLoginPage(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
         String isError = request.getParameter("error");
         if ("true".equals(isError)) {

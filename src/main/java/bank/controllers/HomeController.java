@@ -23,10 +23,6 @@ public class HomeController {
 //    @RequestMapping(value = "/home_page", method = RequestMethod.GET)
 //    public ModelAndView getHomepage() {
 //        ModelAndView mnv = new ModelAndView(HOME_PAGE);
-//        CurrencyRate usdRate = userAccountService.getCurrencyRate("USD");
-//        CurrencyRate eurRate = userAccountService.getCurrencyRate("EUR");
-//        mnv.addObject("usdRate", usdRate);
-//        mnv.addObject("eurRate", eurRate);
 //        return mnv;
 //    }
 

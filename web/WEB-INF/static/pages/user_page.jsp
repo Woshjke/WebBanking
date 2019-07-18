@@ -11,10 +11,15 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Userpage</title>
 </head>
+
 <style>
     <%@include file="/WEB-INF/resources/css/user.css"%>
     <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
 </style>
+
+<script type="text/javascript" charset="UTF-8">
+    <%@include file="/WEB-INF/resources/js/getCurrency.js"%>
+</script>
 
 <body>
 
@@ -46,34 +51,31 @@
     </div>
 </nav>
 
+<div style="margin-left: 18px">
+    <select id="currencyList" class="form-control col-1" style="margin-top: 100px;">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+    </select>
 
-<label style="margin-top: 100px;">Date: </label>
-<label>${usdRate.date}</label>
+    <p></p>
 
-<p></p>
-<p></p>
+    <button id="getCurrencyButton" class="btn btn-primary">Get Currency</button>
 
-<label>Currency: </label>
-<label>${usdRate.name}</label>
-<br>
-<label>Rate to BYN: </label>
-<label>${usdRate.rate}</label>
+    <p></p>
 
-<p></p>
-<p></p>
+    <label id="date" style="color: white;"></label>
 
-<label>Currency: </label>
-<label>${eurRate.name}</label>
-<br>
-<label>Rate to BYN: </label>
-<label>${eurRate.rate}</label>
+    <p></p>
+    <p></p>
 
-<p></p>
-<p></p>
+    <div class="form-group">
+        <label id="currencyName" style="color: white;"></label>
+        <br>
+        <label id="currencyRate" style="color: white;"></label>
+    </div>
 
-<label style="color: red;">${resultMessage}</label>
-
-
+    <label style="color: red;">${resultMessage}</label>
+</div>
 
 
 <%--Bootstrap JS classes--%>

@@ -3,12 +3,10 @@ package bank.services;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Transaction;
 import bank.model.entity.User;
-import bank.model.json.CurrencyRate;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.TransactionDaoService;
 import bank.services.dbServices.UserDaoService;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -140,25 +138,23 @@ public class UserAccountService {
      * converting it to object and returning this object
      *
      * @param currency - needed currency to get form NBRB
-     * @return CurrencyRate object
+     * @return JSON string
      */
-    public CurrencyRate getCurrencyRate(String currency) {
+
+    public String getCurrencyRate(String currency) {
         String url = NBRB_RATES_URL + currency + "?ParamMode=2";
         URL urlObj;
-        CurrencyRate currencyRate = new CurrencyRate();
+        String json = "";
         try {
             urlObj = new URL(null, url, new sun.net.www.protocol.https.Handler());
             HttpsURLConnection connection = (HttpsURLConnection) urlObj.openConnection();
             connection.setRequestMethod("GET");
             InputStream response = connection.getInputStream();
-            String json = new Scanner(response, "UTF-8").nextLine();
-            Gson gson = new Gson();
-            currencyRate = gson.fromJson(json, CurrencyRate.class);
-            return currencyRate;
+            json = new Scanner(response, "UTF-8").nextLine();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return currencyRate;
+        return json;
     }
 
     /**
