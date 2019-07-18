@@ -38,8 +38,8 @@ public class PaymentController {
      * Handling request of getting payment page
      * @return payment page view
      */
-    @RequestMapping(value = "/payment", method = RequestMethod.GET)
-    public ModelAndView getPaymentPage() {
+    @RequestMapping(value = "/payment", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showPaymentPage() {
         ModelAndView mnv = new ModelAndView(PAYMENT_PAGE);
         List<Organisations> organisations = organisationService.getOrganisations();
         mnv.addObject("orgs", organisations);

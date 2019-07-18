@@ -22,22 +22,21 @@ import static bank.ApplicationProperties.USER_PAGE;
 @RequestMapping(value = "/user")
 public class UserAccountController {
 
-    private OrganisationDaoService organisationService;
     private UserAccountService userAccountService;
 
     @Autowired
-    public UserAccountController(OrganisationDaoService organisationService, UserAccountService userAccountService) {
-        this.organisationService = organisationService;
+    public UserAccountController(UserAccountService userAccountService) {
         this.userAccountService = userAccountService;
     }
 
     /**
      * Handling request of getting user page, adding currency rate, needed messages.
+     *
      * @param request - request from JSP with messages of completed/failed transaction, etc.
      * @return user page view
      */
-    @RequestMapping(value = "/user_page", method = RequestMethod.GET)
-    public ModelAndView getUserPage(HttpServletRequest request) {
+    @RequestMapping(value = "/user_page", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView showUserPage(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(USER_PAGE);
 
         String resultMessage = request.getParameter("resultMessage");
@@ -58,6 +57,7 @@ public class UserAccountController {
 
     /**
      * Redirection empty url to user page
+     *
      * @return redirect to user page
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)

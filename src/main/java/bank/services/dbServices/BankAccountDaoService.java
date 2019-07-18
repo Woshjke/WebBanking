@@ -10,12 +10,12 @@ import java.util.List;
 
 @Service
 @Transactional
-public class BankAccountService {
+public class BankAccountDaoService {
 
     private final BankAccountRepository bankAccountDao;
 
     @Autowired
-    public BankAccountService(BankAccountRepository bankAccountDao) {
+    public BankAccountDaoService(BankAccountRepository bankAccountDao) {
         this.bankAccountDao = bankAccountDao;
     }
 

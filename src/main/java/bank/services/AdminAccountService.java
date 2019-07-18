@@ -3,7 +3,7 @@ package bank.services;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Role;
 import bank.model.entity.User;
-import bank.services.dbServices.BankAccountService;
+import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.RoleDaoService;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ public class AdminAccountService {
 
     private UserDaoService userDaoService;
     private RoleDaoService roleDaoService;
-    private BankAccountService bankAccountService;
+    private BankAccountDaoService bankAccountService;
 
     @Autowired
     public AdminAccountService(UserDaoService userDaoService,
                                RoleDaoService roleDaoService,
-                               BankAccountService bankAccountService) {
+                               BankAccountDaoService bankAccountService) {
         this.userDaoService = userDaoService;
         this.roleDaoService = roleDaoService;
         this.bankAccountService = bankAccountService;
@@ -51,7 +51,7 @@ public class AdminAccountService {
     }
 
     /**
-     * deleting user, selected in JSP, by calling SserDaoService method
+     * deleting user, selected in JSP, by calling UserDaoService method
      * @param request - request form JSP with needed params (user id)
      * @return user was deleted or not
      */
@@ -105,7 +105,7 @@ public class AdminAccountService {
 
     /**
      * Updating user in database by calling UserDaoService method
-     * @param request
+     * @param request - request from JSP with needed params (username, password)
      */
     public void updateUser(HttpServletRequest request) {
         Long userToUpdateId = Long.parseLong(request.getParameter("id"));
@@ -117,5 +117,19 @@ public class AdminAccountService {
             userToUpdate.setPassword(newPassword);
             userDaoService.updateUser(userToUpdate);
         }
+    }
+
+    public boolean addMoney(HttpServletRequest request) {
+        try {
+            Long bankAccountID = Long.parseLong(request.getParameter("bankAccounts"));
+            Integer moneyToAdd = Integer.parseInt(request.getParameter("moneyToAdd"));
+            BankAccount bankAccount = bankAccountService.getBankAccountById(bankAccountID);
+            bankAccount.addMoney(moneyToAdd);
+            bankAccountService.saveBankAccount(bankAccount);
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+        return true;
+
     }
 }

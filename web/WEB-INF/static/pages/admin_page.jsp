@@ -40,11 +40,15 @@
     <button type="submit" class="btn btn-outline-primary">Delete user</button>
 </form:form>
 
+<form:form name="addMoney" method="post" action="/admin/addMoney">
+    <button type="submit" class="btn btn-outline-primary">Add money to bank account</button>
+</form:form>
+
 <form:form name="deleteUserPage" method="get" action="/user/user_page">
     <button type="submit" class="btn btn-outline-primary">User page</button>
 </form:form>
 
-<label>${resultMessage}</label>
+<label style="color: red;">${resultMessage}</label>
 
 
 <%--Bootstrap JS classes--%>

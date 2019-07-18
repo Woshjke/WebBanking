@@ -4,7 +4,7 @@ import bank.model.entity.BankAccount;
 import bank.model.entity.Transaction;
 import bank.model.entity.User;
 import bank.model.json.CurrencyRate;
-import bank.services.dbServices.BankAccountService;
+import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.TransactionDaoService;
 import bank.services.dbServices.UserDaoService;
@@ -27,7 +27,7 @@ public class UserAccountService {
 
     private OrganisationDaoService organisationService;
     private UserDaoService userDaoService;
-    private BankAccountService bankAccountService;
+    private BankAccountDaoService bankAccountService;
     private TransactionDaoService transactionDaoService;
 
     public static final String NBRB_RATES_URL = "http://www.nbrb.by/API/ExRates/Rates/";
@@ -35,7 +35,7 @@ public class UserAccountService {
     @Autowired
     public UserAccountService(OrganisationDaoService organisationService,
                               UserDaoService userDaoService,
-                              BankAccountService bankAccountService,
+                              BankAccountDaoService bankAccountService,
                               TransactionDaoService transactionDaoService) {
         this.organisationService = organisationService;
         this.userDaoService = userDaoService;

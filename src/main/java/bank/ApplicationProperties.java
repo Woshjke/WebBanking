@@ -7,6 +7,7 @@ import java.util.Properties;
  * Constants container
  */
 public class ApplicationProperties {
+
     public static final String ADMIN_PAGE = "admin_page";
     public static final String CREATE_USER_PAGE = "create_user_page";
     public static final String DELETE_USER_PAGE = "delete_user_page";

@@ -2,8 +2,10 @@ package bank.controllers;
 
 import bank.model.dto.BankAccountDTO;
 import bank.model.dto.UserDTO;
+import bank.model.entity.BankAccount;
 import bank.model.entity.User;
 import bank.services.AdminAccountService;
+import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.UserDaoService;
 import bank.services.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static bank.ApplicationProperties.*;
+import static bank.ApplicationProperties.ADMIN_PAGE;
+import static bank.ApplicationProperties.CREATE_USER_PAGE;
+import static bank.ApplicationProperties.DELETE_USER_PAGE;
+import static bank.ApplicationProperties.READ_BANK_ACCOUNTS;
+import static bank.ApplicationProperties.READ_USERS_PAGE;
+import static bank.ApplicationProperties.UPDATE_USER_PAGE;
+
 
 /**
  * Admin features controller
@@ -27,37 +35,35 @@ public class AdminAccountController {
 
     private UserDaoService userDaoService;
     private AdminAccountService adminService;
+    private BankAccountDaoService bankAccountDaoService;
 
     @Autowired
-    public AdminAccountController(UserDaoService userDaoService, AdminAccountService adminService) {
+    public AdminAccountController(UserDaoService userDaoService,
+                                  AdminAccountService adminService,
+                                  BankAccountDaoService bankAccountDaoService) {
         this.userDaoService = userDaoService;
         this.adminService = adminService;
+        this.bankAccountDaoService = bankAccountDaoService;
     }
 
     /**
      * GET-request of admin page
      * @return admin page view
      */
-    @RequestMapping(value = "/admin_page", method = RequestMethod.GET)
-    public ModelAndView getAdminPage() {
-        return new ModelAndView(ADMIN_PAGE);
-    }
-
-    /**
-     * POST-request of admin page
-     * @return admin page view
-     */
-    @RequestMapping(value = "/admin_page", method = RequestMethod.POST)
-    public ModelAndView postAdminPage() {
-        return new ModelAndView(ADMIN_PAGE);
+    @RequestMapping(value = "/admin_page", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showAdminPage(HttpServletRequest request) {
+        ModelAndView mnv = new ModelAndView(ADMIN_PAGE);
+        String resultMessage = request.getParameter("resultMessage");
+        mnv.addObject("resultMessage", resultMessage);
+        return mnv;
     }
 
     /**
      * Handling request of getting user registration page
      * @return user registration view
      */
-    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public ModelAndView createUser() {
+    @RequestMapping(value = "/createUser", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showCreateUserPage() {
         return new ModelAndView(CREATE_USER_PAGE);
     }
 
@@ -77,8 +83,8 @@ public class AdminAccountController {
      * @param request - request from JSP with selected user param
      * @return user updating view with list of users and selected user (if selected)
      */
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public ModelAndView updateUser(HttpServletRequest request) {
+    @RequestMapping(value = "/updateUser", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showUpdateUserPage(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(UPDATE_USER_PAGE);
         List<User> userList = userDaoService.getUsers();
         User userToUpdate = adminService.getUserToUpdate(request);
@@ -93,7 +99,7 @@ public class AdminAccountController {
      * @return admin view page
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
-    public RedirectView doUpdate(HttpServletRequest request) {
+    public RedirectView doUpdateUser(HttpServletRequest request) {
         adminService.updateUser(request);
         return new RedirectView(ADMIN_PAGE);
     }
@@ -102,8 +108,8 @@ public class AdminAccountController {
      * Handling request of getting user delete page
      * @return user delete page with list of users
      */
-    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-    public ModelAndView deleteUser() {
+    @RequestMapping(value = "/deleteUser", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showDeleteUserPage() {
         ModelAndView mnv = new ModelAndView(DELETE_USER_PAGE);
         List<User> userList = userDaoService.getUsers();
         mnv.addObject("usersList", userList);
@@ -116,7 +122,7 @@ public class AdminAccountController {
      * @return admin page view with result of user deletion message
      */
     @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
-    public RedirectView doDeletePage(HttpServletRequest request) {
+    public RedirectView doDeleteUser(HttpServletRequest request) {
         if (adminService.deleteUser(request)) {
            return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
         } else {
@@ -140,6 +146,25 @@ public class AdminAccountController {
     @RequestMapping(value = "/readBankAccounts", method = RequestMethod.GET)
     public ModelAndView readBankAccounts() {
         return new ModelAndView(READ_BANK_ACCOUNTS);
+    }
+
+    @RequestMapping(value = "/addMoney", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showAddMoneyPage() {
+        ModelAndView mnv = new ModelAndView("add_money_page");
+        List<BankAccount> bankAccounts = bankAccountDaoService.getAllBankAccounts();
+        mnv.addObject("bankAccounts", bankAccounts);
+        return mnv;
+    }
+
+    @RequestMapping(value = "/doAddMoney", method = {RequestMethod.POST})
+    public RedirectView doAddMoney(HttpServletRequest request) {
+        RedirectView rv = new RedirectView();
+        if (adminService.addMoney(request)) {
+            rv.setUrl(ADMIN_PAGE + "?resultMessage=Operation completed!");
+        } else {
+            rv.setUrl(ADMIN_PAGE + "?resultMessage=Operation failed!");
+        }
+        return rv;
     }
 
     /**

@@ -19,7 +19,7 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
-    <a href="#" class="navbar-brand">Мой банк</a>
+    <a href="#" class="navbar-brand">Web Banking</a>
     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -28,14 +28,18 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    Банковские операции
+                    Bank operations
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/payment">Сделать платеж</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/transaction">Сделать перевод на счет</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/payment">
+                        Do Payment to organisation
+                    </a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/transaction">
+                        Do Transaction to bank account
+                    </a>
                 </div>
             </li>
-                <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Выйти</a>
+                <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Logout</a>
 <%--                <a href="${pageContext.request.contextPath}/user/home_page" class="nav-link">${authUser.username}</a>--%>
                 <a href="${pageContext.request.contextPath}/admin/admin_page" class="nav-link">Admin page</a>
         </ul>
@@ -43,25 +47,25 @@
 </nav>
 
 
-<label style="margin-top: 100px;">Дата: </label>
+<label style="margin-top: 100px;">Date: </label>
 <label>${usdRate.date}</label>
 
 <p></p>
 <p></p>
 
-<label>Валюта: </label>
+<label>Currency: </label>
 <label>${usdRate.name}</label>
 <br>
-<label>Курс к рублю: </label>
+<label>Rate to BYN: </label>
 <label>${usdRate.rate}</label>
 
 <p></p>
 <p></p>
 
-<label>Валюта: </label>
+<label>Currency: </label>
 <label>${eurRate.name}</label>
 <br>
-<label>Курс к рублю: </label>
+<label>Rate to BYN: </label>
 <label>${eurRate.rate}</label>
 
 <p></p>

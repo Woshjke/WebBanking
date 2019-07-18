@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * DTO for BankAccount entity
  */
@@ -14,7 +16,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @EqualsAndHashCode
-public class BankAccountDTO {
+public class BankAccountDTO implements Serializable {
     private Long id;
     private Double money;
     private Long user_id;

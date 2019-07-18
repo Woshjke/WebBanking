@@ -33,26 +33,13 @@ public class TransactionController {
      * Handling request of getting transaction page
      * @return transaction page view
      */
-    @RequestMapping(value = "/transaction", method = RequestMethod.GET)
-    public ModelAndView getTransaction() {
+    @RequestMapping(value = "/transaction", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showTransactionPage() {
         ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
         User user = userService.getAuthenticatedUser();
         mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
         return mnv;
     }
-
-    /**
-     * Handling request of getting transaction page, but POST
-     * @return transaction page view
-     */
-    @RequestMapping(value = "/transaction", method = RequestMethod.POST)
-    public ModelAndView postTransaction() {
-        ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
-        User user = userService.getAuthenticatedUser();
-        mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
-        return mnv;
-    }
-
 
     /**
      * handling transaction request and calls transaction service
