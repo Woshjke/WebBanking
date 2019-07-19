@@ -60,7 +60,12 @@ public class UserAccountService {
             return false;
         }
 
+
         BankAccount sourceBankAccount = bankAccountService.getBankAccountById(selectedBankAccountId);
+        if (sourceBankAccount.getMoney() < moneyToAdd) {
+            return false;
+        }
+
 
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
         if (!isContainsBankAccount(authUserBankAccounts, sourceBankAccount)) {
