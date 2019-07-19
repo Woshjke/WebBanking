@@ -43,11 +43,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/js/**")
                 .addResourceLocations("/WEB-INF/resources/js/").setCachePeriod(31556926);
     }
-
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
 }
