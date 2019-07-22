@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Entity of transaction table
@@ -26,7 +27,6 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Table(name = "transaction")
 public class Transaction implements Serializable {
 
@@ -50,5 +50,21 @@ public class Transaction implements Serializable {
         this.source = source;
         this.destination = destination;
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transaction)) return false;
+        Transaction that = (Transaction) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getSource(), that.getSource()) &&
+                Objects.equals(getDestination(), that.getDestination()) &&
+                Objects.equals(getValue(), that.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getSource(), getDestination(), getValue());
     }
 }

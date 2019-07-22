@@ -6,6 +6,7 @@ import bank.model.entity.User;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.RoleDaoService;
 import bank.services.dbServices.UserDaoService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Getter
 public class AdminAccountService {
 
     private UserDaoService userDaoService;
@@ -35,6 +37,7 @@ public class AdminAccountService {
 
     /**
      * This method returning user object to user update view by selected user id
+     *
      * @param request - request from JSP with needed params (user id)
      * @return user object
      */
@@ -52,6 +55,7 @@ public class AdminAccountService {
 
     /**
      * deleting user, selected in JSP, by calling UserDaoService method
+     *
      * @param request - request form JSP with needed params (user id)
      * @return user was deleted or not
      */
@@ -67,11 +71,20 @@ public class AdminAccountService {
 
     /**
      * Registering user in system by calling UserDaoService method
+     *
      * @param request - request from JSP with needed params (username, password)
      */
-    public void registerUser(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    public boolean registerUser(HttpServletRequest request) {
+        String username;
+        String password;
+
+        try {
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+
         User user = new User();
         user.setUsername(username);
         user.setPassword(new BCryptPasswordEncoder(11).encode(password));
@@ -101,22 +114,36 @@ public class AdminAccountService {
 
         userDaoService.updateUser(user);
         bankAccountService.updateBankAccount(bankAccount);
+
+        return true;
     }
 
     /**
      * Updating user in database by calling UserDaoService method
+     *
      * @param request - request from JSP with needed params (username, password)
      */
-    public void updateUser(HttpServletRequest request) {
-        Long userToUpdateId = Long.parseLong(request.getParameter("id"));
+    public boolean updateUser(HttpServletRequest request) {
+        Long userToUpdateId;
+        String newUsername;
+        String newPassword;
+
+        try {
+            userToUpdateId = Long.parseLong(request.getParameter("id"));
+            newUsername = request.getParameter("username");
+            newPassword = request.getParameter("password");
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+
         User userToUpdate = userDaoService.getUserById(userToUpdateId);
-        String newUsername = request.getParameter("username");
-        String newPassword = request.getParameter("password");
+
         if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
             userToUpdate.setUsername(newUsername);
             userToUpdate.setPassword(newPassword);
             userDaoService.updateUser(userToUpdate);
         }
+        return true;
     }
 
     public boolean addMoney(HttpServletRequest request) {
@@ -130,6 +157,5 @@ public class AdminAccountService {
             return false;
         }
         return true;
-
     }
 }

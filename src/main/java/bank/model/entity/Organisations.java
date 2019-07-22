@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Entity of organisations table
@@ -28,7 +29,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Table(name = "organisations")
 public class Organisations implements Serializable {
 
@@ -42,4 +42,19 @@ public class Organisations implements Serializable {
 
     @OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
     private List<BankAccount> bankAccountList;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Organisations)) return false;
+        Organisations that = (Organisations) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getBankAccountList(), that.getBankAccountList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getBankAccountList());
+    }
 }

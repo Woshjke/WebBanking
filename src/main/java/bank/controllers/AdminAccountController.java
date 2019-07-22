@@ -74,8 +74,11 @@ public class AdminAccountController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public RedirectView doCreateUser(HttpServletRequest request) {
-        adminService.registerUser(request);
-        return new RedirectView(ADMIN_PAGE);
+        if (adminService.registerUser(request)) {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
+        } else {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Failed");
+        }
     }
 
     /**
@@ -100,8 +103,11 @@ public class AdminAccountController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     public RedirectView doUpdateUser(HttpServletRequest request) {
-        adminService.updateUser(request);
-        return new RedirectView(ADMIN_PAGE);
+        if (adminService.updateUser(request)) {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
+        } else {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Failed");
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package bank.services;
 
 import bank.model.entity.BankAccount;
+import bank.model.entity.Role;
 import bank.model.entity.Transaction;
 import bank.model.entity.User;
 import bank.services.dbServices.BankAccountDaoService;
@@ -17,8 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserAccountService {
@@ -43,6 +47,7 @@ public class UserAccountService {
 
     /**
      * This method transfers money from the user account to the organization account
+     *
      * @param request - request form JSP with needed parameters
      * @return was payment completed or not
      */
@@ -68,7 +73,8 @@ public class UserAccountService {
 
 
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
-        if (!isContainsBankAccount(authUserBankAccounts, sourceBankAccount)) {
+
+        if (!authUserBankAccounts.contains(sourceBankAccount)) {
             return false;
         }
 
@@ -91,6 +97,7 @@ public class UserAccountService {
 
     /**
      * This method transfers money direct from the user account to the another user account
+     *
      * @param request - request form JSP with needed parameters
      * @return was transaction completed or not
      */
@@ -98,20 +105,20 @@ public class UserAccountService {
 
         BankAccount sourceBankAccount;
         BankAccount destinationBankAccount;
-        Integer money_value;
+        Integer moneyValue;
 
         try {
             sourceBankAccount = bankAccountService.
                     getBankAccountById(Long.parseLong(request.getParameter("source")));
             destinationBankAccount = bankAccountService.
                     getBankAccountById(Long.parseLong(request.getParameter("destination")));
-            money_value = Integer.parseInt(request.getParameter("value"));
+            moneyValue = Integer.parseInt(request.getParameter("value"));
         } catch (NumberFormatException ex) {
             return false;
         }
 
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
-        if (!isContainsBankAccount(authUserBankAccounts, sourceBankAccount)) {
+        if (!authUserBankAccounts.contains(sourceBankAccount)) {
             return false;
         }
 
@@ -120,20 +127,20 @@ public class UserAccountService {
                     Long.parseLong(request.getParameter("destination")));
             return false;
         }
-        if (money_value > sourceBankAccount.getMoney()) {
+        if (moneyValue > sourceBankAccount.getMoney()) {
             System.out.println("Not enough money!");
             return false;
         }
 
-        sourceBankAccount.takeMoney(money_value);
-        destinationBankAccount.addMoney(money_value);
+        sourceBankAccount.takeMoney(moneyValue);
+        destinationBankAccount.addMoney(moneyValue);
 
         bankAccountService.updateBankAccount(sourceBankAccount);
         bankAccountService.updateBankAccount(destinationBankAccount);
 
         Transaction transaction = new Transaction(sourceBankAccount,
                 destinationBankAccount,
-                money_value);
+                moneyValue);
         transactionDaoService.createTransaction(transaction);
         return true;
     }
@@ -163,25 +170,45 @@ public class UserAccountService {
     }
 
     /**
-     * This method returns authenticated user object form database
+     * This method returns authenticated user object
+     *
      * @return authenticated user object form database
      */
     public User getAuthenticatedUser() {
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User authUser;
+
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }
-        return userDaoService.getUserByUsername(username);
+
+        if (username.equals("anonymousUser")) {
+            authUser = new User();
+            Set<Role> roles = new HashSet<>();
+            roles.add(new Role("ROLE_ANONYMOUS"));
+            authUser.setUsername("anonymous");
+            authUser.setRoles(roles);
+        } else {
+            authUser = userDaoService.getUserByUsername(username);
+        }
+        return authUser;
+    }
+
+    public List<String> getAuthUserRoles() {
+        return getAuthenticatedUser().getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toList());
     }
 
     /**
      * This methods checking if list of bank accounts contains specific bank account
      * list.contains() not working cuz different objects hash
+     *
      * @param bankAccounts - list of bank accounts
-     * @param bankAccount - bank account that we checking
+     * @param bankAccount  - bank account that we checking
      * @return contains list needed bank account or not
      */
     private boolean isContainsBankAccount(List<BankAccount> bankAccounts, BankAccount bankAccount) {
@@ -189,6 +216,7 @@ public class UserAccountService {
         for (BankAccount iter : bankAccounts) {
             if (iter.getId().equals(bankAccount.getId())) {
                 isContainsBankAccount = true;
+                break;
             }
         }
         return isContainsBankAccount;

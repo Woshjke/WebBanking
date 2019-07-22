@@ -1,3 +1,5 @@
+package unit;
+
 import bank.configuration.FrontControllerConfig;
 import bank.configuration.HibernateConfig;
 import bank.configuration.WebMvcConfig;
