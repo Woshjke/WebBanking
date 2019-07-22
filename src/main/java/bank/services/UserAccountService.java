@@ -68,7 +68,8 @@ public class UserAccountService {
         BankAccount sourceBankAccount = bankAccountService.getBankAccountById(selectedBankAccountId);
 
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
-        if (!isContainsBankAccount(authUserBankAccounts, sourceBankAccount)) {
+
+        if (!authUserBankAccounts.contains(sourceBankAccount)) {
             return false;
         }
 
@@ -99,20 +100,20 @@ public class UserAccountService {
 
         BankAccount sourceBankAccount;
         BankAccount destinationBankAccount;
-        Integer money_value;
+        Integer moneyValue;
 
         try {
             sourceBankAccount = bankAccountService.
                     getBankAccountById(Long.parseLong(request.getParameter("source")));
             destinationBankAccount = bankAccountService.
                     getBankAccountById(Long.parseLong(request.getParameter("destination")));
-            money_value = Integer.parseInt(request.getParameter("value"));
+            moneyValue = Integer.parseInt(request.getParameter("value"));
         } catch (NumberFormatException ex) {
             return false;
         }
 
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
-        if (!isContainsBankAccount(authUserBankAccounts, sourceBankAccount)) {
+        if (!authUserBankAccounts.contains(sourceBankAccount)) {
             return false;
         }
 
@@ -121,20 +122,20 @@ public class UserAccountService {
                     Long.parseLong(request.getParameter("destination")));
             return false;
         }
-        if (money_value > sourceBankAccount.getMoney()) {
+        if (moneyValue > sourceBankAccount.getMoney()) {
             System.out.println("Not enough money!");
             return false;
         }
 
-        sourceBankAccount.takeMoney(money_value);
-        destinationBankAccount.addMoney(money_value);
+        sourceBankAccount.takeMoney(moneyValue);
+        destinationBankAccount.addMoney(moneyValue);
 
         bankAccountService.updateBankAccount(sourceBankAccount);
         bankAccountService.updateBankAccount(destinationBankAccount);
 
         Transaction transaction = new Transaction(sourceBankAccount,
                 destinationBankAccount,
-                money_value);
+                moneyValue);
         transactionDaoService.createTransaction(transaction);
         return true;
     }
@@ -172,11 +173,13 @@ public class UserAccountService {
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User authUser;
+
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }
+
         if (username.equals("anonymousUser")) {
             authUser = new User();
             Set<Role> roles = new HashSet<>();
@@ -208,6 +211,7 @@ public class UserAccountService {
         for (BankAccount iter : bankAccounts) {
             if (iter.getId().equals(bankAccount.getId())) {
                 isContainsBankAccount = true;
+                break;
             }
         }
         return isContainsBankAccount;

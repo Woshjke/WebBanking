@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Entity of bank_account table
@@ -26,7 +27,6 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Table(name = "bank_account")
 public class BankAccount implements Serializable {
 
@@ -54,5 +54,21 @@ public class BankAccount implements Serializable {
     public void takeMoney(Integer money) {
         double targetMoney = getMoney() - money;
         this.setMoney(targetMoney);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BankAccount)) return false;
+        BankAccount that = (BankAccount) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getMoney(), that.getMoney()) &&
+                Objects.equals(getUser(), that.getUser()) &&
+                Objects.equals(getOrganisation(), that.getOrganisation());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getMoney(), getUser(), getOrganisation());
     }
 }
