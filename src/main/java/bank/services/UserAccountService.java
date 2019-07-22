@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserAccountService {
-
     private OrganisationDaoService organisationService;
     private UserDaoService userDaoService;
     private BankAccountDaoService bankAccountService;
@@ -52,7 +51,6 @@ public class UserAccountService {
      * @return was payment completed or not
      */
     public boolean doPayment(HttpServletRequest request) {
-
         Long selectedOrgId;
         Integer moneyToAdd;
         Long selectedBankAccountId;
@@ -65,12 +63,10 @@ public class UserAccountService {
             return false;
         }
 
-
         BankAccount sourceBankAccount = bankAccountService.getBankAccountById(selectedBankAccountId);
         if (sourceBankAccount.getMoney() < moneyToAdd) {
             return false;
         }
-
 
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
 
@@ -102,7 +98,6 @@ public class UserAccountService {
      * @return was transaction completed or not
      */
     public boolean doTransaction(HttpServletRequest request) {
-
         BankAccount sourceBankAccount;
         BankAccount destinationBankAccount;
         Integer moneyValue;
@@ -202,24 +197,4 @@ public class UserAccountService {
                 .map(Role::getName)
                 .collect(Collectors.toList());
     }
-
-    /**
-     * This methods checking if list of bank accounts contains specific bank account
-     * list.contains() not working cuz different objects hash
-     *
-     * @param bankAccounts - list of bank accounts
-     * @param bankAccount  - bank account that we checking
-     * @return contains list needed bank account or not
-     */
-    private boolean isContainsBankAccount(List<BankAccount> bankAccounts, BankAccount bankAccount) {
-        boolean isContainsBankAccount = false;
-        for (BankAccount iter : bankAccounts) {
-            if (iter.getId().equals(bankAccount.getId())) {
-                isContainsBankAccount = true;
-                break;
-            }
-        }
-        return isContainsBankAccount;
-    }
-
 }
