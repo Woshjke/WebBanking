@@ -7,7 +7,7 @@
     <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
     <property name="connection.driver_class=">org.postgresql.Driver</property>
     <property name="connection.username">postgres</property>
-    <property name="connection.password">Zvashkevich1999</property>
+    <property name="connection.password">localpwd</property>
 
     <property name="hibernate.connection.characterEncoding">utf8</property>
 

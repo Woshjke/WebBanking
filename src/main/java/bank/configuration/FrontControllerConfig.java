@@ -12,7 +12,6 @@ public class FrontControllerConfig extends AbstractAnnotationConfigDispatcherSer
         return new Class[]{
                 WebMvcConfig.class,
                 HibernateConfig.class,
-                SecurityConfig.class
         };
     }
 
