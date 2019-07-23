@@ -2,7 +2,6 @@ package bank.controllers;
 
 import bank.model.entity.User;
 import bank.services.UserAccountService;
-import org.apache.tomcat.util.buf.Utf8Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

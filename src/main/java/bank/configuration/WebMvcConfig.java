@@ -15,11 +15,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
+        "bank",
         "bank.controllers",
-        "bank.model",
         "bank.model.entity",
         "bank.model.dao",
+        "bank.model.dto",
         "bank.services",
+        "bank.services.dbServices",
+        "bank.services.responses",
         "bank.configuration"
 })
 

@@ -59,7 +59,7 @@
 
     <p></p>
 
-    <button id="getCurrencyButton" class="btn btn-primary">Get Currency</button>
+    <button id="getCurrencyButton" class="btn btn-primary">Get Currency Rate</button>
 
     <p></p>
 

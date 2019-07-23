@@ -43,11 +43,8 @@ public class HibernateConfig {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        //dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         dataSource.setUrl(applicationProperties.getProperty("database.url"));
-        //dataSource.setUsername("postgres");
         dataSource.setUsername(applicationProperties.getProperty("database.username"));
-        //dataSource.setPassword("Zvashkevich1999");
         dataSource.setPassword(applicationProperties.getProperty("database.password"));
 
         return dataSource;
@@ -57,7 +54,6 @@ public class HibernateConfig {
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
-
         return transactionManager;
     }
 
@@ -68,7 +64,6 @@ public class HibernateConfig {
                 "hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         hibernateProperties.setProperty("hibernate.show_sql", "true");
         hibernateProperties.setProperty("hibernate.default_schema", "mydatabase");
-
         return hibernateProperties;
     }
 }
