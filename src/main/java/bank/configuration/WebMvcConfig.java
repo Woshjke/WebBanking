@@ -14,17 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {
-        "bank",
-        "bank.controllers",
-        "bank.model.entity",
-        "bank.model.dao",
-        "bank.model.dto",
-        "bank.services",
-        "bank.services.dbServices",
-        "bank.services.responses",
-        "bank.configuration"
-})
+@ComponentScan(basePackages = "bank")
 
 public class WebMvcConfig implements WebMvcConfigurer {
 

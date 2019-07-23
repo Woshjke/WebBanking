@@ -158,4 +158,21 @@ public class AdminAccountService {
         }
         return true;
     }
+
+    public boolean addBankAccount(HttpServletRequest request) {
+        Long selectedUserID;
+        try {
+            selectedUserID = Long.valueOf(request.getParameter("selectedUser"));
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+        User user = userDaoService.getUserById(selectedUserID);
+        BankAccount newBankAccount = new BankAccount();
+        newBankAccount.setMoney(0.0);
+        newBankAccount.setUser(user);
+        bankAccountService.saveBankAccount(newBankAccount);
+        return true;
+    }
+
+
 }

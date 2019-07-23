@@ -51,10 +51,11 @@ public class UserAccountService {
      * @return was payment completed or not
      */
     public boolean doPayment(HttpServletRequest request) {
-        Long selectedOrgId;
-        Integer moneyToAdd;
-        Long selectedBankAccountId;
+        Long selectedOrgId; //ID организации, который пользователя отправляет деньги
+        Integer moneyToAdd; //Сколько нужно отправить денег организации
+        Long selectedBankAccountId; //Из какого банковского счета пользователя нужно списывать деньги
 
+        //пробуем получить значения переменных из request-а
         try {
             selectedOrgId = Long.parseLong(request.getParameter("organisation"));
             moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
@@ -63,29 +64,34 @@ public class UserAccountService {
             return false;
         }
 
+        //хватает ли у пользователя денег на счету
         BankAccount sourceBankAccount = bankAccountService.getBankAccountById(selectedBankAccountId);
         if (sourceBankAccount.getMoney() < moneyToAdd) {
             return false;
         }
 
+        //проверка на то, пренадлежит ли найденный аккаунт залогиненному пользователю (тот что производит операцию)
         List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
-
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
             return false;
         }
 
+        //забираем деньги у пользователя
         sourceBankAccount.takeMoney(moneyToAdd);
-        Long userId = organisationService.getOrganisationsById(selectedOrgId)
+
+        //отдаем организации
+        Long orgUserId = organisationService.getOrganisationsById(selectedOrgId)
                 .getBankAccountList().get(0)
                 .getUser().getId();
-
-        User user = userDaoService.getUserById(userId);
-        BankAccount orgBankAccount = new ArrayList<>(user.getBankAccounts()).get(0);
+        User orgUser = userDaoService.getUserById(orgUserId);
+        BankAccount orgBankAccount = new ArrayList<>(orgUser.getBankAccounts()).get(0);
         orgBankAccount.addMoney(moneyToAdd);
 
+        //создаем запись операции в базе
         Transaction transaction = new Transaction(sourceBankAccount, orgBankAccount, moneyToAdd);
         transactionDaoService.createTransaction(transaction);
 
+        //сохраняем изменения в базе
         bankAccountService.updateBankAccount(sourceBankAccount);
         bankAccountService.updateBankAccount(orgBankAccount);
         return true;
@@ -137,6 +143,19 @@ public class UserAccountService {
                 destinationBankAccount,
                 moneyValue);
         transactionDaoService.createTransaction(transaction);
+        return true;
+    }
+
+    public boolean addOrganisation(HttpServletRequest request) {
+        // TODO: 23.07.2019 Проверить пренадлежит ли аккаунт залогиненому пользователю
+        Long selectedBankAccountID;
+        try {
+            selectedBankAccountID = Long.valueOf(request.getParameter("bankAccount"));
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+        BankAccount bankAccount = bankAccountService.getBankAccountById(selectedBankAccountID);
+
         return true;
     }
 
