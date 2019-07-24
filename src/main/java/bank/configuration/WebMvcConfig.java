@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "bank")
+@ComponentScan(basePackages = {"bank"})
 
 public class WebMvcConfig implements WebMvcConfigurer {
 

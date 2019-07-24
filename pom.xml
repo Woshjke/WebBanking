@@ -15,6 +15,11 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.1.0</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -220,6 +225,12 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>3.0.5</version>
         </dependency>
 
     </dependencies>

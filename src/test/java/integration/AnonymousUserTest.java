@@ -36,7 +36,7 @@ public class AnonymousUserTest {
     }
 
     @Test
-    public void AuthTest() throws Exception {
+    public void authTest() throws Exception {
         mockMvc.perform(formLogin().user("user").password("user"))
                 .andExpect(status().isOk());
     }

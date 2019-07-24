@@ -34,56 +34,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-//    @Override
-//    protected void configure(final HttpSecurity http) throws Exception {
-//            http
-//                    .csrf().disable()
-//                    .authorizeRequests()
-//                        .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers("/admin/**").hasRole("ADMIN")
-//                        .antMatchers("/login").permitAll()
-//                        .antMatchers("/home_page").permitAll()
-//                        //.antMatchers("/").permitAll()
-//                        .antMatchers("/logout").permitAll()
-//                    .and()
-//                    .formLogin()
-//                        .loginPage("/login")
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
-//                        .loginProcessingUrl("/process_login")
-//                        .failureUrl("/login?error=true")
-//                        .defaultSuccessUrl("/user/user_page")
-//                    .and()
-//                    .logout()
-//                        .logoutUrl("/process_logout")
-//                        .logoutSuccessUrl("/login")
-//                        .deleteCookies("JSESSIONID")
-//                    ;
-//
-//    }
-    
-
-  @Override
-  protected void configure(final HttpSecurity http) throws Exception {
-	  http
-      .csrf().disable()
-      .authorizeRequests()
-      .antMatchers("/admin/**").hasRole("ADMIN")
-      .antMatchers("/login*").permitAll()
-      .anyRequest().authenticated()
-      .and()
-      .formLogin()
-      .loginPage("/login")
-      .loginProcessingUrl("/process_login")
-				.defaultSuccessUrl("/success", true)
-      .failureUrl("/login?error=true")
-      .and()
-      .logout()
-      .logoutUrl("/perform_logout")
-      .deleteCookies("JSESSIONID");
-  }
-
-    
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/login").permitAll()
+                .antMatchers("/home_page").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .loginProcessingUrl("/process_login")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/user/user_page", true)
+                .and()
+                .logout()
+                .logoutUrl("/process_logout")
+                .logoutSuccessUrl("/login")
+                .deleteCookies("JSESSIONID");
+    }
 }
 
 

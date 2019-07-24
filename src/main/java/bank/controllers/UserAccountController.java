@@ -64,18 +64,4 @@ public class UserAccountController {
 		responseHeaders.setCacheControl("no-cache, max-age=0");
 		return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
 	}
-
-	/**
-	 * Redirection empty url to user page
-	 *
-	 * @return redirect to user page
-	 */
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public RedirectView redirectToUserPage() {
-//		if (SecurityContextHolder.getContext().getAuthentication() != null) {
-//			return new RedirectView(USER_PAGE);
-//		} else {
-//			return new RedirectView("/");
-//		}
-//	}
 }

@@ -4,9 +4,11 @@ import bank.configuration.FrontControllerConfig;
 import bank.configuration.HibernateConfig;
 import bank.configuration.WebMvcConfig;
 import bank.model.entity.User;
+import bank.services.UserAccountService;
 import bank.services.dbServices.UserDaoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,13 +26,15 @@ import java.util.List;
 @WebAppConfiguration
 public class GetUserTest {
 
+    @Mock
+    private UserAccountService service;
+
     @Autowired
     UserDaoService userService;
 
     @Test
     public void testGetUser() {
-//        List<User> userList = userService.getUsers();
-//        assertEquals("DB is not empty ?", 2, userList.size());
+
     }
 
 }

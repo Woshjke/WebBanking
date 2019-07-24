@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +29,8 @@ import static bank.ApplicationProperties.READ_BANK_ACCOUNTS;
 import static bank.ApplicationProperties.READ_USERS_PAGE;
 import static bank.ApplicationProperties.UPDATE_USER_PAGE;
 
-
 /**
- * Admin features controller
+ * Admin features controller.
  */
 @RestController
 @RequestMapping(value = "/admin")

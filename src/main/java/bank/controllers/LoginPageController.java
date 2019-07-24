@@ -36,8 +36,8 @@ public class LoginPageController {
      * Redirecting empty url to user page
      * @return user page view
      */
-//    @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
-//    public ModelAndView redirectToUserPage() {
-//        return new ModelAndView(new RedirectView("user/" + USER_PAGE));
-//    }
+    @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView redirectToUserPage() {
+        return new ModelAndView(new RedirectView("user/" + USER_PAGE));
+    }
 }

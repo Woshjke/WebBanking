@@ -42,7 +42,7 @@ public class HibernateConfig {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setDriverClassName(applicationProperties.getProperty("database.driver"));
         dataSource.setUrl(applicationProperties.getProperty("database.url"));
         dataSource.setUsername(applicationProperties.getProperty("database.username"));
         dataSource.setPassword(applicationProperties.getProperty("database.password"));
@@ -60,10 +60,12 @@ public class HibernateConfig {
 
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(
-                "hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
-        //hibernateProperties.setProperty("hibernate.default_schema", "mydatabase");
+        hibernateProperties.setProperty("hibernate.dialect",
+                applicationProperties.getProperty("hibernate.dialect"));
+        hibernateProperties.setProperty("hibernate.show_sql",
+                applicationProperties.getProperty("hibernate.show_sql"));
+        hibernateProperties.setProperty("hibernate.default_schema",
+                applicationProperties.getProperty("hibernate.default_schema"));
         return hibernateProperties;
     }
 }
