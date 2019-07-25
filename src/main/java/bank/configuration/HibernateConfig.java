@@ -2,8 +2,10 @@ package bank.configuration;
 
 import bank.ApplicationProperties;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -28,6 +30,7 @@ public class HibernateConfig {
     private ApplicationProperties applicationProperties = new ApplicationProperties();
 
     @Bean
+    @DependsOn("flyway")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean sessionFactory = new LocalContainerEntityManagerFactoryBean();
         sessionFactory.setDataSource(dataSource());
@@ -37,6 +40,11 @@ public class HibernateConfig {
         sessionFactory.setJpaProperties(hibernateProperties());
 
         return sessionFactory;
+    }
+
+    @Bean(initMethod = "migrate")
+    Flyway flyway() {
+        return Flyway.configure().dataSource(dataSource()).baselineOnMigrate(true).load();
     }
 
     @Bean
@@ -64,8 +72,8 @@ public class HibernateConfig {
                 applicationProperties.getProperty("hibernate.dialect"));
         hibernateProperties.setProperty("hibernate.show_sql",
                 applicationProperties.getProperty("hibernate.show_sql"));
-        hibernateProperties.setProperty("hibernate.default_schema",
-                applicationProperties.getProperty("hibernate.default_schema"));
+//        hibernateProperties.setProperty("hibernate.default_schema",
+//                applicationProperties.getProperty("hibernate.default_schema"));
         return hibernateProperties;
     }
 }

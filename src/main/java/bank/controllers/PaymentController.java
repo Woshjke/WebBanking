@@ -7,6 +7,7 @@ import bank.services.UserAccountService;
 import bank.services.dbServices.OrganisationDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -62,5 +63,10 @@ public class PaymentController {
         } else {
             return new RedirectView(USER_PAGE + "?resultMessage=Payment completed");
         }
+    }
+
+    @ModelAttribute(value = "user")
+    User getNewUser(){
+        return new User();
     }
 }

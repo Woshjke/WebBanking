@@ -51,21 +51,21 @@ public class UserAccountService {
      * @return was payment completed or not
      */
     public boolean doPayment(HttpServletRequest request) {
-        Long selectedOrgId; //ID организации, который пользователя отправляет деньги
+        Long targetOrganisationId; //ID организации, для которой пользователя отправляет деньги
         Integer moneyToAdd; //Сколько нужно отправить денег организации
-        Long selectedBankAccountId; //Из какого банковского счета пользователя нужно списывать деньги
+        Long sourceBankAccountId; //Из какого банковского счета пользователя нужно списывать деньги
 
         //пробуем получить значения переменных из request-а
         try {
-            selectedOrgId = Long.parseLong(request.getParameter("organisation"));
+            targetOrganisationId = Long.parseLong(request.getParameter("organisation"));
             moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
-            selectedBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
+            sourceBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
         } catch (NumberFormatException ex) {
             return false;
         }
-
+        //todo проверить на минус
         //хватает ли у пользователя денег на счету
-        BankAccount sourceBankAccount = bankAccountService.getBankAccountById(selectedBankAccountId);
+        BankAccount sourceBankAccount = bankAccountService.getBankAccountById(sourceBankAccountId);
         if (sourceBankAccount.getMoney() < moneyToAdd) {
             return false;
         }
@@ -80,11 +80,9 @@ public class UserAccountService {
         sourceBankAccount.takeMoney(moneyToAdd);
 
         //отдаем организации
-        Long orgUserId = organisationService.getOrganisationsById(selectedOrgId)
-                .getBankAccountList().get(0)
-                .getUser().getId();
-        User orgUser = userDaoService.getUserById(orgUserId);
-        BankAccount orgBankAccount = new ArrayList<>(orgUser.getBankAccounts()).get(0);
+        //todo поменить аккаунт для входящих денег флагом. useForDefaultIncomingPayment
+        BankAccount orgBankAccount = organisationService.getOrganisationsById(targetOrganisationId)
+                .getBankAccountList().get(0);
         orgBankAccount.addMoney(moneyToAdd);
 
         //создаем запись операции в базе

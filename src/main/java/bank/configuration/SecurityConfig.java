@@ -1,5 +1,6 @@
 package bank.configuration;
 
+import bank.controllers.RequestParameter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -49,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .loginProcessingUrl("/process_login")
-                .failureUrl("/login?error=true")
+                .failureUrl("/login?error=" + RequestParameter.TRUE.getValue())
                 .defaultSuccessUrl("/user/user_page", true)
                 .and()
                 .logout()

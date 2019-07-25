@@ -112,28 +112,28 @@ alter table usr_role
 create unique index usr_role_id_uindex
     on usr_role (id);
 
-INSERT INTO "roles" ("id", "name")
-VALUES (1, 'ROLE_USER'),
-       (2, 'ROLE_ADMIN');
+INSERT INTO "roles" ("name")
+VALUES ('ROLE_USER'),
+       ('ROLE_ADMIN');
 
-INSERT INTO "usr" ("id", "username", "pass")
-VALUES (2, 'user', E'$2a$11$ow2sj0B3c506jyUXMaaoku2Ie2PBSmEIKnMxGg14qsY5ZByI8Fs2S'),
-       (42, 'user1', E'$2a$11$.rKH6L6OTtX/Orv/CyZA1.u7oSgbqCLUCFBCOqfu3vLGtfNbjswb6'),
-       (1, 'admin', E'$2a$11$78oD6dK9CfB.5OX7Nzajpexpbz04K/N2TbK2vm.IwELlpd1.fATk2'),
-       (3, 'apple', E'$2a$11$tJRoIbBcMHuqs/tSOXSzSuJjlXXlsIevsV7oJGMzrdqOX9/lPgRne');
+INSERT INTO "usr" ("username", "pass")
+VALUES ('user', '$2a$11$ow2sj0B3c506jyUXMaaoku2Ie2PBSmEIKnMxGg14qsY5ZByI8Fs2S'),
+       ('user1', '$2a$11$.rKH6L6OTtX/Orv/CyZA1.u7oSgbqCLUCFBCOqfu3vLGtfNbjswb6'),
+       ('admin', '$2a$11$78oD6dK9CfB.5OX7Nzajpexpbz04K/N2TbK2vm.IwELlpd1.fATk2'),
+       ('apple', '$2a$11$tJRoIbBcMHuqs/tSOXSzSuJjlXXlsIevsV7oJGMzrdqOX9/lPgRne');
 
-INSERT INTO "organisations" ("id", "name")
-VALUES (1, 'Apple');
+INSERT INTO "organisations" ("name")
+VALUES ('Apple');
 
-INSERT INTO "bank_account" ("id", "money", "user_id", "organisation_id")
-VALUES (4, 77121, 2, NULL),
-       (3, 200, 1, NULL),
-       (5, 222679, 3, 1),
-       (21, 100000, 42, NULL);
+INSERT INTO "bank_account" ("money", "user_id", "organisation_id")
+VALUES (100000, 1, NULL),
+       (100000, 2, NULL),
+       (100000, 3, NULL),
+       (100000, 4, 1);
 
-INSERT INTO "usr_role" ("id", "user_id", "role_id")
-VALUES (1, 1, 2),
-       (3, 3, 1),
-       (2, 2, 1),
-       (28, 42, 1);
+INSERT INTO "usr_role" ("user_id", "role_id")
+VALUES (1, 1),
+       (2, 1),
+       (3, 2),
+       (4, 1);
 

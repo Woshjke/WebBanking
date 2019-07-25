@@ -28,5 +28,4 @@ public class HomeController {
         mnv.addObject("userRoles", roles);
         return mnv;
     }
-
 }

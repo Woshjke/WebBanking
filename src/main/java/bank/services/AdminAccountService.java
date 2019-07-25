@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@Getter
 public class AdminAccountService {
 
     private UserDaoService userDaoService;

@@ -196,6 +196,7 @@ public class AdminAccountController {
         }
     }
 
+
     /**
      * Handling AJAX call form bank accounts reading view
      * @param username - specific username in

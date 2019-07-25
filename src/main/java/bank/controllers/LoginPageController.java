@@ -16,7 +16,6 @@ import static bank.ApplicationProperties.USER_PAGE;
  */
 @Controller
 public class LoginPageController {
-
     /**
      *
      * @param request - request with auth error from Spring Security
@@ -26,7 +25,7 @@ public class LoginPageController {
     public ModelAndView showLoginPage(HttpServletRequest request) {
         ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
         String isError = request.getParameter("error");
-        if ("true".equals(isError)) {
+        if (RequestParameter.TRUE.getValue().equals(isError)) {
             mnv.addObject("errorMessage", "Wrong credentials");
         }
         return mnv;

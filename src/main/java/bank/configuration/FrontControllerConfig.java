@@ -19,9 +19,7 @@ public class FrontControllerConfig extends AbstractAnnotationConfigDispatcherSer
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{
-                WebMvcConfig.class
-        };
+        return null;
     }
 
     @Override
