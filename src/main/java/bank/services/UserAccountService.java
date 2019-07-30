@@ -31,7 +31,6 @@ public class UserAccountService {
     private BankAccountDaoService bankAccountService;
     private TransactionDaoService transactionDaoService;
     private AuthenticationHelper authenticationHelper;
-    private RequestValidator requestValidator;
 
     private static final String NBRB_RATES_URL = "http://www.nbrb.by/API/ExRates/Rates/";
 
@@ -39,13 +38,11 @@ public class UserAccountService {
     public UserAccountService(OrganisationDaoService organisationService,
                               BankAccountDaoService bankAccountService,
                               TransactionDaoService transactionDaoService,
-                              AuthenticationHelper authenticationHelper,
-                              RequestValidator requestValidator) {
+                              AuthenticationHelper authenticationHelper) {
         this.organisationService = organisationService;
         this.bankAccountService = bankAccountService;
         this.transactionDaoService = transactionDaoService;
         this.authenticationHelper = authenticationHelper;
-        this.requestValidator = requestValidator;
     }
 
     /**

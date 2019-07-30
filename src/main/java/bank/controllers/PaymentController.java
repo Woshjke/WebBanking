@@ -5,6 +5,7 @@ import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Organisations;
 import bank.model.entity.User;
+import bank.services.AdminAccountService;
 import bank.services.UserAccountService;
 import bank.services.dbServices.OrganisationDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,17 @@ public class PaymentController {
     private OrganisationDaoService organisationService;
     private AuthenticationHelper authenticationHelper;
     private RequestValidator requestValidator;
+    private UserAccountService userAccountService;
 
     @Autowired
     public PaymentController(OrganisationDaoService organisationService,
                              AuthenticationHelper authenticationHelper,
-                             RequestValidator requestValidator) {
+                             RequestValidator requestValidator,
+                             UserAccountService userAccountService) {
         this.organisationService = organisationService;
         this.authenticationHelper = authenticationHelper;
         this.requestValidator = requestValidator;
+        this.userAccountService = userAccountService;
     }
 
     /**
@@ -67,6 +71,7 @@ public class PaymentController {
 
         try {
             requestValidator.isValidPayment(request);
+            userAccountService.doPayment(request);
             return new RedirectView(USER_PAGE + "?resultMessage=Payment completed");
         } catch (Exception ex) {
             return new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage());
