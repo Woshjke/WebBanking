@@ -26,7 +26,7 @@
     <p></p>
     <p></p>
     <label for="username" style="color: white">Username</label>
-    <input id="username" name="username" type="text" class="form-text text-input">
+    <input id="username" name="username" type="text" class="input-group-text">
     <p></p>
     <button id="getAllUsers" type="button" onclick="" class="btn btn-outline-primary">Get Users</button>
 </div>

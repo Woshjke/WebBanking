@@ -28,11 +28,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/css/**")
+        registry.addResourceHandler("/css/**")
                 .addResourceLocations("/WEB-INF/resources/css/").setCachePeriod(31556926);
-        registry.addResourceHandler("/resources/img/**")
+        registry.addResourceHandler("/img/**")
                 .addResourceLocations("/WEB-INF/resources/img/").setCachePeriod(31556926);
-        registry.addResourceHandler("/resources/js/**")
+        registry.addResourceHandler("/js/**")
                 .addResourceLocations("/WEB-INF/resources/js/").setCachePeriod(31556926);
     }
 }

@@ -1,6 +1,5 @@
 package bank.services.dbServices;
 
-import bank.model.dao.BankAccountRepository;
 import bank.model.dao.UserRepository;
 import bank.model.dto.BankAccountDTO;
 import bank.model.dto.UserDTO;
@@ -18,13 +17,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserDaoService {
 
-    private UserRepository userDao;
-    private BankAccountRepository bankAccountRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserDaoService(UserRepository userDao, BankAccountRepository bankAccountRepository) {
-        this.userDao = userDao;
-        this.bankAccountRepository = bankAccountRepository;
+    public UserDaoService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     /**
@@ -32,7 +29,7 @@ public class UserDaoService {
      * @param user - user object to save
      */
     public void createUser(User user) {
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     /**
@@ -40,7 +37,7 @@ public class UserDaoService {
      * @return list of users
      */
     public List<User> getUsers() {
-        return (List<User>) userDao.findAll();
+        return (List<User>) userRepository.findAll();
     }
 
     /**
@@ -49,7 +46,7 @@ public class UserDaoService {
      * @return user object
      */
     public User getUserById(Long id) {
-        return userDao.findById(id);
+        return userRepository.findById(id);
     }
 
     /**
@@ -57,19 +54,19 @@ public class UserDaoService {
      * @param username - user username
      * @return user object
      */
-    public User getUserByUsername(String username) {return userDao.findByUsername(username);}
+    public User getUserByUsername(String username) {return userRepository.findByUsername(username);}
 
     /**
      * Updating user in database and, if password was changed, hashing password
      * @param user - user to update
      */
     public void updateUser(User user) {
-        User userInDB = userDao.findById(user.getId());
+        User userInDB = userRepository.findById(user.getId());
         if (!userInDB.getPassword().equals(user.getPassword())) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
             user.setPassword(encoder.encode(user.getPassword()));
         }
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     /**
@@ -77,7 +74,7 @@ public class UserDaoService {
      * @param user - user to delete
      */
     public void deleteUser(User user) {
-        userDao.delete(user);
+        userRepository.delete(user);
     }
 
     /**
@@ -85,7 +82,7 @@ public class UserDaoService {
      * @return list of user DTOs
      */
     public List<UserDTO> getUserDtoList() {
-        List<User> users = (List<User>) userDao.findAll();
+        List<User> users = (List<User>) userRepository.findAll();
         return users.stream()
                 .map(i -> new UserDTO(i.getId(), i.getUsername(), i.getPassword()))
                 .collect(Collectors.toList());
@@ -97,20 +94,8 @@ public class UserDaoService {
      * @return user DTO
      */
     public UserDTO getUserDtoByUsername(String username) {
-        User user = userDao.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         return new UserDTO(user.getId(), user.getUsername(), user.getPassword());
-    }
-
-    /**
-     * This method getting list of bank accounts form database and converting it to list of bank accounts DTOs
-     * @return list of bank accounts DTOs
-     */
-    public List<BankAccountDTO> getBankAccountDTOList() {
-        List<BankAccount> bankAccounts = (List<BankAccount>) bankAccountRepository.findAll();
-        return bankAccounts.stream()
-                .map(i -> new BankAccountDTO(i.getId(),
-                                             i.getMoney()))
-                .collect(Collectors.toList());
     }
 
     /**
@@ -120,7 +105,7 @@ public class UserDaoService {
      * @return list of bank accounts DTO
      */
     public List<BankAccountDTO> getBankAccountsByUsername(String username) {
-        User user = userDao.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         List<BankAccount> userBankAccounts = user.getBankAccounts();
         return userBankAccounts.stream()
                 .map(i -> new BankAccountDTO(i.getId(),

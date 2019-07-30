@@ -1,30 +1,35 @@
 package bank.services.dbServices;
 
 import bank.model.dao.BankAccountRepository;
+import bank.model.dto.BankAccountDTO;
 import bank.model.entity.BankAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class BankAccountDaoService {
 
-    private final BankAccountRepository bankAccountDao;
+    private final BankAccountRepository bankAccountRepository;
+    private final UserDaoService userDaoService;
 
     @Autowired
-    public BankAccountDaoService(BankAccountRepository bankAccountDao) {
-        this.bankAccountDao = bankAccountDao;
+    public BankAccountDaoService(BankAccountRepository bankAccountRepository, UserDaoService userDaoService) {
+        this.bankAccountRepository = bankAccountRepository;
+        this.userDaoService = userDaoService;
     }
+
 
     /**
      * Saving/updating bank account to database
      * @param bankAccount - bank account to save/update
      */
     public void saveBankAccount(BankAccount bankAccount) {
-        bankAccountDao.save(bankAccount);
+        bankAccountRepository.save(bankAccount);
     }
 
     /**
@@ -32,7 +37,7 @@ public class BankAccountDaoService {
      * @return list of bank accounts
      */
     public List<BankAccount> getAllBankAccounts() {
-        return (List<BankAccount>) bankAccountDao.findAll();
+        return (List<BankAccount>) bankAccountRepository.findAll();
     }
 
     /**
@@ -41,7 +46,7 @@ public class BankAccountDaoService {
      * @return bank account object
      */
     public BankAccount getBankAccountById(Long id) {
-        return bankAccountDao.findById(id);
+        return bankAccountRepository.findById(id);
     }
 
     /**
@@ -50,7 +55,7 @@ public class BankAccountDaoService {
      * @return list of user bank accounts
      */
     public List<BankAccount> getBankAccountsByUserId(long id) {
-        return bankAccountDao.getAllByUserId(id);
+        return bankAccountRepository.getAllByUserId(id);
     }
 
     /**
@@ -59,7 +64,7 @@ public class BankAccountDaoService {
      */
     public void updateBankAccount(BankAccount bankAccount) {
         //todo need to be deleted
-        bankAccountDao.save(bankAccount);
+        bankAccountRepository.save(bankAccount);
     }
 
     /**
@@ -67,6 +72,30 @@ public class BankAccountDaoService {
      * @param bankAccount - bank account to delete
      */
     public void deleteBankAccount(BankAccount bankAccount) {
-        bankAccountDao.delete(bankAccount);
+        bankAccountRepository.delete(bankAccount);
+    }
+
+    /**
+     * This method getting list of bank accounts form database and converting it to list of bank accounts DTOs
+     * @return list of bank accounts DTOs
+     */
+    public List<BankAccountDTO> getBankAccountDTOList() {
+        List<BankAccount> bankAccounts = (List<BankAccount>) bankAccountRepository.findAll();
+        return bankAccounts.stream()
+                .map(i -> new BankAccountDTO(i.getId(),
+                        i.getMoney()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * This method getting list of bank accounts form database and converting it to list of bank accounts DTOs
+     * @return list of bank accounts DTOs
+     */
+    public List<BankAccountDTO> getUserBankAccountDTOS(long userId){
+        List<BankAccount> bankAccounts = bankAccountRepository.findByUserId(userId);
+        return bankAccounts.stream()
+                .map(i -> new BankAccountDTO(i.getId(),
+                        i.getMoney()))
+                .collect(Collectors.toList());
     }
 }

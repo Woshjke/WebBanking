@@ -4,7 +4,8 @@ create table usr
         constraint user_pk
             primary key,
     username varchar(15)  not null,
-    pass     varchar(100) not null
+    pass     varchar(100) not null,
+    status   varchar(10)  not null
 );
 
 alter table usr
@@ -116,11 +117,11 @@ INSERT INTO "roles" ("name")
 VALUES ('ROLE_USER'),
        ('ROLE_ADMIN');
 
-INSERT INTO "usr" ("username", "pass")
-VALUES ('user', '$2a$11$ow2sj0B3c506jyUXMaaoku2Ie2PBSmEIKnMxGg14qsY5ZByI8Fs2S'),
-       ('user1', '$2a$11$.rKH6L6OTtX/Orv/CyZA1.u7oSgbqCLUCFBCOqfu3vLGtfNbjswb6'),
-       ('admin', '$2a$11$78oD6dK9CfB.5OX7Nzajpexpbz04K/N2TbK2vm.IwELlpd1.fATk2'),
-       ('apple', '$2a$11$tJRoIbBcMHuqs/tSOXSzSuJjlXXlsIevsV7oJGMzrdqOX9/lPgRne');
+INSERT INTO "usr" ("username", "pass", "status")
+VALUES ('user', '$2a$11$ow2sj0B3c506jyUXMaaoku2Ie2PBSmEIKnMxGg14qsY5ZByI8Fs2S', 'active'),
+       ('user1', '$2a$11$.rKH6L6OTtX/Orv/CyZA1.u7oSgbqCLUCFBCOqfu3vLGtfNbjswb6', 'active'),
+       ('admin', '$2a$11$78oD6dK9CfB.5OX7Nzajpexpbz04K/N2TbK2vm.IwELlpd1.fATk2', 'active'),
+       ('apple', '$2a$11$tJRoIbBcMHuqs/tSOXSzSuJjlXXlsIevsV7oJGMzrdqOX9/lPgRne', 'active');
 
 INSERT INTO "organisations" ("name")
 VALUES ('Apple');

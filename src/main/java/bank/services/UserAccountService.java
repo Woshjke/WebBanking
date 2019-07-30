@@ -1,5 +1,7 @@
 package bank.services;
 
+import bank.AuthenticationHelper;
+import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Role;
 import bank.model.entity.Transaction;
@@ -17,7 +19,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -27,72 +28,53 @@ import java.util.stream.Collectors;
 @Service
 public class UserAccountService {
     private OrganisationDaoService organisationService;
-    private UserDaoService userDaoService;
     private BankAccountDaoService bankAccountService;
     private TransactionDaoService transactionDaoService;
+    private AuthenticationHelper authenticationHelper;
+    private RequestValidator requestValidator;
 
-    public static final String NBRB_RATES_URL = "http://www.nbrb.by/API/ExRates/Rates/";
+    private static final String NBRB_RATES_URL = "http://www.nbrb.by/API/ExRates/Rates/";
 
     @Autowired
     public UserAccountService(OrganisationDaoService organisationService,
-                              UserDaoService userDaoService,
                               BankAccountDaoService bankAccountService,
-                              TransactionDaoService transactionDaoService) {
+                              TransactionDaoService transactionDaoService,
+                              AuthenticationHelper authenticationHelper,
+                              RequestValidator requestValidator) {
         this.organisationService = organisationService;
-        this.userDaoService = userDaoService;
         this.bankAccountService = bankAccountService;
         this.transactionDaoService = transactionDaoService;
+        this.authenticationHelper = authenticationHelper;
+        this.requestValidator = requestValidator;
     }
 
     /**
      * This method transfers money from the user account to the organization account
      *
      * @param request - request form JSP with needed parameters
-     * @return was payment completed or not
      */
-    public boolean doPayment(HttpServletRequest request) {
-        Long targetOrganisationId; //ID организации, для которой пользователя отправляет деньги
-        Integer moneyToAdd; //Сколько нужно отправить денег организации
-        Long sourceBankAccountId; //Из какого банковского счета пользователя нужно списывать деньги
+    public void doPayment(HttpServletRequest request) {
+            Long targetOrganisationId = Long.parseLong(request.getParameter("organisation"));
+            Integer moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
+            Long sourceBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
 
-        //пробуем получить значения переменных из request-а
-        try {
-            targetOrganisationId = Long.parseLong(request.getParameter("organisation"));
-            moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
-            sourceBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-        //todo проверить на минус
-        //хватает ли у пользователя денег на счету
-        BankAccount sourceBankAccount = bankAccountService.getBankAccountById(sourceBankAccountId);
-        if (sourceBankAccount.getMoney() < moneyToAdd) {
-            return false;
-        }
+            //забираем деньги у пользователя
+            BankAccount sourceBankAccount = bankAccountService.getBankAccountById(sourceBankAccountId);
+            sourceBankAccount.takeMoney(moneyToAdd);
 
-        //проверка на то, пренадлежит ли найденный аккаунт залогиненному пользователю (тот что производит операцию)
-        List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
-        if (!authUserBankAccounts.contains(sourceBankAccount)) {
-            return false;
-        }
+            //отдаем организации
+            //todo поменить аккаунт для входящих денег флагом. useForDefaultIncomingPayment
+            BankAccount orgBankAccount = organisationService.getOrganisationsById(targetOrganisationId)
+                    .getBankAccountList().get(0);
+            orgBankAccount.addMoney(moneyToAdd);
 
-        //забираем деньги у пользователя
-        sourceBankAccount.takeMoney(moneyToAdd);
+            //создаем запись операции в базе
+            Transaction transaction = new Transaction(sourceBankAccount, orgBankAccount, moneyToAdd);
+            transactionDaoService.createTransaction(transaction);
 
-        //отдаем организации
-        //todo поменить аккаунт для входящих денег флагом. useForDefaultIncomingPayment
-        BankAccount orgBankAccount = organisationService.getOrganisationsById(targetOrganisationId)
-                .getBankAccountList().get(0);
-        orgBankAccount.addMoney(moneyToAdd);
-
-        //создаем запись операции в базе
-        Transaction transaction = new Transaction(sourceBankAccount, orgBankAccount, moneyToAdd);
-        transactionDaoService.createTransaction(transaction);
-
-        //сохраняем изменения в базе
-        bankAccountService.updateBankAccount(sourceBankAccount);
-        bankAccountService.updateBankAccount(orgBankAccount);
-        return true;
+            //сохраняем изменения в базе
+            bankAccountService.updateBankAccount(sourceBankAccount);
+            bankAccountService.updateBankAccount(orgBankAccount);
     }
 
     /**
@@ -116,7 +98,7 @@ public class UserAccountService {
             return false;
         }
 
-        List<BankAccount> authUserBankAccounts = getAuthenticatedUser().getBankAccounts();
+        List<BankAccount> authUserBankAccounts = authenticationHelper.getAuthenticatedUser().getBankAccounts();
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
             return false;
         }
@@ -179,39 +161,5 @@ public class UserAccountService {
             e.printStackTrace();
         }
         return json;
-    }
-
-    /**
-     * This method returns authenticated user object
-     *
-     * @return authenticated user object form database
-     */
-    public User getAuthenticatedUser() {
-        String username;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User authUser;
-
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        if (username.equals("anonymousUser")) {
-            authUser = new User();
-            Set<Role> roles = new HashSet<>();
-            roles.add(new Role("ROLE_ANONYMOUS"));
-            authUser.setUsername("anonymous");
-            authUser.setRoles(roles);
-        } else {
-            authUser = userDaoService.getUserByUsername(username);
-        }
-        return authUser;
-    }
-
-    public List<String> getAuthUserRoles() {
-        return getAuthenticatedUser().getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.toList());
     }
 }

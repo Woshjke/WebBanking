@@ -6,7 +6,6 @@ import bank.model.entity.User;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.RoleDaoService;
 import bank.services.dbServices.UserDaoService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -87,7 +86,6 @@ public class AdminAccountService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(new BCryptPasswordEncoder(11).encode(password));
-        user.setPassword(password);
 
         Set<Role> userRoles = new HashSet<>();
         List<Role> roles = roleDaoService.getRoles();

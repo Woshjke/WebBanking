@@ -16,12 +16,12 @@ $(document).ready(
                     $('#getResult ul').empty();
 
                     //Проходимся по коллекции, для каждого объекта создаем строку с его данными и добавляем на экран
-                    $.each(result.data,
+                    $.each(result,
                         function (i, user) {
-                            var resultStr = "Id: "
-                                + user.id + "<br>"
-                                + " Username:  "
-                                + user.username
+                            var resultStr =
+                                " Username: "
+                                + user.user.username
+                                + user.userBankAccounts[0].money
                                 + "<p></p>";
                             $('#getResult .list-group').append(
                                 resultStr)
@@ -31,7 +31,6 @@ $(document).ready(
                     $('#getResult ul').empty();
                     console.log("ERROR: ", e);
                 }
-
             });
         }
     });

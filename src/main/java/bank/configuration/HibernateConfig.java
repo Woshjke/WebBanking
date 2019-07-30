@@ -72,8 +72,6 @@ public class HibernateConfig {
                 applicationProperties.getProperty("hibernate.dialect"));
         hibernateProperties.setProperty("hibernate.show_sql",
                 applicationProperties.getProperty("hibernate.show_sql"));
-//        hibernateProperties.setProperty("hibernate.default_schema",
-//                applicationProperties.getProperty("hibernate.default_schema"));
         return hibernateProperties;
     }
 }

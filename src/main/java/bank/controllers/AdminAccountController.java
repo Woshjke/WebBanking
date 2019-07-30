@@ -1,33 +1,29 @@
 package bank.controllers;
 
 import bank.model.dto.BankAccountDTO;
+import bank.model.dto.OrganisationsDTO;
+import bank.model.dto.RoleDTO;
 import bank.model.dto.UserDTO;
 import bank.model.entity.BankAccount;
 import bank.model.entity.User;
 import bank.services.AdminAccountService;
 import bank.services.dbServices.BankAccountDaoService;
+import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.UserDaoService;
+import bank.services.dbServices.UserRoleDaoService;
+import bank.services.responses.AllUserDataResponse;
 import bank.services.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static bank.ApplicationProperties.ADMIN_PAGE;
-import static bank.ApplicationProperties.CREATE_USER_PAGE;
-import static bank.ApplicationProperties.DELETE_USER_PAGE;
-import static bank.ApplicationProperties.READ_BANK_ACCOUNTS;
-import static bank.ApplicationProperties.READ_USERS_PAGE;
-import static bank.ApplicationProperties.UPDATE_USER_PAGE;
+import static bank.ApplicationProperties.*;
 
 /**
  * Admin features controller.
@@ -39,18 +35,25 @@ public class AdminAccountController {
     private UserDaoService userDaoService;
     private AdminAccountService adminService;
     private BankAccountDaoService bankAccountDaoService;
+    private UserRoleDaoService userRoleDaoService;
+    private OrganisationDaoService organisationDaoService;
 
     @Autowired
     public AdminAccountController(UserDaoService userDaoService,
                                   AdminAccountService adminService,
-                                  BankAccountDaoService bankAccountDaoService) {
+                                  BankAccountDaoService bankAccountDaoService,
+                                  UserRoleDaoService userRoleDaoService,
+                                  OrganisationDaoService organisationDaoService) {
         this.userDaoService = userDaoService;
         this.adminService = adminService;
         this.bankAccountDaoService = bankAccountDaoService;
+        this.userRoleDaoService = userRoleDaoService;
+        this.organisationDaoService = organisationDaoService;
     }
 
     /**
      * GET-request of admin page
+     *
      * @return admin page view
      */
     @RequestMapping(value = "/admin_page", method = {RequestMethod.POST, RequestMethod.GET})
@@ -63,6 +66,7 @@ public class AdminAccountController {
 
     /**
      * Handling request of getting user registration page
+     *
      * @return user registration view
      */
     @RequestMapping(value = "/createUser", method = {RequestMethod.POST, RequestMethod.GET})
@@ -72,6 +76,7 @@ public class AdminAccountController {
 
     /**
      * handling user registration request and calls registration service
+     *
      * @param request - request from JSP
      * @return admin page view
      */
@@ -86,6 +91,7 @@ public class AdminAccountController {
 
     /**
      * Handling request of getting user update page
+     *
      * @param request - request from JSP with selected user param
      * @return user updating view with list of users and selected user (if selected)
      */
@@ -101,6 +107,7 @@ public class AdminAccountController {
 
     /**
      * handling user updating request and calls user updating service
+     *
      * @param request - request from JSP
      * @return admin view page
      */
@@ -115,6 +122,7 @@ public class AdminAccountController {
 
     /**
      * Handling request of getting user delete page
+     *
      * @return user delete page with list of users
      */
     @RequestMapping(value = "/deleteUser", method = {RequestMethod.POST, RequestMethod.GET})
@@ -127,13 +135,14 @@ public class AdminAccountController {
 
     /**
      * handling user deleting request and calls user delete service
+     *
      * @param request - request from jsp with selected user param
      * @return admin page view with result of user deletion message
      */
     @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
     public RedirectView doDeleteUser(HttpServletRequest request) {
         if (adminService.deleteUser(request)) {
-           return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
         } else {
             return new RedirectView(ADMIN_PAGE + "?resultMessage=Failed");
         }
@@ -141,6 +150,7 @@ public class AdminAccountController {
 
     /**
      * Handling request of  getting users info reading  page
+     *
      * @return user info reading view
      */
     @RequestMapping(value = "/readUsers", method = RequestMethod.GET)
@@ -150,6 +160,7 @@ public class AdminAccountController {
 
     /**
      * Handling request of  getting bank accounts info reading  page
+     *
      * @return bank accounts info reading view
      */
     @RequestMapping(value = "/readBankAccounts", method = RequestMethod.GET)
@@ -178,6 +189,7 @@ public class AdminAccountController {
 
     /**
      * Handling AJAX call form users reading view
+     *
      * @param username - specific username in
      * @return all users if username field was empty or specific user if username field wasn't empty
      */
@@ -185,13 +197,49 @@ public class AdminAccountController {
     @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllUsers(@RequestParam String username) {
         if (username.equals("")) {
-            List<UserDTO> users = userDaoService.getUserDtoList();
-            ServiceResponse<List<UserDTO>> response = new ServiceResponse<>("success", users);
+            List<UserDTO> userDTOS = userDaoService.getUserDtoList();
+            AllUserDataResponse[] response = new AllUserDataResponse[userDTOS.size()];
+            for (int i = 0; i < response.length; i++) {
+                UserDTO currentUser = userDTOS.get(i);
+                response[i] = new AllUserDataResponse();
+                response[i].setUser(currentUser);
+                response[i].setUserBankAccounts(bankAccountDaoService.getUserBankAccountDTOS(currentUser.getId()));
+                response[i].setUserRoles(userRoleDaoService.getUserRolesByUserId(currentUser.getId())
+                        .stream()
+                        .filter(x -> x.getUser().getUsername().equals(currentUser.getUsername()))
+                        .map(x -> new RoleDTO(x.getRole().getId(), x.getRole().getName()))
+                        .collect(Collectors.toList()));
+                response[i].setUserOrganisations(bankAccountDaoService.getBankAccountsByUserId(currentUser.getId())
+                        .stream()
+                        .map(x -> {
+                            if (x.getOrganisation() != null) {
+                                return new OrganisationsDTO(x.getOrganisation().getId(), x.getOrganisation().getName());
+                            } else return null;
+                        })
+                        .collect(Collectors.toList()));
+                response[i].setStatus("success");
+            }
             return ResponseEntity.ok(response);
         } else {
-            List<UserDTO> userDTOS = new ArrayList<>();
-            userDTOS.add(userDaoService.getUserDtoByUsername(username));
-            ServiceResponse<List<UserDTO>> response = new ServiceResponse<>("success", userDTOS);
+            UserDTO userDTO = userDaoService.getUserDtoByUsername(username);
+            AllUserDataResponse[] response = new AllUserDataResponse[1];
+            response[0] = new AllUserDataResponse();
+            response[0].setUser(userDTO);
+            response[0].setUserBankAccounts(bankAccountDaoService.getUserBankAccountDTOS(userDTO.getId()));
+            response[0].setUserRoles(userRoleDaoService.getUserRolesByUserId(userDTO.getId())
+                    .stream()
+                    .filter(x -> x.getUser().getUsername().equals(userDTO.getUsername()))
+                    .map(x -> new RoleDTO(x.getRole().getId(), x.getRole().getName()))
+                    .collect(Collectors.toList()));
+            response[0].setUserOrganisations(bankAccountDaoService.getBankAccountsByUserId(userDTO.getId())
+                    .stream()
+                    .map(x -> {
+                        if (x.getOrganisation() != null) {
+                            return new OrganisationsDTO(x.getOrganisation().getId(), x.getOrganisation().getName());
+                        } else return null;
+                    })
+                    .collect(Collectors.toList()));
+            response[0].setStatus("success");
             return ResponseEntity.ok(response);
         }
     }
@@ -199,6 +247,7 @@ public class AdminAccountController {
 
     /**
      * Handling AJAX call form bank accounts reading view
+     *
      * @param username - specific username in
      * @return all bank accounts if username field was empty
      * or bank accounts of specific user if username field wasn't empty
@@ -207,7 +256,7 @@ public class AdminAccountController {
     @RequestMapping(value = "/filterBankAccounts", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllBankAccounts(@RequestParam String username) {
         if (username.equals("")) {
-            List<BankAccountDTO> bankAccounts = userDaoService.getBankAccountDTOList();
+            List<BankAccountDTO> bankAccounts = bankAccountDaoService.getBankAccountDTOList();
             ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccounts);
             return ResponseEntity.ok(response);
         } else {

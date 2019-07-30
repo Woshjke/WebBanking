@@ -12,11 +12,11 @@ import java.util.List;
 @Transactional
 public class OrganisationDaoService {
 
-    private final OrganisationRepository organisationDao;
+    private final OrganisationRepository organisationRepository;
 
     @Autowired
-    public OrganisationDaoService(OrganisationRepository organisationDao) {
-        this.organisationDao = organisationDao;
+    public OrganisationDaoService(OrganisationRepository organisationRepository) {
+        this.organisationRepository = organisationRepository;
     }
 
     /**
@@ -24,7 +24,7 @@ public class OrganisationDaoService {
      * @return list of organisations
      */
     public List<Organisations> getOrganisations() {
-        return (List<Organisations>) organisationDao.findAll();
+        return (List<Organisations>) organisationRepository.findAll();
     }
 
     /**
@@ -33,6 +33,6 @@ public class OrganisationDaoService {
      * @return organisation object
      */
     public Organisations getOrganisationsById(Long id) {
-        return organisationDao.findById(id);
+        return organisationRepository.findById(id);
     }
 }

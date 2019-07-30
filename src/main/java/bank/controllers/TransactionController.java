@@ -1,5 +1,6 @@
 package bank.controllers;
 
+import bank.AuthenticationHelper;
 import bank.model.entity.User;
 import bank.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,12 @@ import static bank.ApplicationProperties.USER_PAGE;
 public class TransactionController {
 
     private UserAccountService userService;
+    private AuthenticationHelper authenticationHelper;
 
     @Autowired
-    public TransactionController(UserAccountService userService) {
+    public TransactionController(UserAccountService userService, AuthenticationHelper authenticationHelper) {
         this.userService = userService;
+        this.authenticationHelper = authenticationHelper;
     }
 
     /**
@@ -36,7 +39,7 @@ public class TransactionController {
     @RequestMapping(value = "/transaction", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showTransactionPage() {
         ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
-        User user = userService.getAuthenticatedUser();
+        User user = authenticationHelper.getAuthenticatedUser();
         mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
         return mnv;
     }

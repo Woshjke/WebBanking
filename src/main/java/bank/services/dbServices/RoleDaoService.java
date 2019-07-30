@@ -12,11 +12,11 @@ import java.util.List;
 @Transactional
 public class RoleDaoService {
 
-    private RoleRepository roleDao;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public RoleDaoService(RoleRepository roleDao) {
-        this.roleDao = roleDao;
+    public RoleDaoService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -24,7 +24,7 @@ public class RoleDaoService {
      * @return list of roles
      */
     public List<Role> getRoles() {
-        return (List<Role>) roleDao.findAll();
+        return (List<Role>) roleRepository.findAll();
     }
 
     //todo add crud

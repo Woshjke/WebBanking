@@ -1,5 +1,7 @@
 package bank.controllers;
 
+import bank.AuthenticationHelper;
+import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Organisations;
 import bank.model.entity.User;
@@ -27,12 +29,16 @@ import static bank.ApplicationProperties.USER_PAGE;
 public class PaymentController {
 
     private OrganisationDaoService organisationService;
-    private UserAccountService userAccountService;
+    private AuthenticationHelper authenticationHelper;
+    private RequestValidator requestValidator;
 
     @Autowired
-    public PaymentController(OrganisationDaoService organisationService, UserAccountService userAccountService) {
+    public PaymentController(OrganisationDaoService organisationService,
+                             AuthenticationHelper authenticationHelper,
+                             RequestValidator requestValidator) {
         this.organisationService = organisationService;
-        this.userAccountService = userAccountService;
+        this.authenticationHelper = authenticationHelper;
+        this.requestValidator = requestValidator;
     }
 
     /**
@@ -45,7 +51,7 @@ public class PaymentController {
         List<Organisations> organisations = organisationService.getOrganisations();
         mnv.addObject("orgs", organisations);
 
-        User user = userAccountService.getAuthenticatedUser();
+        User user = authenticationHelper.getAuthenticatedUser();
         List<BankAccount> bankAccountSet = user.getBankAccounts();
         mnv.addObject("bankAccounts", bankAccountSet);
         return mnv;
@@ -58,15 +64,12 @@ public class PaymentController {
      */
     @RequestMapping(value = "/doPayment", method = RequestMethod.POST)
     public RedirectView doPayment(HttpServletRequest request) {
-        if (!userAccountService.doPayment(request)) {
-            return new RedirectView(USER_PAGE + "?resultMessage=Payment failed");
-        } else {
-            return new RedirectView(USER_PAGE + "?resultMessage=Payment completed");
-        }
-    }
 
-    @ModelAttribute(value = "user")
-    User getNewUser(){
-        return new User();
+        try {
+            requestValidator.isValidPayment(request);
+            return new RedirectView(USER_PAGE + "?resultMessage=Payment completed");
+        } catch (Exception ex) {
+            return new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage());
+        }
     }
 }

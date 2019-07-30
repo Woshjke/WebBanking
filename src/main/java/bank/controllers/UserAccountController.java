@@ -1,19 +1,14 @@
 package bank.controllers;
 
+import bank.AuthenticationHelper;
 import bank.model.entity.User;
 import bank.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,10 +22,12 @@ import static bank.ApplicationProperties.USER_PAGE;
 public class UserAccountController {
 
 	private UserAccountService userAccountService;
+	private AuthenticationHelper authenticationHelper;
 
 	@Autowired
-	public UserAccountController(UserAccountService userAccountService) {
+	public UserAccountController(UserAccountService userAccountService, AuthenticationHelper authenticationHelper) {
 		this.userAccountService = userAccountService;
+		this.authenticationHelper = authenticationHelper;
 	}
 
 	/**
@@ -49,7 +46,7 @@ public class UserAccountController {
 			mnv.addObject("resultMessage", resultMessage);
 		}
 
-		User authUser = userAccountService.getAuthenticatedUser();
+		User authUser = authenticationHelper.getAuthenticatedUser();
 		mnv.addObject("authUser", authUser);
 
 		return mnv;
