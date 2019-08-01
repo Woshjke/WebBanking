@@ -1,6 +1,6 @@
 package bank.services.dbServices;
 
-import bank.model.dao.UserRepository;
+import bank.model.repositories.UserRepository;
 import bank.model.dto.BankAccountDTO;
 import bank.model.dto.UserDTO;
 import bank.model.entity.BankAccount;
@@ -8,13 +8,11 @@ import bank.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class UserDaoService {
 
     private UserRepository userRepository;
@@ -104,7 +102,7 @@ public class UserDaoService {
      * @param username - user username
      * @return list of bank accounts DTO
      */
-    public List<BankAccountDTO> getBankAccountsByUsername(String username) {
+    public List<BankAccountDTO> getBankAccountDtoListByUsername(String username) {
         User user = userRepository.findByUsername(username);
         List<BankAccount> userBankAccounts = user.getBankAccounts();
         return userBankAccounts.stream()
@@ -112,5 +110,11 @@ public class UserDaoService {
                         i.getMoney()))
                 .collect(Collectors.toList());
     }
+
+    public List<User> getUserListByStatus(String status) {
+        return userRepository.getAllByStatus(status);
+    }
+
+
 
 }

@@ -1,6 +1,8 @@
 package bank.configuration;
 
 import bank.controllers.RequestParameter;
+import bank.services.dbServices.UserDaoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,9 +19,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private UserDaoService userDaoService;
+
+    @Autowired
+    public SecurityConfig(UserDaoService userDaoService) {
+        this.userDaoService = userDaoService;
+    }
+
     @Bean
     public UserDetailsService userDetailsServiceCreator() {
-        return new UserDetailsServiceImpl();
+        return new UserDetailsServiceImpl(userDaoService);
     }
 
     @Bean
@@ -51,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .loginProcessingUrl("/process_login")
                 .failureUrl("/login?error=" + RequestParameter.TRUE.getValue())
-                .defaultSuccessUrl("/user/user_page", true)
+                .defaultSuccessUrl("/user/user_page")
                 .and()
                 .logout()
                 .logoutUrl("/process_logout")

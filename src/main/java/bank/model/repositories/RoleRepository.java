@@ -1,4 +1,4 @@
-package bank.model.dao;
+package bank.model.repositories;
 
 import bank.model.entity.Role;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

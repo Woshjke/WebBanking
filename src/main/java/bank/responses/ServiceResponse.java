@@ -1,4 +1,4 @@
-package bank.services.responses;
+package bank.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

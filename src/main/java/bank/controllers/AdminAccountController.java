@@ -1,5 +1,6 @@
 package bank.controllers;
 
+import bank.RequestValidator;
 import bank.model.dto.BankAccountDTO;
 import bank.model.dto.OrganisationsDTO;
 import bank.model.dto.RoleDTO;
@@ -11,8 +12,9 @@ import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.UserDaoService;
 import bank.services.dbServices.UserRoleDaoService;
-import bank.services.responses.AllUserDataResponse;
-import bank.services.responses.ServiceResponse;
+import bank.responses.AllUserDataResponse;
+import bank.responses.ServiceResponse;
+import groovy.transform.Undefined;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,19 +38,18 @@ public class AdminAccountController {
     private AdminAccountService adminService;
     private BankAccountDaoService bankAccountDaoService;
     private UserRoleDaoService userRoleDaoService;
-    private OrganisationDaoService organisationDaoService;
+    private RequestValidator validator;
 
     @Autowired
-    public AdminAccountController(UserDaoService userDaoService,
-                                  AdminAccountService adminService,
+    public AdminAccountController(UserDaoService userDaoService, AdminAccountService adminService,
                                   BankAccountDaoService bankAccountDaoService,
                                   UserRoleDaoService userRoleDaoService,
-                                  OrganisationDaoService organisationDaoService) {
+                                  RequestValidator validator) {
         this.userDaoService = userDaoService;
         this.adminService = adminService;
         this.bankAccountDaoService = bankAccountDaoService;
         this.userRoleDaoService = userRoleDaoService;
-        this.organisationDaoService = organisationDaoService;
+        this.validator = validator;
     }
 
     /**
@@ -57,10 +58,11 @@ public class AdminAccountController {
      * @return admin page view
      */
     @RequestMapping(value = "/admin_page", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView showAdminPage(HttpServletRequest request) {
+    public ModelAndView showAdminPage(@ModelAttribute("resultMessage") String resultMessage) {
         ModelAndView mnv = new ModelAndView(ADMIN_PAGE);
-        String resultMessage = request.getParameter("resultMessage");
-        mnv.addObject("resultMessage", resultMessage);
+        if (!resultMessage.equals("")) {
+            mnv.addObject("resultMessage", resultMessage);
+        }
         return mnv;
     }
 
@@ -82,25 +84,30 @@ public class AdminAccountController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public RedirectView doCreateUser(HttpServletRequest request) {
-        if (adminService.registerUser(request)) {
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
-        } else {
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=Failed");
+        try {
+            validator.isValidUserCreateRequest(request);
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            adminService.registerUser(username, password);
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Registration completed");
+        } catch (Exception ex) {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
         }
     }
 
     /**
      * Handling request of getting user update page
      *
-     * @param request - request from JSP with selected user param
      * @return user updating view with list of users and selected user (if selected)
      */
     @RequestMapping(value = "/updateUser", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView showUpdateUserPage(HttpServletRequest request) {
+    public ModelAndView showUpdateUserPage(@ModelAttribute("users") String selectedUserId) {
         ModelAndView mnv = new ModelAndView(UPDATE_USER_PAGE);
         List<User> userList = userDaoService.getUsers();
-        User userToUpdate = adminService.getUserToUpdate(request);
-        mnv.addObject("userToUpdate", userToUpdate);
+        if (!selectedUserId.equals("")) {
+            User userToUpdate = adminService.getUserToUpdate(Long.valueOf(selectedUserId));
+            mnv.addObject("userToUpdate", userToUpdate);
+        }
         mnv.addObject("usersList", userList);
         return mnv;
     }
@@ -113,11 +120,24 @@ public class AdminAccountController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     public RedirectView doUpdateUser(HttpServletRequest request) {
-        if (adminService.updateUser(request)) {
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
-        } else {
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=Failed");
+        try {
+            validator.isValidUserUpdateRequest(request);
+            Long userToUpdateId = Long.parseLong(request.getParameter("id"));
+            String newUsername = request.getParameter("username");
+            String newPassword = request.getParameter("password");
+            adminService.updateUser(userToUpdateId, newUsername, newPassword);
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Update completed");
+        } catch (Exception ex) {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
         }
+    }
+
+    @RequestMapping(value = "/activateUser", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showActivateUserPage() {
+        ModelAndView mnv = new ModelAndView("activate_user_page");
+        List<User> usersToActivate = userDaoService.getUserListByStatus("disabled");
+        mnv.addObject("usersToActivate", usersToActivate);
+        return mnv;
     }
 
     /**
@@ -141,10 +161,13 @@ public class AdminAccountController {
      */
     @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
     public RedirectView doDeleteUser(HttpServletRequest request) {
-        if (adminService.deleteUser(request)) {
+        try {
+            validator.isValidUserDeleteRequest(request);
+            Long userId = Long.parseLong(request.getParameter("users"));
+            adminService.deleteUser(userId);
             return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
-        } else {
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=Failed");
+        } catch (Exception ex) {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
         }
     }
 
@@ -166,25 +189,6 @@ public class AdminAccountController {
     @RequestMapping(value = "/readBankAccounts", method = RequestMethod.GET)
     public ModelAndView readBankAccounts() {
         return new ModelAndView(READ_BANK_ACCOUNTS);
-    }
-
-    @RequestMapping(value = "/addMoney", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView showAddMoneyPage() {
-        ModelAndView mnv = new ModelAndView("add_money_page");
-        List<BankAccount> bankAccounts = bankAccountDaoService.getAllBankAccounts();
-        mnv.addObject("bankAccounts", bankAccounts);
-        return mnv;
-    }
-
-    @RequestMapping(value = "/doAddMoney", method = {RequestMethod.POST})
-    public RedirectView doAddMoney(HttpServletRequest request) {
-        RedirectView rv = new RedirectView();
-        if (adminService.addMoney(request)) {
-            rv.setUrl(ADMIN_PAGE + "?resultMessage=Operation completed!");
-        } else {
-            rv.setUrl(ADMIN_PAGE + "?resultMessage=Operation failed!");
-        }
-        return rv;
     }
 
     /**
@@ -260,7 +264,7 @@ public class AdminAccountController {
             ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccounts);
             return ResponseEntity.ok(response);
         } else {
-            List<BankAccountDTO> bankAccountDTOS = userDaoService.getBankAccountsByUsername(username);
+            List<BankAccountDTO> bankAccountDTOS = userDaoService.getBankAccountDtoListByUsername(username);
             ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccountDTOS);
             return ResponseEntity.ok(response);
         }

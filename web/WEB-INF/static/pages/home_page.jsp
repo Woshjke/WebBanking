@@ -48,6 +48,8 @@
                             <a class="nav-link active" href="#" style="color:rgb(0,0,0);">Admin page</a>
                         </li>
                     </c:if>
+                    <img class="rounded-circle border border-primary" src="data:image/jpg;base64,${myImage}"
+                         width="60" height="60" >
                 </ul>
                 <span class="navbar-text actions">
                     <c:if test="${!userRoles.contains('ROLE_ANONYMOUS')}">

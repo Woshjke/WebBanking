@@ -1,15 +1,13 @@
 package bank.services.dbServices;
 
-import bank.model.dao.TransactionRepository;
+import bank.model.repositories.TransactionRepository;
 import bank.model.entity.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class TransactionDaoService {
 
     private TransactionRepository transactionRepository;

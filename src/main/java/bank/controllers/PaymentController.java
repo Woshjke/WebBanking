@@ -5,12 +5,10 @@ import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Organisations;
 import bank.model.entity.User;
-import bank.services.AdminAccountService;
 import bank.services.UserAccountService;
 import bank.services.dbServices.OrganisationDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,7 +66,6 @@ public class PaymentController {
      */
     @RequestMapping(value = "/doPayment", method = RequestMethod.POST)
     public RedirectView doPayment(HttpServletRequest request) {
-
         try {
             requestValidator.isValidPayment(request);
             userAccountService.doPayment(request);

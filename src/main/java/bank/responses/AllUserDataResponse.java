@@ -1,4 +1,4 @@
-package bank.services.responses;
+package bank.responses;
 
 import bank.model.dto.BankAccountDTO;
 import bank.model.dto.OrganisationsDTO;

@@ -3,6 +3,7 @@ package bank.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -34,5 +35,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("/WEB-INF/resources/img/").setCachePeriod(31556926);
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/WEB-INF/resources/js/").setCachePeriod(31556926);
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(Long.MAX_VALUE);
+        return multipartResolver;
     }
 }

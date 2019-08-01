@@ -1,28 +1,23 @@
 package bank.services.dbServices;
 
-import bank.model.dao.BankAccountRepository;
+import bank.model.repositories.BankAccountRepository;
 import bank.model.dto.BankAccountDTO;
 import bank.model.entity.BankAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class BankAccountDaoService {
 
     private final BankAccountRepository bankAccountRepository;
-    private final UserDaoService userDaoService;
 
     @Autowired
-    public BankAccountDaoService(BankAccountRepository bankAccountRepository, UserDaoService userDaoService) {
+    public BankAccountDaoService(BankAccountRepository bankAccountRepository) {
         this.bankAccountRepository = bankAccountRepository;
-        this.userDaoService = userDaoService;
     }
-
 
     /**
      * Saving/updating bank account to database

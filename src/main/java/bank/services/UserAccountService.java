@@ -1,34 +1,27 @@
 package bank.services;
 
 import bank.AuthenticationHelper;
-import bank.RequestValidator;
 import bank.model.entity.BankAccount;
-import bank.model.entity.Role;
 import bank.model.entity.Transaction;
-import bank.model.entity.User;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.TransactionDaoService;
-import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserAccountService {
     private OrganisationDaoService organisationService;
-    private BankAccountDaoService bankAccountService;
+    private BankAccountDaoService bankAccountDaoService;
     private TransactionDaoService transactionDaoService;
     private AuthenticationHelper authenticationHelper;
 
@@ -36,11 +29,11 @@ public class UserAccountService {
 
     @Autowired
     public UserAccountService(OrganisationDaoService organisationService,
-                              BankAccountDaoService bankAccountService,
+                              BankAccountDaoService bankAccountDaoService,
                               TransactionDaoService transactionDaoService,
                               AuthenticationHelper authenticationHelper) {
         this.organisationService = organisationService;
-        this.bankAccountService = bankAccountService;
+        this.bankAccountDaoService = bankAccountDaoService;
         this.transactionDaoService = transactionDaoService;
         this.authenticationHelper = authenticationHelper;
     }
@@ -50,13 +43,14 @@ public class UserAccountService {
      *
      * @param request - request form JSP with needed parameters
      */
+
     public void doPayment(HttpServletRequest request) {
             Long targetOrganisationId = Long.parseLong(request.getParameter("organisation"));
             Integer moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
             Long sourceBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
 
             //забираем деньги у пользователя
-            BankAccount sourceBankAccount = bankAccountService.getBankAccountById(sourceBankAccountId);
+            BankAccount sourceBankAccount = bankAccountDaoService.getBankAccountById(sourceBankAccountId);
             sourceBankAccount.takeMoney(moneyToAdd);
 
             //отдаем организации
@@ -70,8 +64,8 @@ public class UserAccountService {
             transactionDaoService.createTransaction(transaction);
 
             //сохраняем изменения в базе
-            bankAccountService.updateBankAccount(sourceBankAccount);
-            bankAccountService.updateBankAccount(orgBankAccount);
+            bankAccountDaoService.updateBankAccount(sourceBankAccount);
+            bankAccountDaoService.updateBankAccount(orgBankAccount);
     }
 
     /**
@@ -86,9 +80,9 @@ public class UserAccountService {
         Integer moneyValue;
 
         try {
-            sourceBankAccount = bankAccountService.
+            sourceBankAccount = bankAccountDaoService.
                     getBankAccountById(Long.parseLong(request.getParameter("source")));
-            destinationBankAccount = bankAccountService.
+            destinationBankAccount = bankAccountDaoService.
                     getBankAccountById(Long.parseLong(request.getParameter("destination")));
             moneyValue = Integer.parseInt(request.getParameter("value"));
         } catch (NumberFormatException ex) {
@@ -113,8 +107,8 @@ public class UserAccountService {
         sourceBankAccount.takeMoney(moneyValue);
         destinationBankAccount.addMoney(moneyValue);
 
-        bankAccountService.updateBankAccount(sourceBankAccount);
-        bankAccountService.updateBankAccount(destinationBankAccount);
+        bankAccountDaoService.updateBankAccount(sourceBankAccount);
+        bankAccountDaoService.updateBankAccount(destinationBankAccount);
 
         Transaction transaction = new Transaction(sourceBankAccount,
                 destinationBankAccount,
@@ -131,7 +125,7 @@ public class UserAccountService {
         } catch (NumberFormatException ex) {
             return false;
         }
-        BankAccount bankAccount = bankAccountService.getBankAccountById(selectedBankAccountID);
+        BankAccount bankAccount = bankAccountDaoService.getBankAccountById(selectedBankAccountID);
 
         return true;
     }
@@ -159,4 +153,5 @@ public class UserAccountService {
         }
         return json;
     }
+
 }

@@ -19,9 +19,12 @@ import java.util.List;
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+    private UserDaoService userDaoService;
 
     @Autowired
-    private  UserDaoService userDaoService;
+    public UserDetailsServiceImpl(UserDaoService userDaoService) {
+        this.userDaoService = userDaoService;
+    }
 
     public UserDetails loadUserByUsername(String username) {
         User user = userDaoService.getUserByUsername(username);

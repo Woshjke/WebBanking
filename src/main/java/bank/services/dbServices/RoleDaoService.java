@@ -1,15 +1,13 @@
 package bank.services.dbServices;
 
-import bank.model.dao.RoleRepository;
+import bank.model.repositories.RoleRepository;
 import bank.model.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class RoleDaoService {
 
     private RoleRepository roleRepository;

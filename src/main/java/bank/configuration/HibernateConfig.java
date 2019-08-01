@@ -24,7 +24,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "bank.model.dao")
+@EnableJpaRepositories(basePackages = "bank.model.repositories")
 public class HibernateConfig {
 
     private ApplicationProperties applicationProperties = new ApplicationProperties();
