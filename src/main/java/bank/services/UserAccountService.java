@@ -154,4 +154,17 @@ public class UserAccountService {
         return json;
     }
 
+    public boolean addMoney(Long bankAccountID, Integer moneyToAdd) {
+        try {
+//            Long bankAccountID = Long.parseLong(request.getParameter("bankAccounts"));
+//            Integer moneyToAdd = Integer.parseInt(request.getParameter("moneyToAdd"));
+            BankAccount bankAccount = bankAccountDaoService.getBankAccountById(bankAccountID);
+            bankAccount.addMoney(moneyToAdd);
+            bankAccountDaoService.saveBankAccount(bankAccount);
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+        return true;
+    }
+
 }

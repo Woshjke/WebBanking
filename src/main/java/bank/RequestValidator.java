@@ -130,4 +130,23 @@ public class RequestValidator {
             throw new Exception("User deleting failed! Cannot find user with id:" + userId);
         }
     }
+
+    public void isValidAddMoneyRequest(HttpServletRequest request) throws Exception {
+        Long bankAccountID;
+        Integer moneyToAdd;
+        try {
+            bankAccountID = Long.valueOf(request.getParameter("bankAccounts"));
+            moneyToAdd = Integer.valueOf(request.getParameter("moneyToAdd"));
+        } catch (NumberFormatException ex) {
+            throw new Exception("Money adding error! Bad request params!");
+        }
+
+        if (moneyToAdd < 0) {
+            throw new Exception("Money adding error! Money value need to be > 0");
+        }
+
+        if (bankAccountDaoService.getBankAccountById(bankAccountID) == null) {
+            throw new Exception("Money adding error! Cannot find bank account with id: " + bankAccountID);
+        }
+    }
 }

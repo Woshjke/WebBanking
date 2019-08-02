@@ -41,14 +41,10 @@ public class AdminAccountService {
      * @return user object
      */
     public User getUserToUpdate(Long selectedUserId) {
-//        Long selectedUserId = 0L;
-//        if (request.getParameter("users") != null && !request.getParameter("users").equals("0")) {
-//            selectedUserId = Long.parseLong(request.getParameter("users"));
-//        }
-        //        if (selectedUserId > 0) {
-//            user = userDaoService.getUserById(selectedUserId);
-//        }
-        User user = userDaoService.getUserById(selectedUserId);
+        User user = new User();
+        if (selectedUserId > 0 && selectedUserId <= userDaoService.getUsers().size()) {
+            user = userDaoService.getUserById(selectedUserId);
+        }
         return user;
     }
 
@@ -58,17 +54,15 @@ public class AdminAccountService {
      * @param userId - ID of the user you want to delete
      * @return user was deleted or not
      */
-    public boolean deleteUser(Long userId) {
-            User user = userDaoService.getUserById(userId);
-            userDaoService.deleteUser(user);
-            return true;
+    public void deleteUser(Long userId) {
+        User user = userDaoService.getUserById(userId);
+        userDaoService.deleteUser(user);
     }
 
     /**
      * Registering user in system by calling UserDaoService method
-     *
      */
-    public boolean registerUser(String username, String password) {
+    public void registerUser(String username, String password) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(new BCryptPasswordEncoder(11).encode(password));
@@ -99,25 +93,12 @@ public class AdminAccountService {
 //        userDaoService.updateUser(user);
 //        bankAccountDaoService.updateBankAccount(bankAccount);
 
-        return true;
     }
 
     /**
      * Updating user in database by calling UserDaoService method
-     *
      */
-    public boolean updateUser(Long userToUpdateId, String newUsername, String newPassword) {
-//        Long userToUpdateId;
-//        String newUsername;
-//        String newPassword;
-//
-//        try {
-//            userToUpdateId = Long.parseLong(request.getParameter("id"));
-//            newUsername = request.getParameter("username");
-//            newPassword = request.getParameter("password");
-//        } catch (NumberFormatException ex) {
-//            return false;
-//        }
+    public void updateUser(Long userToUpdateId, String newUsername, String newPassword) {
         User userToUpdate = userDaoService.getUserById(userToUpdateId);
 
         if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
@@ -125,21 +106,8 @@ public class AdminAccountService {
             userToUpdate.setPassword(newPassword);
             userDaoService.updateUser(userToUpdate);
         }
-        return true;
     }
 
-    public boolean addMoney(Long bankAccountID, Integer moneyToAdd) {
-        try {
-//            Long bankAccountID = Long.parseLong(request.getParameter("bankAccounts"));
-//            Integer moneyToAdd = Integer.parseInt(request.getParameter("moneyToAdd"));
-            BankAccount bankAccount = bankAccountDaoService.getBankAccountById(bankAccountID);
-            bankAccount.addMoney(moneyToAdd);
-            bankAccountDaoService.saveBankAccount(bankAccount);
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-        return true;
-    }
 
     public boolean addBankAccount(Long userID) {
         User user = userDaoService.getUserById(userID);

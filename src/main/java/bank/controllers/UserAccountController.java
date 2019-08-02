@@ -1,9 +1,11 @@
 package bank.controllers;
 
 import bank.AuthenticationHelper;
+import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.User;
 import bank.services.UserAccountService;
+import bank.services.dbServices.BankAccountDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,11 +29,18 @@ public class UserAccountController {
 
 	private UserAccountService userAccountService;
 	private AuthenticationHelper authenticationHelper;
+	private BankAccountDaoService bankAccountDaoService;
+	private RequestValidator validator;
 
 	@Autowired
-	public UserAccountController(UserAccountService userAccountService, AuthenticationHelper authenticationHelper) {
+	public UserAccountController(UserAccountService userAccountService,
+								 AuthenticationHelper authenticationHelper,
+								 BankAccountDaoService bankAccountDaoService,
+								 RequestValidator validator) {
 		this.userAccountService = userAccountService;
 		this.authenticationHelper = authenticationHelper;
+		this.bankAccountDaoService = bankAccountDaoService;
+		this.validator = validator;
 	}
 
 	/**
@@ -66,25 +75,24 @@ public class UserAccountController {
 		return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
 	}
 
-//	@RequestMapping(value = "/addMoney", method = {RequestMethod.POST, RequestMethod.GET})
-//	public ModelAndView showAddMoneyPage() {
-//		ModelAndView mnv = new ModelAndView("add_money_page");
-//		List<BankAccount> bankAccounts = bankAccountDaoService.getAllBankAccounts();
-//		mnv.addObject("bankAccounts", bankAccounts);
-//		return mnv;
-//	}
-//
-//	@RequestMapping(value = "/doAddMoney", method = {RequestMethod.POST})
-//	public RedirectView doAddMoney(HttpServletRequest request) {
-//		// TODO: 01.08.2019 Написать валидацию
-//		Long bankAccountID = Long.parseLong(request.getParameter("bankAccounts"));
-//		Integer moneyToAdd = Integer.parseInt(request.getParameter("moneyToAdd"));
-//		RedirectView rv = new RedirectView();
-//		if (adminService.addMoney(bankAccountID, moneyToAdd)) {
-//			rv.setUrl(USER_PAGE + "?resultMessage=Operation completed!");
-//		} else {
-//			rv.setUrl(USER_PAGE + "?resultMessage=Operation failed!");
-//		}
-//		return rv;
-//	}
+	@RequestMapping(value = "/addMoney", method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView showAddMoneyPage() {
+		ModelAndView mnv = new ModelAndView("add_money_page");
+		List<BankAccount> bankAccounts = bankAccountDaoService.getAllBankAccounts();
+		mnv.addObject("bankAccounts", bankAccounts);
+		return mnv;
+	}
+
+	@RequestMapping(value = "/doAddMoney", method = {RequestMethod.POST})
+	public RedirectView doAddMoney(HttpServletRequest request) {
+		try {
+			validator.isValidAddMoneyRequest(request);
+			Long bankAccountID = Long.parseLong(request.getParameter("bankAccounts"));
+			Integer moneyToAdd = Integer.parseInt(request.getParameter("moneyToAdd"));
+			userAccountService.addMoney(bankAccountID, moneyToAdd);
+			return new RedirectView(USER_PAGE + "?resultMessage=Money adding completed!");
+		} catch (Exception ex) {
+			return new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage());
+		}
+	}
 }

@@ -132,14 +132,6 @@ public class AdminAccountController {
         }
     }
 
-    @RequestMapping(value = "/activateUser", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView showActivateUserPage() {
-        ModelAndView mnv = new ModelAndView("activate_user_page");
-        List<User> usersToActivate = userDaoService.getUserListByStatus("disabled");
-        mnv.addObject("usersToActivate", usersToActivate);
-        return mnv;
-    }
-
     /**
      * Handling request of getting user delete page
      *
@@ -268,5 +260,13 @@ public class AdminAccountController {
             ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccountDTOS);
             return ResponseEntity.ok(response);
         }
+    }
+
+    @RequestMapping(value = "/activateUser", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showActivateUserPage() {
+        ModelAndView mnv = new ModelAndView("activate_user_page");
+        List<User> usersToActivate = userDaoService.getUserListByStatus("disabled");
+        mnv.addObject("usersToActivate", usersToActivate);
+        return mnv;
     }
 }
