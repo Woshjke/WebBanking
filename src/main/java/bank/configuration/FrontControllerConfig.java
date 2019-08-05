@@ -1,11 +1,12 @@
 package bank.configuration;
 
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 import javax.annotation.Nonnull;
+import javax.servlet.Filter;
 
 public class FrontControllerConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -33,5 +34,16 @@ public class FrontControllerConfig extends AbstractAnnotationConfigDispatcherSer
         DispatcherServlet dispatcher = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
         dispatcher.setThrowExceptionIfNoHandlerFound(true);
         return dispatcher;
+    }
+
+    /**
+     * Filter for character encoding
+     */
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
+        return new Filter[]{characterEncodingFilter};
     }
 }

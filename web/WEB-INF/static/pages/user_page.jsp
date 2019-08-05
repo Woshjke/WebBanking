@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -21,7 +22,11 @@
     <%@include file="/WEB-INF/resources/js/getCurrency.js"%>
 </script>
 
-<body>
+<script>
+    <%@include file="/WEB-INF/resources/js/getBankAccounts.js"%>
+</script>
+
+<body style="background: url(/img/star-sky.jpg) #475d62;">
 
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
     <a href="#" class="navbar-brand">Web Banking</a>
@@ -51,31 +56,50 @@
     </div>
 </nav>
 
-<div style="margin-left: 18px">
-    <select id="currencyList" class="form-control col-1" style="margin-top: 100px;">
-        <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-    </select>
+<div class="container">
+    <div class="row" style="margin-top: 100px">
+        <div class="col-md-6">
+            <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
+                <div class="card-body">
+                    <h5 class="card-title">Currency rate</h5>
+                    <select id="currencyList" class="form-control col-4">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                    <p class="card-text" style="margin-top: 10px">
+                        <label id="date" style="color: black;"></label>
+                        <br>
+                        <label id="currencyName" style="color: black;"></label>
+                        <br>
+                        <label id="currencyRate" style="color: black;"></label>
+                    </p>
+                    <a href="#"  class="btn btn-primary" id="getCurrencyButton">Get currency rate</a>
+                </div>
+            </div>
 
-    <p></p>
+            <p></p>
 
-    <button id="getCurrencyButton" class="btn btn-primary">Get Currency Rate</button>
-
-    <p></p>
-
-    <label id="date" style="color: white;"></label>
-
-    <p></p>
-    <p></p>
-
-    <div class="form-group">
-        <label id="currencyName" style="color: white;"></label>
-        <br>
-        <label id="currencyRate" style="color: white;"></label>
+            <label style="color: red;">${resultMessage}</label>
+        </div>
+        <div class="col-md-6">
+            <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
+                <div class="card-body">
+                    <h5 class="card-title">Your bank accounts</h5>
+                    <select id="bankAccountsList" class="form-control col-16">
+                        <c:forEach items="${bankAccounts}" var="bankAccount">
+                            <option value="${bankAccount.id}">${bankAccount.cardNumber}</option>
+                        </c:forEach>
+                    </select>
+                    <p class="card-text" style="margin-top: 10px">
+                        <label id="money_value" style="color: black;"></label>
+                    </p>
+                    <a href="#" class="btn btn-primary" id="getBankAccountInfo">Check bank account</a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <label style="color: red;">${resultMessage}</label>
 </div>
+
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

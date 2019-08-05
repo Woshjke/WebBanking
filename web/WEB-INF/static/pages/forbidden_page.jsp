@@ -21,7 +21,7 @@
 <div class="highlight-clean">
     <div class="container">
         <div class="intro">
-            <h2 class="text-center">Page Not Found</h2>
+            <h2 class="text-center">Sorry! Access denied!</h2>
             <p class="text-center"></p>
         </div>
         <div class="buttons"><a class="btn btn-primary" role="button"

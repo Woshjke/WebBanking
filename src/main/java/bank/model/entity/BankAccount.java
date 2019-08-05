@@ -37,6 +37,9 @@ public class BankAccount implements Serializable {
     @JoinColumn(name = "organisation_id")
     private Organisations organisation;
 
+    @Column(name = "card_number")
+    private String cardNumber;
+
     public void addMoney(Integer money) {
         double targetMoney = getMoney() + money;
         this.setMoney(targetMoney);

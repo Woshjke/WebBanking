@@ -1,6 +1,8 @@
 package bank.controllers;
 
+import bank.RequestParameter;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,13 +20,11 @@ import static bank.ApplicationProperties.USER_PAGE;
 public class LoginPageController {
     /**
      *
-     * @param request - request with auth error from Spring Security
      * @return login page view
      */
     @RequestMapping(value = "/login", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView showLoginPage(HttpServletRequest request) {
+    public ModelAndView showLoginPage(@ModelAttribute("error") String isError) {
         ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
-        String isError = request.getParameter("error");
         if (RequestParameter.TRUE.getValue().equals(isError)) {
             mnv.addObject("errorMessage", "Wrong credentials");
         }

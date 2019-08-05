@@ -1,4 +1,4 @@
-package bank.controllers;
+package bank;
 
 public enum RequestParameter {
     TRUE("true");

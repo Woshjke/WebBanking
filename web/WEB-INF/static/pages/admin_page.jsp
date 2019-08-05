@@ -21,31 +21,31 @@
 
 <body>
 <form:form name="createUserPage" method="post" action="/admin/createUser">
-    <button type="submit" class="btn btn-outline-primary">Create user</button>
+    <button type="submit" class="btn btn-primary">Create user</button>
 </form:form>
 
 <form:form name="getUsersPage" method="get" action="/admin/readUsers">
-    <button type="submit" class="btn btn-outline-primary">Read users</button>
+    <button type="submit" class="btn btn-primary">Read users</button>
 </form:form>
 
 <form:form name="getBankAccountsPage" method="get" action="/admin/readBankAccounts">
-    <button type="submit" class="btn btn-outline-primary">Read bank accounts</button>
+    <button type="submit" class="btn btn-primary">Read bank accounts</button>
 </form:form>
 
 <form:form name="updateUserPage" method="post" action="/admin/updateUser">
-    <button type="submit" class="btn btn-outline-primary">Update user</button>
+    <button type="submit" class="btn btn-primary">Update user</button>
 </form:form>
 
 <form:form name="deleteUserPage" method="post" action="/admin/deleteUser">
-    <button type="submit" class="btn btn-outline-primary">Delete user</button>
+    <button type="submit" class="btn btn-primary">Delete user</button>
 </form:form>
 
-<form:form name="addMoney" method="post" action="/admin/addMoney">
-    <button type="submit" class="btn btn-outline-primary">Add money to bank account</button>
+<form:form name="activateUserPage" method="get" action="/admin/activateUser">
+    <button type="submit" class="btn btn-primary">Activate user</button>
 </form:form>
 
 <form:form name="deleteUserPage" method="get" action="/user/user_page">
-    <button type="submit" class="btn btn-outline-primary">User page</button>
+    <button type="submit" class="btn btn-primary">User page</button>
 </form:form>
 
 <label style="color: red;">${resultMessage}</label>

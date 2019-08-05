@@ -1,6 +1,6 @@
 package bank.configuration;
 
-import bank.controllers.RequestParameter;
+import bank.RequestParameter;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,23 +49,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/login").permitAll()
-                .antMatchers("/home_page").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/home_page").permitAll()
+                    .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .loginProcessingUrl("/process_login")
-                .failureUrl("/login?error=" + RequestParameter.TRUE.getValue())
-                .defaultSuccessUrl("/user/user_page")
+                    .loginPage("/login")
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .loginProcessingUrl("/process_login")
+                    .failureUrl("/login?error=" + RequestParameter.TRUE.getValue())
+                    .defaultSuccessUrl("/user/user_page")
                 .and()
                 .logout()
-                .logoutUrl("/process_logout")
-                .logoutSuccessUrl("/login")
-                .deleteCookies("JSESSIONID");
+                    .logoutUrl("/process_logout")
+                    .logoutSuccessUrl("/login")
+                    .deleteCookies("JSESSIONID")
+                .and()
+                .exceptionHandling()
+                    .accessDeniedPage("/403");
     }
 }
 

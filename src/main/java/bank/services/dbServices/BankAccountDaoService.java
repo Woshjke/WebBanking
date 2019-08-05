@@ -82,6 +82,11 @@ public class BankAccountDaoService {
                 .collect(Collectors.toList());
     }
 
+    public BankAccountDTO getBankAccountDTOById(Long id) {
+        BankAccount bankAccount = bankAccountRepository.findById(id);
+        return new BankAccountDTO(bankAccount.getId(), bankAccount.getMoney());
+    }
+
     /**
      * This method getting list of bank accounts form database and converting it to list of bank accounts DTOs
      * @return list of bank accounts DTOs

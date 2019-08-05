@@ -105,7 +105,7 @@ public class RequestValidator {
             newUsername = request.getParameter("username");
             newPassword = request.getParameter("password");
         } catch (NumberFormatException ex) {
-           throw new Exception("User updating failed! Bad request parameters!");
+            throw new Exception("User updating failed! Bad request parameters!");
         }
 
         if (newUsername == null || newPassword == null) {
@@ -147,6 +147,57 @@ public class RequestValidator {
 
         if (bankAccountDaoService.getBankAccountById(bankAccountID) == null) {
             throw new Exception("Money adding error! Cannot find bank account with id: " + bankAccountID);
+        }
+    }
+
+    public void isValidTransactionRequest(HttpServletRequest request) throws Exception {
+
+        Long sourceBankAccountId;
+        Long destinationBankAccountId;
+        Integer moneyValue;
+
+        try {
+            sourceBankAccountId = Long.valueOf(request.getParameter("source"));
+            destinationBankAccountId = Long.valueOf(request.getParameter("destination"));
+            moneyValue = Integer.valueOf(request.getParameter("value"));
+        } catch (NumberFormatException ex) {
+            throw new Exception("Transaction failed! Bad request parameters!");
+        }
+
+        if (sourceBankAccountId < 0 || destinationBankAccountId < 0 || moneyValue < 0) {
+            throw new Exception("Transaction failed! Bad request parameters!");
+        }
+
+        BankAccount sourceBankAccount = bankAccountDaoService.
+                getBankAccountById(sourceBankAccountId);
+        BankAccount destinationBankAccount = bankAccountDaoService.
+                getBankAccountById(Long.parseLong(request.getParameter("destination")));
+
+        if (sourceBankAccount == null || destinationBankAccount == null) {
+            throw new Exception("Transaction failed! Bad request parameters!");
+        }
+
+        List<BankAccount> authUserBankAccounts = authenticationHelper.getAuthenticatedUser().getBankAccounts();
+        if (!authUserBankAccounts.contains(sourceBankAccount)) {
+            throw new Exception("Transaction failed! Authenticated user dont have bank account with id: " + sourceBankAccountId);
+        }
+
+        if (sourceBankAccount.getMoney() < moneyValue) {
+            throw new Exception("Transaction failed! Not enough money!");
+        }
+
+    }
+
+    public void isValidActivateRequest(HttpServletRequest request) throws Exception {
+        Long userId;
+        try {
+            userId = Long.valueOf(request.getParameter("users"));
+        } catch (NumberFormatException ex) {
+            throw new Exception("Activation failed! Bad request parameters!");
+        }
+
+        if (userId < 0 || userId > userDaoService.getUsers().size()) {
+            throw new Exception("Activation failed! Bad request parameters!");
         }
     }
 }

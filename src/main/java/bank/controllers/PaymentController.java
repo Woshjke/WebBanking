@@ -68,7 +68,10 @@ public class PaymentController {
     public RedirectView doPayment(HttpServletRequest request) {
         try {
             requestValidator.isValidPayment(request);
-            userAccountService.doPayment(request);
+            Long sourceBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
+            Long destinationOrganisationId = Long.parseLong(request.getParameter("organisation"));
+            Integer moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
+            userAccountService.doPayment(sourceBankAccountId, destinationOrganisationId, moneyToAdd);
             return new RedirectView(USER_PAGE + "?resultMessage=Payment completed");
         } catch (Exception ex) {
             return new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage());

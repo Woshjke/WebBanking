@@ -1,6 +1,6 @@
 $(document).ready(
     function () {
-        $('#getAllUsers').click(function (event) {
+        $('#getBankAccountInfo').click(function (event) {
             event.preventDefault();
             ajaxGet();
         });
@@ -9,26 +9,14 @@ $(document).ready(
             $.ajax({
                 type: "GET",
                 url: "filterBankAccounts",
-                data: {"username": $("#username").val()},
+                data: {"bankAccountId": $("#bankAccountsList").val()},
                 success: function (result) {
+                    $('#money_value').empty();
 
-                    //Стереть прошлый результат
-                    $('#getResult ul').empty();
-
-                    //Проходимся по коллекции, для каждого объекта создаем строку с его данными и добавляем на экран
-                    $.each(result.data,
-                        function (i, bankAccount) {
-                            var resultStr = "Id: "
-                                + bankAccount.id + "<br>"
-                                + " Money:  "
-                                + bankAccount.money
-                                + "<p></p>";
-                            $('#getResult .list-group').append(
-                                resultStr)
-                        });
+                    var money_value = result.data.money;
+                    $('#money_value').append("Money on account: " + money_value);
                 },
                 error: function (e) {
-                    $('#getResult ul').empty();
                     console.log("ERROR: ", e);
                 }
 

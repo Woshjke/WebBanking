@@ -78,6 +78,7 @@ public class AdminAccountService {
         user.setStatus("disabled");
 
         userDaoService.createUser(user);
+        // TODO: 03.08.2019 Потом убрать это
 //        user = userDaoService.getUserByUsername(username);
 
 //        BankAccount bankAccount = new BankAccount();

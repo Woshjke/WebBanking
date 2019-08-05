@@ -6,18 +6,20 @@
     <title>Activate User</title>
 </head>
 <body>
-<c:forEach items="${usersToActivate}" var="user">
-    <select name="bankAccounts" class="form-control col-1">
-        <option value="${user.id}">${user.username}</option>
-    </select>
 
-    <form:form action="/" method="post">
-        <button type="submit">Activate</button>
-    </form:form>
-    <form:form action="/deleteDisabled" method="post">
-        <button type="submit">Delete</button>
-    </form:form>
-</c:forEach>
+<form:form action="/admin/doActivateUser" method="post">
+    <c:forEach items="${usersToActivate}" var="user">
+        <select name="users" class="form-control col-1">
+            <option value="${user.id}">${user.username}</option>
+        </select>
+    </c:forEach>
+
+    <button type="submit">Activate</button>
+</form:form>
+<%--<form:form action="/admin/doDelete" method="post">--%>
+<%--    <button type="submit">Delete</button>--%>
+<%--</form:form>--%>
+<%--\\--%>
 
 </body>
 </html>

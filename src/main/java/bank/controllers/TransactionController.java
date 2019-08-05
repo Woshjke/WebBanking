@@ -1,6 +1,7 @@
 package bank.controllers;
 
 import bank.AuthenticationHelper;
+import bank.RequestValidator;
 import bank.model.entity.User;
 import bank.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,15 @@ public class TransactionController {
 
     private UserAccountService userService;
     private AuthenticationHelper authenticationHelper;
+    private RequestValidator validator;
 
     @Autowired
-    public TransactionController(UserAccountService userService, AuthenticationHelper authenticationHelper) {
+    public TransactionController(UserAccountService userService,
+                                 AuthenticationHelper authenticationHelper,
+                                 RequestValidator validator) {
         this.userService = userService;
         this.authenticationHelper = authenticationHelper;
+        this.validator = validator;
     }
 
     /**
@@ -51,10 +56,15 @@ public class TransactionController {
      */
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
     public RedirectView doTransaction(HttpServletRequest request) {
-        if (!userService.doTransaction(request)) {
-            return new RedirectView(USER_PAGE + "?resultMessage=Transaction failed");
-        } else {
+        try {
+            validator.isValidTransactionRequest(request);
+            Long sourceBankAccountId = Long.valueOf(request.getParameter("source"));
+            Long destinationBankAccountId = Long.valueOf(request.getParameter("destination"));
+            Integer moneyValue = Integer.valueOf(request.getParameter("value"));
+            userService.doTransaction(sourceBankAccountId, destinationBankAccountId, moneyValue);
             return new RedirectView(USER_PAGE + "?resultMessage=Transaction completed");
+        } catch (Exception ex) {
+            return new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage());
         }
     }
 }

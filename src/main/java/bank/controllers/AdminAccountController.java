@@ -41,7 +41,8 @@ public class AdminAccountController {
     private RequestValidator validator;
 
     @Autowired
-    public AdminAccountController(UserDaoService userDaoService, AdminAccountService adminService,
+    public AdminAccountController(UserDaoService userDaoService,
+                                  AdminAccountService adminService,
                                   BankAccountDaoService bankAccountDaoService,
                                   UserRoleDaoService userRoleDaoService,
                                   RequestValidator validator) {
@@ -241,32 +242,26 @@ public class AdminAccountController {
     }
 
 
-    /**
-     * Handling AJAX call form bank accounts reading view
-     *
-     * @param username - specific username in
-     * @return all bank accounts if username field was empty
-     * or bank accounts of specific user if username field wasn't empty
-     */
-    @ResponseBody
-    @RequestMapping(value = "/filterBankAccounts", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllBankAccounts(@RequestParam String username) {
-        if (username.equals("")) {
-            List<BankAccountDTO> bankAccounts = bankAccountDaoService.getBankAccountDTOList();
-            ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccounts);
-            return ResponseEntity.ok(response);
-        } else {
-            List<BankAccountDTO> bankAccountDTOS = userDaoService.getBankAccountDtoListByUsername(username);
-            ServiceResponse<List<BankAccountDTO>> response = new ServiceResponse<>("success", bankAccountDTOS);
-            return ResponseEntity.ok(response);
-        }
-    }
-
     @RequestMapping(value = "/activateUser", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showActivateUserPage() {
         ModelAndView mnv = new ModelAndView("activate_user_page");
         List<User> usersToActivate = userDaoService.getUserListByStatus("disabled");
+        if (usersToActivate.isEmpty()) {
+            return new ModelAndView(new RedirectView(ADMIN_PAGE + "?resultMessage=No users to activate"));
+        }
         mnv.addObject("usersToActivate", usersToActivate);
         return mnv;
+    }
+
+    @RequestMapping(value = "/doActivateUser", method = {RequestMethod.POST, RequestMethod.GET})
+    public RedirectView doActivateUser(HttpServletRequest request) {
+        try {
+            validator.isValidActivateRequest(request);
+            Long userId = Long.valueOf(request.getParameter("users"));
+            adminService.activateAccount(userId);
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=User activation completed");
+        } catch (Exception ex) {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
+        }
     }
 }

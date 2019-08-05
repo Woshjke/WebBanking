@@ -1,6 +1,5 @@
 package bank.services;
 
-import bank.AuthenticationHelper;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Transaction;
 import bank.services.dbServices.BankAccountDaoService;
@@ -14,7 +13,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.List;
 import java.util.Scanner;
 
 @Service
@@ -23,47 +21,35 @@ public class UserAccountService {
     private OrganisationDaoService organisationService;
     private BankAccountDaoService bankAccountDaoService;
     private TransactionDaoService transactionDaoService;
-    private AuthenticationHelper authenticationHelper;
 
     private static final String NBRB_RATES_URL = "http://www.nbrb.by/API/ExRates/Rates/";
 
     @Autowired
     public UserAccountService(OrganisationDaoService organisationService,
                               BankAccountDaoService bankAccountDaoService,
-                              TransactionDaoService transactionDaoService,
-                              AuthenticationHelper authenticationHelper) {
+                              TransactionDaoService transactionDaoService) {
         this.organisationService = organisationService;
         this.bankAccountDaoService = bankAccountDaoService;
         this.transactionDaoService = transactionDaoService;
-        this.authenticationHelper = authenticationHelper;
     }
 
     /**
      * This method transfers money from the user account to the organization account
      *
-     * @param request - request form JSP with needed parameters
      */
 
-    public void doPayment(HttpServletRequest request) {
-            Long targetOrganisationId = Long.parseLong(request.getParameter("organisation"));
-            Integer moneyToAdd = Integer.parseInt(request.getParameter("money_count"));
-            Long sourceBankAccountId = Long.parseLong(request.getParameter("bankAccounts"));
-
-            //забираем деньги у пользователя
+    //todo поменить аккаунт для входящих денег флагом. useForDefaultIncomingPayment
+    public void doPayment(Long sourceBankAccountId, Long destinationOrganisationId, Integer moneyToAdd) {
             BankAccount sourceBankAccount = bankAccountDaoService.getBankAccountById(sourceBankAccountId);
             sourceBankAccount.takeMoney(moneyToAdd);
 
-            //отдаем организации
-            //todo поменить аккаунт для входящих денег флагом. useForDefaultIncomingPayment
-            BankAccount orgBankAccount = organisationService.getOrganisationsById(targetOrganisationId)
+            BankAccount orgBankAccount = organisationService.getOrganisationsById(destinationOrganisationId)
                     .getBankAccountList().get(0);
             orgBankAccount.addMoney(moneyToAdd);
 
-            //создаем запись операции в базе
             Transaction transaction = new Transaction(sourceBankAccount, orgBankAccount, moneyToAdd);
             transactionDaoService.createTransaction(transaction);
 
-            //сохраняем изменения в базе
             bankAccountDaoService.updateBankAccount(sourceBankAccount);
             bankAccountDaoService.updateBankAccount(orgBankAccount);
     }
@@ -71,38 +57,13 @@ public class UserAccountService {
     /**
      * This method transfers money direct from the user account to the another user account
      *
-     * @param request - request form JSP with needed parameters
      * @return was transaction completed or not
      */
-    public boolean doTransaction(HttpServletRequest request) {
-        BankAccount sourceBankAccount;
-        BankAccount destinationBankAccount;
-        Integer moneyValue;
-
-        try {
-            sourceBankAccount = bankAccountDaoService.
-                    getBankAccountById(Long.parseLong(request.getParameter("source")));
-            destinationBankAccount = bankAccountDaoService.
-                    getBankAccountById(Long.parseLong(request.getParameter("destination")));
-            moneyValue = Integer.parseInt(request.getParameter("value"));
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-
-        List<BankAccount> authUserBankAccounts = authenticationHelper.getAuthenticatedUser().getBankAccounts();
-        if (!authUserBankAccounts.contains(sourceBankAccount)) {
-            return false;
-        }
-
-        if (destinationBankAccount == null) {
-            System.out.println("Cannot find bank account with id: " +
-                    Long.parseLong(request.getParameter("destination")));
-            return false;
-        }
-        if (moneyValue > sourceBankAccount.getMoney()) {
-            System.out.println("Not enough money!");
-            return false;
-        }
+    public void doTransaction(Long sourceBankAccountId, Long destinationBankAccountId, Integer moneyValue) {
+        BankAccount sourceBankAccount = bankAccountDaoService.
+                getBankAccountById(sourceBankAccountId);
+        BankAccount destinationBankAccount = bankAccountDaoService.
+                getBankAccountById(destinationBankAccountId);
 
         sourceBankAccount.takeMoney(moneyValue);
         destinationBankAccount.addMoney(moneyValue);
@@ -114,9 +75,9 @@ public class UserAccountService {
                 destinationBankAccount,
                 moneyValue);
         transactionDaoService.createTransaction(transaction);
-        return true;
     }
 
+    //todo переделать и встроить в проект
     public boolean addOrganisation(HttpServletRequest request) {
         // TODO: 23.07.2019 Проверить пренадлежит ли аккаунт залогиненому пользователю
         Long selectedBankAccountID;
@@ -154,17 +115,9 @@ public class UserAccountService {
         return json;
     }
 
-    public boolean addMoney(Long bankAccountID, Integer moneyToAdd) {
-        try {
-//            Long bankAccountID = Long.parseLong(request.getParameter("bankAccounts"));
-//            Integer moneyToAdd = Integer.parseInt(request.getParameter("moneyToAdd"));
-            BankAccount bankAccount = bankAccountDaoService.getBankAccountById(bankAccountID);
-            bankAccount.addMoney(moneyToAdd);
-            bankAccountDaoService.saveBankAccount(bankAccount);
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-        return true;
+    public void addMoney(Long bankAccountID, Integer moneyToAdd) {
+        BankAccount bankAccount = bankAccountDaoService.getBankAccountById(bankAccountID);
+        bankAccount.addMoney(moneyToAdd);
+        bankAccountDaoService.saveBankAccount(bankAccount);
     }
-
 }

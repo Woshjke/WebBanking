@@ -1,11 +1,15 @@
 package bank.controllers;
 
 import bank.AuthenticationHelper;
+import bank.BankCardNumberGenerator;
 import bank.RequestValidator;
+import bank.model.dto.BankAccountDTO;
 import bank.model.entity.BankAccount;
 import bank.model.entity.User;
+import bank.responses.ServiceResponse;
 import bank.services.UserAccountService;
 import bank.services.dbServices.BankAccountDaoService;
+import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,16 +35,19 @@ public class UserAccountController {
 	private AuthenticationHelper authenticationHelper;
 	private BankAccountDaoService bankAccountDaoService;
 	private RequestValidator validator;
+	private UserDaoService userDaoService;
 
 	@Autowired
 	public UserAccountController(UserAccountService userAccountService,
 								 AuthenticationHelper authenticationHelper,
 								 BankAccountDaoService bankAccountDaoService,
-								 RequestValidator validator) {
+								 RequestValidator validator,
+								 UserDaoService userDaoService) {
 		this.userAccountService = userAccountService;
 		this.authenticationHelper = authenticationHelper;
 		this.bankAccountDaoService = bankAccountDaoService;
 		this.validator = validator;
+		this.userDaoService = userDaoService;
 	}
 
 	/**
@@ -62,6 +69,11 @@ public class UserAccountController {
 		User authUser = authenticationHelper.getAuthenticatedUser();
 		mnv.addObject("authUser", authUser);
 
+		List<BankAccount> userBankAccounts =
+				bankAccountDaoService.getBankAccountsByUserId(authenticationHelper.getAuthenticatedUser()
+						.getId());
+		mnv.addObject("bankAccounts", userBankAccounts);
+
 		return mnv;
 	}
 
@@ -73,6 +85,21 @@ public class UserAccountController {
 		responseHeaders.add("Content-Type", "application/json; charset=utf-8");
 		responseHeaders.setCacheControl("no-cache, max-age=0");
 		return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
+	}
+
+	/**
+	 * Handling AJAX call form bank accounts reading view
+	 *
+	 * @param bankAccountId - specific username in
+	 * @return all bank accounts if username field was empty
+	 * or bank accounts of specific user if username field wasn't empty
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/filterBankAccounts", method = RequestMethod.GET)
+	public ResponseEntity<Object> getAllBankAccounts(@RequestParam Long bankAccountId) {
+			BankAccountDTO bankAccountDTO = bankAccountDaoService.getBankAccountDTOById(bankAccountId);
+			ServiceResponse<BankAccountDTO> response = new ServiceResponse<>("success", bankAccountDTO);
+			return ResponseEntity.ok(response);
 	}
 
 	@RequestMapping(value = "/addMoney", method = {RequestMethod.POST, RequestMethod.GET})
@@ -94,5 +121,21 @@ public class UserAccountController {
 		} catch (Exception ex) {
 			return new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage());
 		}
+	}
+
+	@RequestMapping(value = "/addBankAccount", method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView showBankAccountAddingMenu() {
+		return new ModelAndView("add_bank_account_page");
+	}
+
+	@RequestMapping(value = "/doAddBankAccount", method = {RequestMethod.POST, RequestMethod.GET})
+	public RedirectView doAddBankAccount(HttpServletRequest request) {
+		BankAccount bankAccount = new BankAccount();
+		bankAccount.setMoney(0.);
+		bankAccount.setUser(authenticationHelper.getAuthenticatedUser());
+		BankCardNumberGenerator generator= new BankCardNumberGenerator();
+		bankAccount.setCardNumber(generator.generate("21", 16));
+		bankAccountDaoService.saveBankAccount(bankAccount);
+		return new RedirectView(USER_PAGE);
 	}
 }
