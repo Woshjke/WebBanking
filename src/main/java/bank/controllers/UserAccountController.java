@@ -77,6 +77,7 @@ public class UserAccountController {
 		return mnv;
 	}
 
+
 	@ResponseBody
 	@RequestMapping(value = "/getCurrency", method = RequestMethod.GET)
 	public ResponseEntity<String> getCurrency(@RequestParam String currency) {
@@ -137,5 +138,10 @@ public class UserAccountController {
 		bankAccount.setCardNumber(generator.generate("21", 16));
 		bankAccountDaoService.saveBankAccount(bankAccount);
 		return new RedirectView(USER_PAGE);
+	}
+
+	@RequestMapping(value = "/a", method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView reg() {
+		return new ModelAndView("new");
 	}
 }

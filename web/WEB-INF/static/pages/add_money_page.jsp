@@ -18,20 +18,23 @@
 </style>
 
 <body>
+<%@include file="navbar.html"%>
 
-<form:form action="/admin/doAddMoney" method="post">
-    <label style="color: white">To Bank Account:</label>
-    <select name="bankAccounts" class="form-control col-1">
-        <c:forEach items="${bankAccounts}" var="bankAccount">
-            <option value="${bankAccount.id}">${bankAccount.user.username}</option>
-        </c:forEach>
-    </select>
-    <p></p>
-    <p style="color: white">How much:</p>
-    <input name="moneyToAdd" type="number" class="input-group-text" required/>
-    <p></p>
-    <input type="submit" class="btn btn-outline-primary" name="submitPayment" value="Add money"/>
-</form:form>
+<div style="margin-top: 100px; margin-left: 30px">
+    <form:form action="/admin/doAddMoney" method="post">
+        <label style="color: white">To Bank Account:</label>
+        <select name="bankAccounts" class="form-control col-1">
+            <c:forEach items="${bankAccounts}" var="bankAccount">
+                <option value="${bankAccount.id}">${bankAccount.user.username}</option>
+            </c:forEach>
+        </select>
+        <p></p>
+        <p style="color: white">How much:</p>
+        <input name="moneyToAdd" type="number" class="input-group-text" required/>
+        <p></p>
+        <input type="submit" class="btn btn-outline-primary" name="submitPayment" value="Add money"/>
+    </form:form>
+</div>
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

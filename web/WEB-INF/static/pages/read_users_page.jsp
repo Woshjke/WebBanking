@@ -19,21 +19,27 @@
     <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
 </style>
 
-<body style="margin-left: 10px; margin-top: 10px">
+<body>
+<%@include file="navbar.html"%>
 
-<div class="form-group">
-    <label for="username" style="color: white">Write specific username or get all users</label>
-    <p></p>
-    <p></p>
-    <label for="username" style="color: white">Username</label>
-    <input id="username" name="username" type="text" class="input-group-text">
-    <p></p>
-    <button id="getAllUsers" type="button" onclick="" class="btn btn-outline-primary">Get Users</button>
+<div style="margin-top: 100px; margin-left: 30px">
+    <div class="form-group">
+        <label for="username" style="color: white">Write specific username or get all users</label>
+        <p></p>
+        <p></p>
+        <label for="username" style="color: white">Username</label>
+        <input id="username" name="username" type="text" class="input-group-text">
+        <p></p>
+        <button id="getAllUsers" type="button" onclick="" class="btn btn-outline-primary">Get Users</button>
+    </div>
+    <div id="getResult">
+        <ul class="list-group" style="color: white"></ul>
+    </div>
 </div>
 
-<div id="getResult">
-    <ul class="list-group" style="color: white"></ul>
-</div>
+<table class="table table-dark table-striped" id="table">
+
+</table>
 
 
 <%--Bootstrap JS classes--%>

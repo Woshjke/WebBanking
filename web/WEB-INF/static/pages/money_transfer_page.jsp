@@ -19,10 +19,12 @@
 </style>
 
 <body>
-<form:form method="POST" action="/user/doTransaction">
-    <div style="margin-left: 10px; margin-top: 10px">
+<%@include file="navbar.html" %>
+
+<div style="margin-left: 10px; margin-top: 100px">
+    <form:form method="POST" action="/user/doTransaction">
         <p style="color: white">To Bank Account</p>
-        <input  name="destination" type="number" class="input-group-text" required/>
+        <input name="destination" type="number" class="input-group-text" required/>
         <p style="color: white">How much:</p>
         <input name="value" type="number" class="input-group-text" required/>
         <p style="color: white">From Bank Account:</p>
@@ -33,8 +35,8 @@
         </select>
         <p></p>
         <input type="submit" value="Do Transfer" class="btn btn-outline-primary"/>
-    </div>
-</form:form>
+    </form:form>
+</div>
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

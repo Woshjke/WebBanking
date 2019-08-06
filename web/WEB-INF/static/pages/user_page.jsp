@@ -27,73 +27,47 @@
 </script>
 
 <body style="background: url(/img/star-sky.jpg) #475d62;">
-
-<nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
-    <a href="#" class="navbar-brand">Web Banking</a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Bank operations
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/payment">
-                        Do Payment to organisation
-                    </a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/transaction">
-                        Do Transaction to bank account
-                    </a>
+<%@include file="navbar.html" %>
+<div style="margin-top: 100px">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Currency rate</h5>
+                        <select id="currencyList" class="form-control col-4">
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                        </select>
+                        <p class="card-text" style="margin-top: 10px">
+                            <label id="date" style="color: black;"></label>
+                            <br>
+                            <label id="currencyName" style="color: black;"></label>
+                            <br>
+                            <label id="currencyRate" style="color: black;"></label>
+                        </p>
+                        <a href="#" class="btn btn-primary" id="getCurrencyButton">Get currency rate</a>
+                    </div>
                 </div>
-            </li>
-                <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Logout</a>
-<%--                <a href="${pageContext.request.contextPath}/user/home_page" class="nav-link">${authUser.username}</a>--%>
-                <a href="${pageContext.request.contextPath}/admin/admin_page" class="nav-link">Admin page</a>
-        </ul>
-    </div>
-</nav>
 
-<div class="container">
-    <div class="row" style="margin-top: 100px">
-        <div class="col-md-6">
-            <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
-                <div class="card-body">
-                    <h5 class="card-title">Currency rate</h5>
-                    <select id="currencyList" class="form-control col-4">
-                        <option value="USD">USD</option>
-                        <option value="EUR">EUR</option>
-                    </select>
-                    <p class="card-text" style="margin-top: 10px">
-                        <label id="date" style="color: black;"></label>
-                        <br>
-                        <label id="currencyName" style="color: black;"></label>
-                        <br>
-                        <label id="currencyRate" style="color: black;"></label>
-                    </p>
-                    <a href="#"  class="btn btn-primary" id="getCurrencyButton">Get currency rate</a>
-                </div>
+                <p></p>
+
+                <label style="color: red;">${resultMessage}</label>
             </div>
-
-            <p></p>
-
-            <label style="color: red;">${resultMessage}</label>
-        </div>
-        <div class="col-md-6">
-            <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
-                <div class="card-body">
-                    <h5 class="card-title">Your bank accounts</h5>
-                    <select id="bankAccountsList" class="form-control col-16">
-                        <c:forEach items="${bankAccounts}" var="bankAccount">
-                            <option value="${bankAccount.id}">${bankAccount.cardNumber}</option>
-                        </c:forEach>
-                    </select>
-                    <p class="card-text" style="margin-top: 10px">
-                        <label id="money_value" style="color: black;"></label>
-                    </p>
-                    <a href="#" class="btn btn-primary" id="getBankAccountInfo">Check bank account</a>
+            <div class="col-md-6">
+                <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Your bank accounts</h5>
+                        <select id="bankAccountsList" class="form-control col-16">
+                            <c:forEach items="${bankAccounts}" var="bankAccount">
+                                <option value="${bankAccount.id}">${bankAccount.cardNumber}</option>
+                            </c:forEach>
+                        </select>
+                        <p class="card-text" style="margin-top: 10px">
+                            <label id="money_value" style="color: black;"></label>
+                        </p>
+                        <a href="#" class="btn btn-primary" id="getBankAccountInfo">Check bank account</a>
+                    </div>
                 </div>
             </div>
         </div>

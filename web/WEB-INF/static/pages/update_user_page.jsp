@@ -20,7 +20,9 @@
 </style>
 
 <body>
-<div style="margin-top: 20px; margin-left: 20px">
+<%@include file="navbar.html"%>
+
+<div style="margin-top: 100px; margin-left: 30px">
     <form:form name="getUserForm" method="post" action="/admin/updateUser">
         <select name="users" class="form-control col-1">
             <c:forEach items="${usersList}" var="user">

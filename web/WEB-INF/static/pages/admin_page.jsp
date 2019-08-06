@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Admin page</title>
-
 </head>
 
 <style>
@@ -20,35 +19,35 @@
 </style>
 
 <body>
-<form:form name="createUserPage" method="post" action="/admin/createUser">
-    <button type="submit" class="btn btn-primary">Create user</button>
-</form:form>
+<%@include file="navbar.html"%>
 
-<form:form name="getUsersPage" method="get" action="/admin/readUsers">
-    <button type="submit" class="btn btn-primary">Read users</button>
-</form:form>
+<div style="margin-top: 100px; margin-left: 30px">
+    <form:form name="createUserPage" method="post" action="/admin/createUser">
+        <button type="submit" class="btn btn-primary">Create user</button>
+    </form:form>
 
-<form:form name="getBankAccountsPage" method="get" action="/admin/readBankAccounts">
-    <button type="submit" class="btn btn-primary">Read bank accounts</button>
-</form:form>
+    <form:form name="getUsersPage" method="get" action="/admin/readUsers">
+        <button type="submit" class="btn btn-primary">Read users</button>
+    </form:form>
 
-<form:form name="updateUserPage" method="post" action="/admin/updateUser">
-    <button type="submit" class="btn btn-primary">Update user</button>
-</form:form>
+    <form:form name="updateUserPage" method="post" action="/admin/updateUser">
+        <button type="submit" class="btn btn-primary">Update user</button>
+    </form:form>
 
-<form:form name="deleteUserPage" method="post" action="/admin/deleteUser">
-    <button type="submit" class="btn btn-primary">Delete user</button>
-</form:form>
+    <form:form name="deleteUserPage" method="post" action="/admin/deleteUser">
+        <button type="submit" class="btn btn-primary">Delete user</button>
+    </form:form>
 
-<form:form name="activateUserPage" method="get" action="/admin/activateUser">
-    <button type="submit" class="btn btn-primary">Activate user</button>
-</form:form>
+    <form:form name="activateUserPage" method="get" action="/admin/activateUser">
+        <button type="submit" class="btn btn-primary">Activate user</button>
+    </form:form>
 
-<form:form name="deleteUserPage" method="get" action="/user/user_page">
-    <button type="submit" class="btn btn-primary">User page</button>
-</form:form>
+    <form:form name="deleteUserPage" method="get" action="/user/user_page">
+        <button type="submit" class="btn btn-primary">User page</button>
+    </form:form>
 
-<label style="color: red;">${resultMessage}</label>
+    <label style="color: red;">${resultMessage}</label>
+</div>
 
 
 <%--Bootstrap JS classes--%>

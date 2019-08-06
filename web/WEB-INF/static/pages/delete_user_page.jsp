@@ -19,20 +19,23 @@
 </style>
 
 <body>
+<%@include file="navbar.html"%>
 
-<label>Delete user</label>
-<p></p>
-<p></p>
-
-<form:form name="deleteUserForm" action="/admin/doDelete" method="post">
-    <select name="users" class="form-control col-1">
-        <c:forEach items="${usersList}" var="user">
-            <option value="${user.id}">${user.username}</option>
-        </c:forEach>
-    </select>
+<div style="margin-top: 100px">
+    <label>Delete user</label>
     <p></p>
-    <button type="submit" class="btn btn-outline-primary">Delete</button>
-</form:form>
+    <p></p>
+
+    <form:form name="deleteUserForm" action="/admin/doDelete" method="post">
+        <select name="users" class="form-control col-1">
+            <c:forEach items="${usersList}" var="user">
+                <option value="${user.id}">${user.username}</option>
+            </c:forEach>
+        </select>
+        <p></p>
+        <button type="submit" class="btn btn-outline-primary">Delete</button>
+    </form:form>
+</div>
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

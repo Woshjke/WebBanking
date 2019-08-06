@@ -13,10 +13,13 @@
     <title>Add bank account</title>
 </head>
 <body>
+<%@include file="navbar.html"%>
 
-<form:form action="/user/doAddBankAccount" method="post">
-    <button type="submit" class="btn btn-primary">Test</button>
-</form:form>
+<div style="margin-top: 100px; margin-left: 30px">
+    <form:form action="/user/doAddBankAccount" method="post">
+        <button type="submit" class="btn btn-primary">Test</button>
+    </form:form>
+</div>
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

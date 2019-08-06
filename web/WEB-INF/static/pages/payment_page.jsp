@@ -19,31 +19,34 @@
 </style>
 
 <body>
+<%@include file="navbar.html"%>
 
-<div class="form-group" style="margin-top: 80px; margin-left: 30px">
-    <form:form action="/user/doPayment" method="post">
+<div style="margin-top: 100px; margin-left: 30px">
+    <div class="form-group">
+        <form:form action="/user/doPayment" method="post">
 
-        <label style="color: white">To Bank Account:</label>
-        <p></p>
-        <select name="organisation" class="form-control col-1">
-            <c:forEach items="${orgs}" var="org">
-                <option value="${org.id}">${org.name}</option>
-            </c:forEach>
-        </select>
-        <p></p>
-        <label style="color: white">How Much:</label>
-        <p></p>
-        <input type="number" class="input-group-text" name="money_count" required>
-        <p></p>
-        <label style="color: white">From Bank Account:</label>
-        <select name="bankAccounts" class="form-control col-1">
-            <c:forEach items="${bankAccounts}" var="bankAccount">
-                <option value="${bankAccount.id}">${bankAccount.id}</option>
-            </c:forEach>
-        </select>
-        <p></p>
-        <input type="submit" class="btn btn-outline-primary" name="submitPayment" value="Do transaction"/>
-    </form:form>
+            <label style="color: white">To Bank Account:</label>
+            <p></p>
+            <select name="organisation" class="form-control col-1">
+                <c:forEach items="${orgs}" var="org">
+                    <option value="${org.id}">${org.name}</option>
+                </c:forEach>
+            </select>
+            <p></p>
+            <label style="color: white">How Much:</label>
+            <p></p>
+            <input type="number" class="input-group-text" name="money_count" required>
+            <p></p>
+            <label style="color: white">From Bank Account:</label>
+            <select name="bankAccounts" class="form-control col-1">
+                <c:forEach items="${bankAccounts}" var="bankAccount">
+                    <option value="${bankAccount.id}">${bankAccount.id}</option>
+                </c:forEach>
+            </select>
+            <p></p>
+            <input type="submit" class="btn btn-primary" name="submitPayment" value="Do transaction"/>
+        </form:form>
+    </div>
 </div>
 
 
