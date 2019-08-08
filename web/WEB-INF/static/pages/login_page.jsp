@@ -21,21 +21,28 @@
 </style>
 
 <body>
-<%@include file="navbar.html"%>
+<%@include file="navbar.html" %>
 
 <div>
     <div class="login-dark">
         <form:form method="post" action="/process_login">
             <h2 class="sr-only">Login Form</h2>
-            <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
-            <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Username" required></div>
-            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" required>
+            <div class="illustration">
+                <i class="icon ion-ios-locked-outline"></i>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                <input class="form-control" type="text" name="username" placeholder="Username" required>
             </div>
-            <label style="color: red">${errorMessage}</label>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+            </div>
+            <label class="forgot">or</label>
+                <a class="btn btn-primary btn-block" href="${pageContext.request.contextPath}/register">Sign up</a>
         </form:form>
+        <label style="color: red">${errorMessage}</label>
     </div>
 </div>
 

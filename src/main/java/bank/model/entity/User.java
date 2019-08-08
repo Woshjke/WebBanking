@@ -35,6 +35,9 @@ public class User implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "activation_code")
+    private String activationCode;
+
     @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
     private List<BankAccount> bankAccounts = new ArrayList<>();
 

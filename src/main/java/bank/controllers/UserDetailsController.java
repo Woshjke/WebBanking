@@ -1,5 +1,6 @@
 package bank.controllers;
 
+import bank.model.entity.User;
 import bank.model.entity.UserDetails;
 import bank.services.dbServices.UserDaoService;
 import bank.services.dbServices.UserDetailsDaoService;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Base64;
 
+import static bank.ApplicationProperties.LOGIN_PAGE;
+
 @Controller
 public class UserDetailsController {
 
@@ -27,13 +30,9 @@ public class UserDetailsController {
         this.userDetailsDaoService = userDetailsDaoService;
     }
 
-    @RequestMapping(value = "/showUserDetails", method = RequestMethod.GET)
+    @RequestMapping(value = "/user_details", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showUserDetails() {
-        ModelAndView mnv = new ModelAndView("user_details");
-        UserDetails userDetails = userDetailsDaoService.findById(2L);
-        String base64image = Base64.getEncoder().encodeToString(userDetails.getProfileImage());
-        mnv.addObject("myImage", base64image);
-        return mnv;
+        return new ModelAndView("user_details");
     }
 
     @RequestMapping(value = "/userDetails", method = RequestMethod.POST)
@@ -42,17 +41,18 @@ public class UserDetailsController {
                                 @ModelAttribute("lastName") String lastName,
                                 @ModelAttribute("dob") String dob,
                                 @ModelAttribute("phoneNumber") String phoneNumber,
-                                @ModelAttribute("passId") String passId) throws IOException {
-        byte[] imageBytes = image.getBytes();
-        UserDetails userDetails = new UserDetails();
-        userDetails.setFirstName(firstName);
-        userDetails.setLastName(lastName);
-        userDetails.setDob(dob);
-        userDetails.setPassId(passId);
-        userDetails.setProfileImage(imageBytes);
-        userDetails.setUser(userDaoService.getUserByUsername("admin"));
-        userDetails.setPhoneNumber(phoneNumber);
-        userDetailsDaoService.save(userDetails);
-        return "admin_page";
+                                @ModelAttribute("passId") String passId,
+                                @ModelAttribute("userId") String userId) throws IOException {
+//        byte[] imageBytes = image.getBytes();
+//        UserDetails userDetails = new UserDetails();
+//        userDetails.setFirstName(firstName);
+//        userDetails.setLastName(lastName);
+//        userDetails.setDob(dob);
+//        userDetails.setPassId(passId);
+//        userDetails.setProfileImage(imageBytes);
+//        userDetails.setUser(userDaoService.getUserByUsername("admin"));
+//        userDetails.setPhoneNumber(phoneNumber);
+//        userDetailsDaoService.save(userDetails);
+        return LOGIN_PAGE;
     }
 }

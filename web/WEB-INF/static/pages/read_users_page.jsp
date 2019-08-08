@@ -22,24 +22,21 @@
 <body>
 <%@include file="navbar.html"%>
 
-<div style="margin-top: 100px; margin-left: 30px">
-    <div class="form-group">
-        <label for="username" style="color: white">Write specific username or get all users</label>
-        <p></p>
-        <p></p>
-        <label for="username" style="color: white">Username</label>
-        <input id="username" name="username" type="text" class="input-group-text">
-        <p></p>
-        <button id="getAllUsers" type="button" onclick="" class="btn btn-outline-primary">Get Users</button>
-    </div>
-    <div id="getResult">
-        <ul class="list-group" style="color: white"></ul>
+<div style="margin-top: 100px;">
+    <div class="card mx-auto" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Find user by specific username or get all users</h5>
+            <p class="card-text" style="margin-top: 20px">
+                <label style="color: black">Username</label>
+                <br>
+                <input id="username" name="username" class="form-control col-16"/>
+            </p>
+            <input id="getAllUsers" type="button" onclick="" class="btn btn-primary" value="Find">
+        </div>
     </div>
 </div>
 
-<table class="table table-dark table-striped" id="table">
-
-</table>
+<table class="table table-dark table-striped" id="table" style="margin-top: 50px"></table>
 
 
 <%--Bootstrap JS classes--%>

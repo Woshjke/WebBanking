@@ -15,4 +15,5 @@ public interface UserRepository extends CrudRepository<User, Integer>, JpaSpecif
     User findByUsername(String username);
     User findById(Long id);
     List<User> getAllByStatus(String status);
+    User findByActivationCode(String activationCode);
 }

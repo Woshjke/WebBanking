@@ -21,29 +21,34 @@
 <body>
 <%@include file="navbar.html" %>
 
-<div style="margin-left: 10px; margin-top: 100px">
+<div style="margin-top: 100px;">
     <form:form method="POST" action="/user/doTransaction">
-        <p style="color: white">To Bank Account</p>
-        <input name="destination" type="number" class="input-group-text" required/>
-        <p style="color: white">How much:</p>
-        <input name="value" type="number" class="input-group-text" required/>
-        <p style="color: white">From Bank Account:</p>
-        <select name="source" class="form-control col-1">
-            <c:forEach items="${bankAccounts}" var="bankAccount">
-                <option value="${bankAccount.id}">${bankAccount.id}</option>
-            </c:forEach>
-        </select>
-        <p></p>
-        <input type="submit" value="Do Transfer" class="btn btn-outline-primary"/>
-    </form:form>
-</div>
+    <div class="card mx-auto" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Submit payment to bank account</h5>
+            <p class="card-text" style="margin-top: 10px">
+                <label style="color: black">To Bank Account</label>
+                <input name="destination" type="number" class="form-control col-16" required/>
+                <label style="color: black">How much:</label>
+                <input name="value" type="number" class="form-control col-16" required/>
+                <label style="color: black">From Bank Account:</label>
+                <select name="source" class="form-control col-16">
+                    <c:forEach items="${bankAccounts}" var="bankAccount">
+                        <option value="${bankAccount.id}">${bankAccount.cardNumber}</option>
+                    </c:forEach>
+                </select>
+            </p>
+            <input type="submit" class="btn btn-primary" value="Submit"/>
+        </div>
+        </form:form>
+    </div>
 
-<%--Bootstrap JS classes--%>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <%--Bootstrap JS classes--%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 </body>
 </html>

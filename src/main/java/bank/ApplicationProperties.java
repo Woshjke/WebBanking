@@ -19,6 +19,8 @@ public class ApplicationProperties {
     public static final String UPDATE_USER_PAGE = "update_user_page";
     public static final String USER_PAGE = "user_page";
     public static final String READ_BANK_ACCOUNTS = "read_bank_accounts_page";
+    public static final String USER_DETAILS = "user_details";
+    public static final String AFTER_ACTIVATION_PAGE = "after_activation_page";
 
     private final Properties properties;
 

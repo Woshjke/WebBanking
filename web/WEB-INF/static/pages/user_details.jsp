@@ -11,25 +11,55 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>User details</title>
 </head>
+
+<style>
+    <%@include file="/WEB-INF/resources/css/buttonStyle.css"%>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
+</style>
+
 <body>
 <%@include file="navbar.html" %>
 
-<div style="margin-top: 100px; margin-left: 30px">
-    <form action="${pageContext.request.contextPath}/userDetails" method="post" enctype="multipart/form-data">
-        <input type="text" name="firstName">
-        <p></p>
-        <input type="text" name="lastName">
-        <p></p>
-        <input type="text" name="phoneNumber">
-        <p></p>
-        <input type="date" name="dob">
-        <p></p>
-        <input type="text" name="passId">
-        <p></p>
-        <input type="file" name="profileImage" accept="image/x-png,image/jpeg">
-        <p></p>
-        <input type="submit">
-    </form>
+<div style="margin-top: 100px;">
+    <form:form action="${pageContext.request.contextPath}/userDetails" method="post"
+               enctype="multipart/form-data">
+        <div class="card mx-auto" style="width: 19rem;">
+            <div class="card-body">
+                <h5 class="card-title">Add user information</h5>
+                <p class="card-text" style="margin-top: 10px">
+                    <input value="${user.id}" name="userId" hidden>
+                    <label style="color: black">Username</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="firstName" value="${user.username}" readonly>
+                    <br>
+                    <label style="color: black">First name</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="firstName">
+                    <br>
+                    <label style="color: black">Last name</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="lastName">
+                    <br>
+                    <label style="color: black">Phone number</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="phoneNumber">
+                    <br>
+                    <label style="color: black">Date of birthday</label>
+                    <br>
+                    <input type="date" class="form-control col-16" name="dob">
+                    <br>
+                    <label style="color: black">Passport ID</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="passId">
+                    <br>
+                    <label style="color: black">Profile image</label>
+                    <br>
+                    <input type="file" class="form-control-file" name="profileImage" accept="image/x-png,image/jpeg">
+                </p>
+                <input type="submit" class="btn btn-primary" value="Sign up"/>
+            </div>
+        </div>
+    </form:form>
 </div>
 
 <%--Bootstrap JS classes--%>

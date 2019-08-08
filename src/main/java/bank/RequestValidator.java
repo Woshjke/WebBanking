@@ -196,7 +196,8 @@ public class RequestValidator {
             throw new Exception("Activation failed! Bad request parameters!");
         }
 
-        if (userId < 0 || userId > userDaoService.getUsers().size()) {
+        //todo Переписать
+        if (userId < 0 || userDaoService.getUserById(userId) == null) {
             throw new Exception("Activation failed! Bad request parameters!");
         }
     }

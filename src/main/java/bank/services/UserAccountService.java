@@ -1,11 +1,14 @@
 package bank.services;
 
 import bank.model.entity.BankAccount;
+import bank.model.entity.Role;
 import bank.model.entity.Transaction;
+import bank.model.entity.User;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.TransactionDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +16,10 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -37,7 +43,6 @@ public class UserAccountService {
      * This method transfers money from the user account to the organization account
      *
      */
-
     //todo поменить аккаунт для входящих денег флагом. useForDefaultIncomingPayment
     public void doPayment(Long sourceBankAccountId, Long destinationOrganisationId, Integer moneyToAdd) {
             BankAccount sourceBankAccount = bankAccountDaoService.getBankAccountById(sourceBankAccountId);

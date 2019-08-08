@@ -12,19 +12,30 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Activate User</title>
 </head>
+
+<style>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
+</style>
+
 <body>
-<%@include file="navbar.html"%>
+<%@include file="navbar.html" %>
 
-<div style="margin-top: 100px; margin-left: 30px">
-    <form:form action="/admin/doActivateUser" method="post">
-        <c:forEach items="${usersToActivate}" var="user">
-            <select name="users" class="form-control col-1">
-                <option value="${user.id}">${user.username}</option>
-            </select>
-        </c:forEach>
-
-        <button type="submit">Activate</button>
-    </form:form>
+<div style="margin-top: 100px;">
+    <div class="card mx-auto" style="width: 18rem;">
+        <div class="card-body">
+            <form:form action="/admin/doActivateUser" method="post">
+                <h5 class="card-title">Activate user account</h5>
+                <p class="card-text" style="margin-top: 20px">
+                    <c:forEach items="${usersToActivate}" var="user">
+                        <select name="users" class="form-control col-auto">
+                            <option value="${user.id}">${user.username}</option>
+                        </select>
+                    </c:forEach>
+                </p>
+                <input type="submit" class="btn btn-primary" value="Activate"/>
+            </form:form>
+        </div>
+    </div>
 </div>
 
 <%--Bootstrap JS classes--%>

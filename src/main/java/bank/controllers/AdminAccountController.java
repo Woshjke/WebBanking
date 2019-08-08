@@ -68,35 +68,6 @@ public class AdminAccountController {
     }
 
     /**
-     * Handling request of getting user registration page
-     *
-     * @return user registration view
-     */
-    @RequestMapping(value = "/createUser", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView showCreateUserPage() {
-        return new ModelAndView(CREATE_USER_PAGE);
-    }
-
-    /**
-     * handling user registration request and calls registration service
-     *
-     * @param request - request from JSP
-     * @return admin page view
-     */
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public RedirectView doCreateUser(HttpServletRequest request) {
-        try {
-            validator.isValidUserCreateRequest(request);
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            adminService.registerUser(username, password);
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=Registration completed");
-        } catch (Exception ex) {
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
-        }
-    }
-
-    /**
      * Handling request of getting user update page
      *
      * @return user updating view with list of users and selected user (if selected)
@@ -190,7 +161,6 @@ public class AdminAccountController {
      * @param username - specific username in
      * @return all users if username field was empty or specific user if username field wasn't empty
      */
-    @ResponseBody
     @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllUsers(@RequestParam String username) {
         if (username.equals("")) {

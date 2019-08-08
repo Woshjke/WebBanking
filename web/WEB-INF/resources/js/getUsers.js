@@ -26,6 +26,7 @@ $(document).ready(
                         "    </tr>\n" +
                         "    </thead>\n" +
                         "    <tbody>\n";
+
                     $.each(result,
                         function (i, user) {
                             resultStr+=
@@ -41,7 +42,6 @@ $(document).ready(
                         resultStr)
                 },
                 error: function (e) {
-                    $('#getResult ul').empty();
                     console.log("ERROR: ", e);
                 }
             });

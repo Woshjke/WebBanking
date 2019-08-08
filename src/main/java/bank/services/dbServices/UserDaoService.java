@@ -38,6 +38,10 @@ public class UserDaoService {
         return (List<User>) userRepository.findAll();
     }
 
+    public User getUserByActivationCode(String activationCode) {
+        return userRepository.findByActivationCode(activationCode);
+    }
+
     /**
      * Getting user from database by ID
      * @param id - user ID

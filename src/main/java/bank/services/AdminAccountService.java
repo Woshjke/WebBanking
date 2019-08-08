@@ -60,43 +60,6 @@ public class AdminAccountService {
     }
 
     /**
-     * Registering user in system by calling UserDaoService method
-     */
-    public void registerUser(String username, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(new BCryptPasswordEncoder(11).encode(password));
-
-        Set<Role> userRoles = new HashSet<>();
-        List<Role> roles = roleDaoService.getRoles();
-        for (Role iter : roles) {
-            if (iter.getName().equals("ROLE_USER")) {
-                userRoles.add(iter);
-            }
-        }
-        user.setRoles(userRoles);
-        user.setStatus("disabled");
-
-        userDaoService.createUser(user);
-        // TODO: 03.08.2019 Потом убрать это
-//        user = userDaoService.getUserByUsername(username);
-
-//        BankAccount bankAccount = new BankAccount();
-//        bankAccount.setMoney(0.);
-//        bankAccount.setUser(user);
-//
-//        bankAccountDaoService.saveBankAccount(bankAccount);
-//
-//        List<BankAccount> bankAccountList = new ArrayList<>();
-//        bankAccountList.add(bankAccount);
-//        user.setBankAccounts(bankAccountList);
-
-//        userDaoService.updateUser(user);
-//        bankAccountDaoService.updateBankAccount(bankAccount);
-
-    }
-
-    /**
      * Updating user in database by calling UserDaoService method
      */
     public void updateUser(Long userToUpdateId, String newUsername, String newPassword) {

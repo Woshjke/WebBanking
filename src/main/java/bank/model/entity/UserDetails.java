@@ -34,6 +34,9 @@ public class UserDetails {
     @Column(name = "profile_image")
     private byte[] profileImage;
 
+    @Column(name = "email")
+    private String email;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;

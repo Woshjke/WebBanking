@@ -19,35 +19,64 @@
 </style>
 
 <body>
-<%@include file="navbar.html"%>
+<%@include file="navbar.html" %>
 
 <div style="margin-top: 100px;">
-    <form:form method="post" action="/admin/register">
-    <div class="card mx-auto" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">Registration</h5>
-            <p class="card-text" style="margin-top: 10px">
-                <label style="color: black">Username</label>
-                <br>
-                <input name="username" class="form-control col-16"/>
-                <br>
-                <label style="color: black">Password</label>
-                <br>
-                <input name="password" class="form-control col-16" type="password"
-                       pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"/>
-                <br>
-            </p>
-            <input type="submit" class="btn btn-primary" value="Sign up"/>
+    <form:form method="post" action="/doRegister" enctype="multipart/form-data">
+        <div class="card mx-auto" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Registration</h5>
+                <p class="card-text" style="margin-top: 10px">
+                    <label style="color: black">Username</label>
+                    <br>
+                    <input name="username" class="form-control col-16"/>
+                    <br>
+                    <label style="color: black">Password</label>
+                    <br>
+                    <input name="password" class="form-control col-16" type="password"
+                           pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"/>
+                    <br>
+                    <label style="color: black">First name</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="firstName">
+                    <br>
+                    <label style="color: black">Last name</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="lastName">
+                    <br>
+                    <label style="color: black">Email</label>
+                    <br>
+                    <input type="email" class="form-control col-16" name="email">
+                    <br>
+                    <label style="color: black">Phone number</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="phoneNumber">
+                    <br>
+                    <label style="color: black">Date of birthday</label>
+                    <br>
+                    <input type="date" class="form-control col-16" name="dob">
+                    <br>
+                    <label style="color: black">Passport ID</label>
+                    <br>
+                    <input type="text" class="form-control col-16" name="passId">
+                    <br>
+                    <label style="color: black">Profile image</label>
+                    <br>
+                    <input type="file" class="form-control-file" name="profileImage" accept="image/x-png,image/jpeg">
+                    <br>
+                    <input type="submit" class="btn btn-primary" value="Sign up"/>
+                </p>
+            </div>
         </div>
-        </form:form>
+    </form:form>
 </div>
 
-    <%--Bootstrap JS classes--%>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+<%--Bootstrap JS classes--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
