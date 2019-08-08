@@ -46,7 +46,7 @@ public class AuthenticationHelper {
             authUser.setUsername("anonymous");
             authUser.setRoles(roles);
         } else {
-            authUser = userDaoService.getUserByUsername(username);
+            authUser = userDaoService.getUserByUsernameWithFetchAll(username);
         }
         return authUser;
     }

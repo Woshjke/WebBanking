@@ -38,10 +38,10 @@ public class User implements Serializable {
     @Column(name = "activation_code")
     private String activationCode;
 
-    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user")
     private List<BankAccount> bankAccounts = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(
             name = "usr_role",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -61,6 +61,6 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), getBankAccounts(), getRoles());
+        return Objects.hash(getId(), getUsername(), getPassword());
     }
 }

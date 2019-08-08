@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String username) {
-        User user = userDaoService.getUserByUsername(username);
+        User user = userDaoService.getUserByUsernameWithFetchAll(username);
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));

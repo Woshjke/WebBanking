@@ -42,6 +42,10 @@ public class UserDaoService {
         return userRepository.findByActivationCode(activationCode);
     }
 
+    public User getUserByUsernameWithFetchAll(String username) {
+        return userRepository.findByUsernameAndFetchAll(username);
+    }
+
     /**
      * Getting user from database by ID
      * @param id - user ID

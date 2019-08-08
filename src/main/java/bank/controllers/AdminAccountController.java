@@ -162,6 +162,7 @@ public class AdminAccountController {
      * @return all users if username field was empty or specific user if username field wasn't empty
      */
     @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
+    //todo Пофиксить ситуацию, когда нет банковского аккаунта
     public ResponseEntity<Object> getAllUsers(@RequestParam String username) {
         if (username.equals("")) {
             List<UserDTO> userDTOS = userDaoService.getUserDtoList();
