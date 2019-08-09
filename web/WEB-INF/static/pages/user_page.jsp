@@ -60,7 +60,7 @@
             <div class="col-md-6">
                 <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
                     <div class="card-body">
-                        <h5 class="card-title">Your bank accounts</h5>
+                        <h5 class="card-title">Your credit card number:</h5>
                         <select id="bankAccountsList" class="form-control col-16">
                             <c:forEach items="${bankAccounts}" var="bankAccount">
                                 <option value="${bankAccount.id}">${bankAccount.cardNumber}</option>
@@ -93,7 +93,7 @@
                     <p>${resultMessage}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>

@@ -161,11 +161,19 @@ public class RequestValidator {
             destinationBankAccountCardNumber = Long.valueOf(request.getParameter("destination"));
             moneyValue = Integer.valueOf(request.getParameter("value"));
         } catch (NumberFormatException ex) {
-            throw new Exception("Transaction failed! Bad request parameters!");
+            throw new Exception("Transaction failed! Wrong data format!");
         }
 
-        if (sourceBankAccountId < 0 || destinationBankAccountCardNumber < 0 || moneyValue < 0) {
-            throw new Exception("Transaction failed! Bad request parameters!");
+        if (sourceBankAccountId < 0) {
+            throw new Exception("Wrong input! Source account id should be positive!");
+        }
+
+        if (destinationBankAccountCardNumber < 0) {
+            throw new Exception("Wrong input! Card number should be positive!");
+        }
+
+        if (moneyValue < 0) {
+            throw new Exception("Wrong input! Money value should be positive!");
         }
 
         BankAccount sourceBankAccount = bankAccountDaoService.
@@ -174,12 +182,16 @@ public class RequestValidator {
                 getBankAccountByCardNumber(request.getParameter("destination"));
 
         if (sourceBankAccount == null || destinationBankAccount == null) {
-            throw new Exception("Transaction failed! Bad request parameters!");
+            throw new Exception("Wrong input!");
+        }
+
+        if (destinationBankAccount.equals(sourceBankAccount)){
+            throw new Exception("Wrong input! You can't send the money to the same bank account you are using");
         }
 
         List<BankAccount> authUserBankAccounts = authenticationHelper.getAuthenticatedUser().getBankAccounts();
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
-            throw new Exception("Transaction failed! Authenticated user dont have bank account with id: " + sourceBankAccountId);
+            throw new Exception("Transaction failed! Authenticated user doesn't have bank account with id: " + sourceBankAccountId);
         }
 
         if (sourceBankAccount.getMoney() < moneyValue) {
@@ -196,7 +208,6 @@ public class RequestValidator {
             throw new Exception("Activation failed! Bad request parameters!");
         }
 
-        //todo Переписать
         if (userId < 0 || userDaoService.getUserById(userId) == null) {
             throw new Exception("Activation failed! Bad request parameters!");
         }

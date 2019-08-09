@@ -27,7 +27,7 @@
         <div class="card-body">
             <h5 class="card-title">Submit payment to bank account</h5>
             <p class="card-text" style="margin-top: 10px">
-                <label style="color: black">To Bank Account</label>
+                <label style="color: black">Enter card number:</label>
                 <input name="destination" type="number" class="form-control col-16" required/>
                 <label style="color: black">How much:</label>
                 <input name="value" type="number" class="form-control col-16" required/>
