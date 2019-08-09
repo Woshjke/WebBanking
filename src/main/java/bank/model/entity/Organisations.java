@@ -16,7 +16,6 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "organisations")
 public class Organisations implements Serializable {
 
@@ -28,21 +27,28 @@ public class Organisations implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "organisation")
     private List<BankAccount> bankAccountList;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Organisations)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Organisations that = (Organisations) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getName(), that.getName()) &&
-                Objects.equals(getBankAccountList(), that.getBankAccountList());
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getBankAccountList());
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Organisations{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -20,7 +20,7 @@
 </style>
 
 <body>
-<%@include file="navbar.html" %>
+<%@include file="navbar.jsp" %>
 
 <div style="margin-top: 100px;">
     <div class="card mx-auto" style="width: 18rem;">
@@ -59,7 +59,7 @@
                     <br>
                     <label style="color: black">New password</label>
                     <br>
-                    <input name="password" value="********" class="form-control col-16" type="password" required>
+                    <input name="password" class="form-control col-16" type="password" placeholder="********" required>
                 </p>
                 <input type="submit" class="btn btn-primary" value="Update"/>
             </div>

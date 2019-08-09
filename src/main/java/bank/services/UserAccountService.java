@@ -64,11 +64,11 @@ public class UserAccountService {
      *
      * @return was transaction completed or not
      */
-    public void doTransaction(Long sourceBankAccountId, Long destinationBankAccountId, Integer moneyValue) {
+    public void doTransaction(Long sourceBankAccountId, String destinationBankAccountCardNumber, Integer moneyValue) {
         BankAccount sourceBankAccount = bankAccountDaoService.
                 getBankAccountById(sourceBankAccountId);
         BankAccount destinationBankAccount = bankAccountDaoService.
-                getBankAccountById(destinationBankAccountId);
+                getBankAccountByCardNumber(destinationBankAccountCardNumber);
 
         sourceBankAccount.takeMoney(moneyValue);
         destinationBankAccount.addMoney(moneyValue);

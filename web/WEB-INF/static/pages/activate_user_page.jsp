@@ -18,7 +18,7 @@
 </style>
 
 <body>
-<%@include file="navbar.html" %>
+<%@include file="navbar.jsp" %>
 
 <div style="margin-top: 100px;">
     <div class="card mx-auto" style="width: 18rem;">

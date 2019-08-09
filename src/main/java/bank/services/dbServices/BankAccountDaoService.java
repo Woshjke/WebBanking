@@ -44,6 +44,10 @@ public class BankAccountDaoService {
         return bankAccountRepository.findById(id);
     }
 
+    public BankAccount getBankAccountByCardNumber(String cardNumber) {
+        return bankAccountRepository.findByCardNumber(cardNumber);
+    }
+
     /**
      * Getting bank accounts of specific user
      * @param id - user id

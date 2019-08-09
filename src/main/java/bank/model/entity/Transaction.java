@@ -1,10 +1,7 @@
 package bank.model.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +13,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "transaction")
 public class Transaction implements Serializable {
@@ -26,18 +22,18 @@ public class Transaction implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "source")
     private BankAccount source;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "destination")
     private BankAccount destination;
 
     @Column(name = "val")
     private Integer value;
 
-    public Transaction(BankAccount source, BankAccount destination, int value) {
+    public Transaction(BankAccount source, BankAccount destination, Integer value) {
         this.source = source;
         this.destination = destination;
         this.value = value;
@@ -46,16 +42,16 @@ public class Transaction implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Transaction)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getSource(), that.getSource()) &&
-                Objects.equals(getDestination(), that.getDestination()) &&
-                Objects.equals(getValue(), that.getValue());
+        return Objects.equals(id, that.id) &&
+                Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getSource(), getDestination(), getValue());
+        return Objects.hash(id, value);
     }
+
+
 }

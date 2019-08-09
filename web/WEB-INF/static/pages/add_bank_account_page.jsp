@@ -12,13 +12,27 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Add bank account</title>
 </head>
-<body>
-<%@include file="navbar.html"%>
 
-<div style="margin-top: 100px; margin-left: 30px">
-    <form:form action="/user/doAddBankAccount" method="post">
-        <button type="submit" class="btn btn-primary">Test</button>
-    </form:form>
+<style>
+    <%@include file="/WEB-INF/resources/css/buttonStyle.css"%>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
+</style>
+
+<body>
+<%@include file="navbar.jsp" %>
+
+<div style="margin-top: 100px;">
+    <div class="card mx-auto" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Create bank account</h5>
+            <p class="card-text" style="margin-top: 20px">
+                <label style="color: black">Create bank account and generate card number</label>
+            </p>
+            <form:form action="/user/doAddBankAccount" method="post">
+                <input type="submit" class="btn btn-primary" value="Create"/>
+            </form:form>
+        </div>
+    </div>
 </div>
 
 <%--Bootstrap JS classes--%>

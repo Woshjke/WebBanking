@@ -19,7 +19,7 @@
 </style>
 
 <body>
-<%@include file="navbar.html" %>
+<%@include file="navbar.jsp" %>
 
 <div style="margin-top: 100px;">
     <form:form method="POST" action="/user/doTransaction">

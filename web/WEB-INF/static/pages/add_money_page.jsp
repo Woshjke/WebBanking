@@ -18,7 +18,7 @@
 </style>
 
 <body>
-<%@include file="navbar.html"%>
+<%@include file="navbar.jsp"%>
 
 <div style="margin-top: 100px; margin-left: 30px">
     <form:form action="/admin/doAddMoney" method="post">

@@ -37,7 +37,7 @@ public class UserDetails {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

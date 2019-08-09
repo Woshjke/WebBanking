@@ -153,25 +153,25 @@ public class RequestValidator {
     public void isValidTransactionRequest(HttpServletRequest request) throws Exception {
 
         Long sourceBankAccountId;
-        Long destinationBankAccountId;
+        Long destinationBankAccountCardNumber;
         Integer moneyValue;
 
         try {
             sourceBankAccountId = Long.valueOf(request.getParameter("source"));
-            destinationBankAccountId = Long.valueOf(request.getParameter("destination"));
+            destinationBankAccountCardNumber = Long.valueOf(request.getParameter("destination"));
             moneyValue = Integer.valueOf(request.getParameter("value"));
         } catch (NumberFormatException ex) {
             throw new Exception("Transaction failed! Bad request parameters!");
         }
 
-        if (sourceBankAccountId < 0 || destinationBankAccountId < 0 || moneyValue < 0) {
+        if (sourceBankAccountId < 0 || destinationBankAccountCardNumber < 0 || moneyValue < 0) {
             throw new Exception("Transaction failed! Bad request parameters!");
         }
 
         BankAccount sourceBankAccount = bankAccountDaoService.
                 getBankAccountById(sourceBankAccountId);
         BankAccount destinationBankAccount = bankAccountDaoService.
-                getBankAccountById(Long.parseLong(request.getParameter("destination")));
+                getBankAccountByCardNumber(request.getParameter("destination"));
 
         if (sourceBankAccount == null || destinationBankAccount == null) {
             throw new Exception("Transaction failed! Bad request parameters!");

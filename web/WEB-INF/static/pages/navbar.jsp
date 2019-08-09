@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
-    <a href="#" class="navbar-brand">Web Banking</a>
+    <a href="/user/user_page" class="navbar-brand">Web Banking</a>
     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,8 +19,8 @@
                     </a>
                 </div>
             </li>
+            <a href="${pageContext.request.contextPath}/user/addBankAccount" class="nav-link">Add Bank Account</a>
             <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Logout</a>
-            <a href="${pageContext.request.contextPath}/user/home_page" class="nav-link">${authUser.username}</a>
             <a href="${pageContext.request.contextPath}/admin/admin_page" class="nav-link">Admin page</a>
         </ul>
     </div>

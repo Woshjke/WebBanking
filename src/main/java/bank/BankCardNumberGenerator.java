@@ -7,14 +7,7 @@ public class BankCardNumberGenerator {
     private Random random = new Random(System.currentTimeMillis());
 
     /**
-     * Generates a random valid credit card number. For more information about
-     * the credit card number generation algorithms and credit card numbers
-     * refer to <a
-     * href="http://euro.ecom.cmu.edu/resources/elibrary/everycc.htm">Everything
-     * you ever wanted to know about CC's</a>, <a
-     * href="http://www.darkcoding.net/credit-card/">Graham King's blog</a>, and
-     * <a href="http://codytaylor.org/2009/11/this-is-how-credit-card-numbers-are-generated.html"
-     * >This is How Credit Card Numbers Are Generated</a>
+     * Generates a random valid credit card number.
      *
      * @param bin
      *            The bank identification number, a set digits at the start of the credit card

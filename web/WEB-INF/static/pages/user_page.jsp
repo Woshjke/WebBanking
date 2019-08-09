@@ -11,23 +11,29 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Userpage</title>
+    <script>
+        var message = "${resultMessage}";
+        $( document ).ready(function() {
+            if (message) {
+                $("#message").click();
+            }
+        });
+    </script>
 </head>
 
 <style>
-    <%@include file="/WEB-INF/resources/css/user.css"%>
+    <%@include file="/WEB-INF/resources/css/buttonStyle.css"%>
     <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
 </style>
 
 <script type="text/javascript" charset="UTF-8">
     <%@include file="/WEB-INF/resources/js/getCurrency.js"%>
-</script>
-
-<script>
     <%@include file="/WEB-INF/resources/js/getBankAccounts.js"%>
 </script>
 
-<body style="background: url(/img/star-sky.jpg) #475d62;">
-<%@include file="navbar.html" %>
+<body>
+<%@include file="navbar.jsp" %>
+
 <div style="margin-top: 100px">
     <div class="container">
         <div class="row">
@@ -49,11 +55,8 @@
                         <a href="#" class="btn btn-primary" id="getCurrencyButton">Get currency rate</a>
                     </div>
                 </div>
-
-                <p></p>
-
-                <label style="color: red;">${resultMessage}</label>
             </div>
+
             <div class="col-md-6">
                 <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
                     <div class="card-body">
@@ -72,8 +75,31 @@
             </div>
         </div>
     </div>
-</div>
 
+    <button id="message" hidden="true" class="btn btn-primary" type="button" data-toggle="modal"
+            data-target="#resultMessageModal">Show
+        Message</button>
+
+    <div class="modal fade show" id="resultMessageModal" style="margin-top: 200px">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Message</h2>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>${resultMessage}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <%--Bootstrap JS classes--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

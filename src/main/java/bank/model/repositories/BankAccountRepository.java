@@ -17,4 +17,5 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
     BankAccount findById(Long id);
     List<BankAccount> findByUser(User user);
     List<BankAccount> findByUserId(long id);
+    BankAccount findByCardNumber(String cardNumber);
 }

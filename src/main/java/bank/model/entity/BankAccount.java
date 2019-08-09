@@ -29,16 +29,16 @@ public class BankAccount implements Serializable {
     @Column(name = "money")
     private Double money;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "card_number")
+    private String cardNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "organisation_id")
     private Organisations organisation;
 
-    @Column(name = "card_number")
-    private String cardNumber;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public void addMoney(Integer money) {
         double targetMoney = getMoney() + money;
@@ -53,16 +53,24 @@ public class BankAccount implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BankAccount)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         BankAccount that = (BankAccount) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getMoney(), that.getMoney()) &&
-                Objects.equals(getUser(), that.getUser()) &&
-                Objects.equals(getOrganisation(), that.getOrganisation());
+        return Objects.equals(id, that.id) &&
+                Objects.equals(money, that.money) &&
+                Objects.equals(cardNumber, that.cardNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getMoney(), getUser(), getOrganisation());
+        return Objects.hash(id, money, cardNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "id=" + id +
+                ", money=" + money +
+                ", cardNumber='" + cardNumber + '\'' +
+                '}';
     }
 }

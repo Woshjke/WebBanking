@@ -59,9 +59,9 @@ public class TransactionController {
         try {
             validator.isValidTransactionRequest(request);
             Long sourceBankAccountId = Long.valueOf(request.getParameter("source"));
-            Long destinationBankAccountId = Long.valueOf(request.getParameter("destination"));
+            String destinationBankAccountCardNumber = request.getParameter("destination");
             Integer moneyValue = Integer.valueOf(request.getParameter("value"));
-            userService.doTransaction(sourceBankAccountId, destinationBankAccountId, moneyValue);
+            userService.doTransaction(sourceBankAccountId, destinationBankAccountCardNumber, moneyValue);
             return new RedirectView(USER_PAGE + "?resultMessage=Transaction completed");
         } catch (Exception ex) {
             return new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage());

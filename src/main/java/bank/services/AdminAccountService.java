@@ -67,7 +67,9 @@ public class AdminAccountService {
 
         if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
             userToUpdate.setUsername(newUsername);
-            userToUpdate.setPassword(newPassword);
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
+
+            userToUpdate.setPassword(encoder.encode(newPassword));
             userDaoService.updateUser(userToUpdate);
         }
     }

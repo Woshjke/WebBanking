@@ -21,7 +21,7 @@
 </style>
 
 <body>
-<%@include file="navbar.html" %>
+<%@include file="navbar.jsp" %>
 
 <div>
     <div class="login-dark">

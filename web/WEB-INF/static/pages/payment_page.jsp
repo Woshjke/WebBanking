@@ -15,11 +15,12 @@
 </head>
 
 <style>
-    <%@include file="/WEB-INF/resources/css/user.css"%>
+    <%@include file="/WEB-INF/resources/css/buttonStyle.css"%>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
 </style>
 
 <body>
-<%@include file="navbar.html" %>
+<%@include file="navbar.jsp" %>
 
 <div style="margin-top: 100px;">
     <div class="form-group">
