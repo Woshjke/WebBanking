@@ -61,22 +61,6 @@ public class RegistrationService {
         userDaoService.createUser(user);
 
         return user;
-        // TODO: 03.08.2019 Потом убрать это
-//        user = userDaoService.getUserByUsername(username);
-
-//        BankAccount bankAccount = new BankAccount();
-//        bankAccount.setMoney(0.);
-//        bankAccount.setUser(user);
-//
-//        bankAccountDaoService.saveBankAccount(bankAccount);
-//
-//        List<BankAccount> bankAccountList = new ArrayList<>();
-//        bankAccountList.add(bankAccount);
-//        user.setBankAccounts(bankAccountList);
-
-//        userDaoService.updateUser(user);
-//        bankAccountDaoService.updateBankAccount(bankAccount);
-
     }
 
     public void setUserDetails(String firstName,

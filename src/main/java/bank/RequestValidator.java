@@ -16,17 +16,17 @@ public class RequestValidator {
 
     private BankAccountDaoService bankAccountDaoService;
     private OrganisationDaoService organisationDaoService;
-    private AuthenticationHelper authenticationHelper;
+    private AuthenticationHelperService authenticationHelperService;
     private UserDaoService userDaoService;
 
     @Autowired
     public RequestValidator(BankAccountDaoService bankAccountDaoService,
                             OrganisationDaoService organisationDaoService,
-                            AuthenticationHelper authenticationHelper,
+                            AuthenticationHelperService authenticationHelperService,
                             UserDaoService userDaoService) {
         this.bankAccountDaoService = bankAccountDaoService;
         this.organisationDaoService = organisationDaoService;
-        this.authenticationHelper = authenticationHelper;
+        this.authenticationHelperService = authenticationHelperService;
         this.userDaoService = userDaoService;
     }
 
@@ -56,7 +56,7 @@ public class RequestValidator {
             throw new Exception("Payment failed! Not enough money!");
         }
 
-        List<BankAccount> authUserBankAccounts = authenticationHelper.getAuthenticatedUser().getBankAccounts();
+        List<BankAccount> authUserBankAccounts = authenticationHelperService.getAuthenticatedUser().getBankAccounts();
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
             throw new Exception("Payment failed! Authenticated user dont have bank account with id: " + sourceBankAccountId);
         }
@@ -189,7 +189,7 @@ public class RequestValidator {
             throw new Exception("Wrong input! You can't send the money to the same bank account you are using");
         }
 
-        List<BankAccount> authUserBankAccounts = authenticationHelper.getAuthenticatedUser().getBankAccounts();
+        List<BankAccount> authUserBankAccounts = authenticationHelperService.getAuthenticatedUser().getBankAccounts();
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
             throw new Exception("Transaction failed! Authenticated user doesn't have bank account with id: " + sourceBankAccountId);
         }

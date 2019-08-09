@@ -68,10 +68,8 @@ public class HibernateConfig {
 
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.dialect",
-                applicationProperties.getProperty("hibernate.dialect"));
-        hibernateProperties.setProperty("hibernate.show_sql",
-                applicationProperties.getProperty("hibernate.show_sql"));
+        //hibernateProperties.setProperty("hibernate.dialect", applicationProperties.getProperty("hibernate.dialect"));
+        //hibernateProperties.setProperty("hibernate.show_sql", applicationProperties.getProperty("hibernate.show_sql"));
         return hibernateProperties;
     }
 }

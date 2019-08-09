@@ -21,7 +21,10 @@
             </li>
             <a href="${pageContext.request.contextPath}/user/addBankAccount" class="nav-link">Add Bank Account</a>
             <a href="${pageContext.request.contextPath}/process_logout" class="nav-link">Logout</a>
-            <a href="${pageContext.request.contextPath}/admin/admin_page" class="nav-link">Admin page</a>
+            <c:if test="${userRoles.contains('ROLE_ADMIN')}">
+                <a href="${pageContext.request.contextPath}/admin/admin_page" class="nav-link">Admin page</a>
+            </c:if>
+
         </ul>
     </div>
 </nav>

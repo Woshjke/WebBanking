@@ -1,10 +1,11 @@
 package bank.controllers;
 
-import bank.AuthenticationHelper;
+import bank.AuthenticationHelperService;
 import bank.BankCardNumberGenerator;
 import bank.RequestValidator;
 import bank.model.dto.BankAccountDTO;
 import bank.model.entity.BankAccount;
+import bank.model.entity.Role;
 import bank.model.entity.User;
 import bank.responses.ServiceResponse;
 import bank.services.UserAccountService;
@@ -32,19 +33,19 @@ import static bank.ApplicationProperties.USER_PAGE;
 public class UserAccountController {
 
 	private UserAccountService userAccountService;
-	private AuthenticationHelper authenticationHelper;
+	private AuthenticationHelperService authenticationHelperService;
 	private BankAccountDaoService bankAccountDaoService;
 	private RequestValidator validator;
 	private UserDaoService userDaoService;
 
 	@Autowired
 	public UserAccountController(UserAccountService userAccountService,
-								 AuthenticationHelper authenticationHelper,
+								 AuthenticationHelperService authenticationHelperService,
 								 BankAccountDaoService bankAccountDaoService,
 								 RequestValidator validator,
 								 UserDaoService userDaoService) {
 		this.userAccountService = userAccountService;
-		this.authenticationHelper = authenticationHelper;
+		this.authenticationHelperService = authenticationHelperService;
 		this.bankAccountDaoService = bankAccountDaoService;
 		this.validator = validator;
 		this.userDaoService = userDaoService;
@@ -66,13 +67,16 @@ public class UserAccountController {
 			mnv.addObject("resultMessage", resultMessage);
 		}
 
-		User authUser = authenticationHelper.getAuthenticatedUser();
+		User authUser = authenticationHelperService.getAuthenticatedUser();
 		mnv.addObject("authUser", authUser);
 
 		List<BankAccount> userBankAccounts =
-				bankAccountDaoService.getBankAccountsByUserId(authenticationHelper.getAuthenticatedUser()
+				bankAccountDaoService.getBankAccountsByUserId(authenticationHelperService.getAuthenticatedUser()
 						.getId());
+
+		List<String> roleList = authenticationHelperService.getAuthUserRoles();
 		mnv.addObject("bankAccounts", userBankAccounts);
+		mnv.addObject("userRoles", roleList);
 
 		return mnv;
 	}
@@ -133,7 +137,7 @@ public class UserAccountController {
 	public RedirectView doAddBankAccount(HttpServletRequest request) {
 		BankAccount bankAccount = new BankAccount();
 		bankAccount.setMoney(0.);
-		bankAccount.setUser(authenticationHelper.getAuthenticatedUser());
+		bankAccount.setUser(authenticationHelperService.getAuthenticatedUser());
 		BankCardNumberGenerator generator= new BankCardNumberGenerator();
 		bankAccount.setCardNumber(generator.generate("21", 16));
 		bankAccountDaoService.saveBankAccount(bankAccount);

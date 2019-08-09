@@ -1,6 +1,6 @@
 package bank.controllers;
 
-import bank.AuthenticationHelper;
+import bank.AuthenticationHelperService;
 import bank.model.entity.UserDetails;
 import bank.services.dbServices.UserDetailsDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +17,20 @@ import static bank.ApplicationProperties.HOME_PAGE;
 @RestController
 public class HomeController {
 
-    private AuthenticationHelper authenticationHelper;
+    private AuthenticationHelperService authenticationHelperService;
     private UserDetailsDaoService userDetailsDaoService;
 
     @Autowired
-    public HomeController(AuthenticationHelper authenticationHelper,
+    public HomeController(AuthenticationHelperService authenticationHelperService,
                           UserDetailsDaoService userDetailsDaoService) {
-        this.authenticationHelper = authenticationHelper;
+        this.authenticationHelperService = authenticationHelperService;
         this.userDetailsDaoService = userDetailsDaoService;
     }
 
     @RequestMapping(value = "/home_page", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showHomepage() {
         ModelAndView mnv = new ModelAndView(HOME_PAGE);
-        List<String> roles = authenticationHelper.getAuthUserRoles();
+        List<String> roles = authenticationHelperService.getAuthUserRoles();
         mnv.addObject("userRoles", roles);
         UserDetails userDetails = userDetailsDaoService.findById(2L);
         String base64image = Base64.getEncoder().encodeToString(userDetails.getProfileImage());

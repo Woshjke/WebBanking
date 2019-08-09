@@ -14,12 +14,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthenticationHelper {
+public class AuthenticationHelperService {
 
     private UserDaoService userDaoService;
 
     @Autowired
-    public AuthenticationHelper(UserDaoService userDaoService) {
+    public AuthenticationHelperService(UserDaoService userDaoService) {
         this.userDaoService = userDaoService;
     }
 

@@ -121,6 +121,6 @@ public class LoginPageController {
      */
     @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView redirectToUserPage() {
-        return new ModelAndView(new RedirectView("user/" + USER_PAGE));
+        return new ModelAndView(new RedirectView("/login"));
     }
 }

@@ -1,6 +1,6 @@
 package bank.controllers;
 
-import bank.AuthenticationHelper;
+import bank.AuthenticationHelperService;
 import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Organisations;
@@ -28,17 +28,17 @@ import static bank.ApplicationProperties.USER_PAGE;
 public class PaymentController {
 
     private OrganisationDaoService organisationService;
-    private AuthenticationHelper authenticationHelper;
+    private AuthenticationHelperService authenticationHelperService;
     private RequestValidator requestValidator;
     private UserAccountService userAccountService;
 
     @Autowired
     public PaymentController(OrganisationDaoService organisationService,
-                             AuthenticationHelper authenticationHelper,
+                             AuthenticationHelperService authenticationHelperService,
                              RequestValidator requestValidator,
                              UserAccountService userAccountService) {
         this.organisationService = organisationService;
-        this.authenticationHelper = authenticationHelper;
+        this.authenticationHelperService = authenticationHelperService;
         this.requestValidator = requestValidator;
         this.userAccountService = userAccountService;
     }
@@ -53,7 +53,7 @@ public class PaymentController {
         List<Organisations> organisations = organisationService.getOrganisations();
         mnv.addObject("orgs", organisations);
 
-        User user = authenticationHelper.getAuthenticatedUser();
+        User user = authenticationHelperService.getAuthenticatedUser();
         List<BankAccount> bankAccountSet = user.getBankAccounts();
         mnv.addObject("bankAccounts", bankAccountSet);
         return mnv;

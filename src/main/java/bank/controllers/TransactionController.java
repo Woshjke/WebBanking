@@ -1,6 +1,6 @@
 package bank.controllers;
 
-import bank.AuthenticationHelper;
+import bank.AuthenticationHelperService;
 import bank.RequestValidator;
 import bank.model.entity.User;
 import bank.services.UserAccountService;
@@ -25,15 +25,15 @@ import static bank.ApplicationProperties.USER_PAGE;
 public class TransactionController {
 
     private UserAccountService userService;
-    private AuthenticationHelper authenticationHelper;
+    private AuthenticationHelperService authenticationHelperService;
     private RequestValidator validator;
 
     @Autowired
     public TransactionController(UserAccountService userService,
-                                 AuthenticationHelper authenticationHelper,
+                                 AuthenticationHelperService authenticationHelperService,
                                  RequestValidator validator) {
         this.userService = userService;
-        this.authenticationHelper = authenticationHelper;
+        this.authenticationHelperService = authenticationHelperService;
         this.validator = validator;
     }
 
@@ -44,7 +44,7 @@ public class TransactionController {
     @RequestMapping(value = "/transaction", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showTransactionPage() {
         ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
-        User user = authenticationHelper.getAuthenticatedUser();
+        User user = authenticationHelperService.getAuthenticatedUser();
         mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
         return mnv;
     }
