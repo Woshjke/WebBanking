@@ -3,6 +3,7 @@ package bank.configuration;
 import bank.ApplicationProperties;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.flywaydb.core.Flyway;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -49,13 +50,12 @@ public class HibernateConfig {
 
     @Bean
     public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(applicationProperties.getProperty("database.driver"));
-        dataSource.setUrl(applicationProperties.getProperty("database.url"));
-        dataSource.setUsername(applicationProperties.getProperty("database.username"));
-        dataSource.setPassword(applicationProperties.getProperty("database.password"));
-
-        return dataSource;
+        return DataSourceBuilder.create()
+                .driverClassName(applicationProperties.getProperty("database.driver"))
+                .url(applicationProperties.getProperty("database.url"))
+                .username(applicationProperties.getProperty("database.username"))
+                .password(applicationProperties.getProperty("database.password"))
+                .build();
     }
 
     @Bean
@@ -68,8 +68,8 @@ public class HibernateConfig {
 
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        //hibernateProperties.setProperty("hibernate.dialect", applicationProperties.getProperty("hibernate.dialect"));
-        //hibernateProperties.setProperty("hibernate.show_sql", applicationProperties.getProperty("hibernate.show_sql"));
+        hibernateProperties.setProperty("hibernate.dialect",
+                applicationProperties.getProperty("hibernate.dialect"));
         return hibernateProperties;
     }
 }
