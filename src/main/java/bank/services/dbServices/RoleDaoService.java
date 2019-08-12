@@ -25,5 +25,11 @@ public class RoleDaoService {
         return (List<Role>) roleRepository.findAll();
     }
 
-    //todo add crud
+    public Role getRoleById(Long id) {
+        return roleRepository.findById(id);
+    }
+
+    public Role getRoleByName(String roleName) {
+        return roleRepository.findByName(roleName);
+    }
 }

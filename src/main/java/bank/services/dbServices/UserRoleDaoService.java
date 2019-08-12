@@ -16,6 +16,10 @@ public class UserRoleDaoService {
         this.userRoleRepository = userRoleRepository;
     }
 
+    public void save(UserRole userRole) {
+        userRoleRepository.save(userRole);
+    }
+
     public List<UserRole> getUserRolesByUserId(long id) {
         return userRoleRepository.getUserRolesByUserId(id);
     }

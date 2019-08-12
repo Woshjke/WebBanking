@@ -63,6 +63,27 @@ public class RegistrationService {
         return user;
     }
 
+    public User registerUserByAdmin(String username, String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(new BCryptPasswordEncoder(11).encode(password));
+
+        Set<Role> userRoles = new HashSet<>();
+        List<Role> roles = roleDaoService.getRoles();
+        for (Role iter : roles) {
+            if (iter.getName().equals("ROLE_USER")) {
+                userRoles.add(iter);
+            }
+        }
+        user.setRoles(userRoles);
+        user.setActivationCode("");
+        user.setStatus("active");
+
+        userDaoService.createUser(user);
+
+        return user;
+    }
+
     public void setUserDetails(String firstName,
                                String lastName,
                                String dob,

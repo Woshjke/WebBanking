@@ -1,5 +1,6 @@
 package bank.services.dbServices;
 
+import bank.model.entity.BankAccount;
 import bank.model.repositories.TransactionRepository;
 import bank.model.entity.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,17 @@ public class TransactionDaoService {
      */
     public void deleteTransaction(Transaction transaction) {
         transactionRepository.delete(transaction);
+    }
+
+    public List<Transaction> findBySourceBankAccount(BankAccount sourceBankAccount) {
+        return transactionRepository.findBySource(sourceBankAccount);
+    }
+
+    public List<Transaction> findByDestinationBankAccount(BankAccount destinationBankAccount) {
+        return transactionRepository.findByDestination(destinationBankAccount);
+    }
+
+    public List<Transaction> findBySourceOrDestinationBankAccount(BankAccount destinationBankAccount) {
+        return transactionRepository.findBySourceOrDestination(destinationBankAccount);
     }
 }

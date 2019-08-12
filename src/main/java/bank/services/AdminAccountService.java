@@ -4,9 +4,11 @@ import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Role;
 import bank.model.entity.User;
+import bank.model.entity.UserRole;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.RoleDaoService;
 import bank.services.dbServices.UserDaoService;
+import bank.services.dbServices.UserRoleDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,14 +27,17 @@ public class AdminAccountService {
     private UserDaoService userDaoService;
     private RoleDaoService roleDaoService;
     private BankAccountDaoService bankAccountDaoService;
+    private UserRoleDaoService userRoleDaoService;
 
     @Autowired
     public AdminAccountService(UserDaoService userDaoService,
                                RoleDaoService roleDaoService,
-                               BankAccountDaoService bankAccountDaoService) {
+                               BankAccountDaoService bankAccountDaoService,
+                               UserRoleDaoService userRoleDaoService) {
         this.userDaoService = userDaoService;
         this.roleDaoService = roleDaoService;
         this.bankAccountDaoService = bankAccountDaoService;
+        this.userRoleDaoService = userRoleDaoService;
     }
 
     /**
@@ -91,4 +96,10 @@ public class AdminAccountService {
     }
 
 
+    public void setRoleForUser(Long userId, String roleName) {
+        User user = userDaoService.getUserById(userId);
+        Role role = roleDaoService.getRoleByName(roleName);
+        UserRole userRole = new UserRole(user, role);
+        userRoleDaoService.save(userRole);
+    }
 }

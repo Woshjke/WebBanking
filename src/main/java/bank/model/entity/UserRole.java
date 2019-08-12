@@ -1,16 +1,12 @@
 package bank.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "usr_role")
 public class UserRole {
@@ -26,4 +22,11 @@ public class UserRole {
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+
+
+    public UserRole(User user, Role role) {
+        this.user = user;
+        this.role = role;
+    }
 }

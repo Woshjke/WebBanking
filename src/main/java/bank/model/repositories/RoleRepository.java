@@ -14,4 +14,5 @@ import java.util.List;
 public interface RoleRepository extends CrudRepository<Role, Integer>, JpaSpecificationExecutor<Role> {
     List<Role> getAllById(Long id);
     Role findById(Long id);
+    Role findByName(String name);
 }

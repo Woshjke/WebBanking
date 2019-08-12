@@ -24,11 +24,11 @@ public class AuthenticationHelperService {
     }
 
     /**
-     * This method returns authenticated user object
-     *
+     * this method returns authenticated user object
+     * @param fetchBankAccount
      * @return authenticated user object form database
      */
-    public User getAuthenticatedUser() {
+    public User getAuthenticatedUser(Boolean fetchBankAccount) {
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User authUser;
@@ -46,13 +46,22 @@ public class AuthenticationHelperService {
             authUser.setUsername("anonymous");
             authUser.setRoles(roles);
         } else {
-            authUser = userDaoService.getUserByUsernameWithFetchAll(username);
+            if(!fetchBankAccount){
+                authUser = userDaoService.getUserByUsernameWithFetchRoles(username);
+            } else {
+                authUser = userDaoService.getUserByUsernameWithFetchAll(username);
+            }
+
         }
         return authUser;
     }
 
+    public User getAuthenticatedUser() {
+        return getAuthenticatedUser(true);
+    }
+
     public List<String> getAuthUserRoles() {
-        return getAuthenticatedUser().getRoles().stream()
+        return getAuthenticatedUser(false).getRoles().stream()
                 .map(Role::getName)
                 .collect(Collectors.toList());
     }

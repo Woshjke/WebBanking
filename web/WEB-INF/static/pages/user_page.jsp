@@ -10,15 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Userpage</title>
-    <script>
-        var message = "${resultMessage}";
-        $( document ).ready(function() {
-            if (message) {
-                $("#message").click();
-            }
-        });
-    </script>
+<%--    <link rel="icon" type="image/png" href="<c:url value="/WEB-INF/resources/img/favicon-96x96.png"/>">--%>
+    <title>User page</title>
 </head>
 
 <style>
@@ -31,6 +24,17 @@
     <%@include file="/WEB-INF/resources/js/getBankAccounts.js"%>
 </script>
 
+<script>
+    var message = "${resultMessage}";
+    $( document ).ready(function() {
+        if (message) {
+            $("#message").click();
+        }
+        $("#getBankAccountInfo").click();
+        $("#getCurrencyButton").click();
+    });
+</script>
+
 <body>
 <%@include file="navbar.jsp" %>
 
@@ -38,7 +42,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
+                <div class="card mx-auto" style="width: 18rem; height: 18rem">
                     <div class="card-body">
                         <h5 class="card-title">Currency rate</h5>
                         <select id="currencyList" class="form-control col-4">
@@ -52,27 +56,30 @@
                             <br>
                             <label id="currencyRate" style="color: black;"></label>
                         </p>
-                        <a href="#" class="btn btn-primary" id="getCurrencyButton">Get currency rate</a>
+                        <button id="getCurrencyButton" class="btn btn-primary" >Get currency rate</button>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="card mx-auto" style="width: 18rem; margin-left: 18px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Your credit card number:</h5>
-                        <select id="bankAccountsList" class="form-control col-16">
-                            <c:forEach items="${bankAccounts}" var="bankAccount">
-                                <option value="${bankAccount.id}">${bankAccount.cardNumber}</option>
-                            </c:forEach>
-                        </select>
-                        <p class="card-text" style="margin-top: 10px">
-                            <label id="money_value" style="color: black;"></label>
-                        </p>
-                        <a href="#" class="btn btn-primary" id="getBankAccountInfo">Check bank account</a>
+            <c:if test="${bankAccounts.size() > 0}">
+                <div class="col-md-6">
+                    <div class="card mx-auto" style="width: 18rem; height: 18rem">
+                        <div class="card-body">
+                            <h5 class="card-title">Your credit card number:</h5>
+                            <select id="bankAccountsList" class="form-control col-16">
+                                <c:forEach items="${bankAccounts}" var="bankAccount">
+                                    <option value="${bankAccount.id}">${bankAccount.cardNumber}</option>
+                                </c:forEach>
+                            </select>
+                            <p class="card-text" style="margin-top: 10px">
+                                <label id="money_value" style="color: black;"></label>
+                            </p>
+                            <button id="getBankAccountInfo" class="btn btn-primary" style="margin-top: 50px">
+                                Check bank account
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </c:if>
         </div>
     </div>
 
@@ -98,7 +105,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <%--Bootstrap JS classes--%>

@@ -13,6 +13,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/resources/css/login.css">
+<%--    <link rel="icon" type="image/png" href="<c:url value="/resources/img/favicon-96x96.png"/>">--%>
     <title>Login page</title>
 </head>
 
@@ -41,8 +42,9 @@
             </div>
             <label class="forgot">or</label>
                 <a class="btn btn-primary btn-block" href="${pageContext.request.contextPath}/register">Sign up</a>
+            <br>
+            <label style="color: red;">${errorMessage}</label>
         </form:form>
-        <label style="color: red">${errorMessage}</label>
     </div>
 </div>
 

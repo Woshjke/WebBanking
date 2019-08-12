@@ -6,12 +6,10 @@ import bank.model.dto.OrganisationsDTO;
 import bank.model.dto.RoleDTO;
 import bank.model.dto.UserDTO;
 import bank.model.entity.BankAccount;
+import bank.model.entity.Role;
 import bank.model.entity.User;
 import bank.services.AdminAccountService;
-import bank.services.dbServices.BankAccountDaoService;
-import bank.services.dbServices.OrganisationDaoService;
-import bank.services.dbServices.UserDaoService;
-import bank.services.dbServices.UserRoleDaoService;
+import bank.services.dbServices.*;
 import bank.responses.AllUserDataResponse;
 import bank.responses.ServiceResponse;
 import groovy.transform.Undefined;
@@ -39,18 +37,21 @@ public class AdminAccountController {
     private BankAccountDaoService bankAccountDaoService;
     private UserRoleDaoService userRoleDaoService;
     private RequestValidator validator;
+    private RoleDaoService roleDaoService;
 
     @Autowired
     public AdminAccountController(UserDaoService userDaoService,
                                   AdminAccountService adminService,
                                   BankAccountDaoService bankAccountDaoService,
                                   UserRoleDaoService userRoleDaoService,
-                                  RequestValidator validator) {
+                                  RequestValidator validator,
+                                  RoleDaoService roleDaoService) {
         this.userDaoService = userDaoService;
         this.adminService = adminService;
         this.bankAccountDaoService = bankAccountDaoService;
         this.userRoleDaoService = userRoleDaoService;
         this.validator = validator;
+        this.roleDaoService = roleDaoService;
     }
 
     /**
@@ -162,7 +163,6 @@ public class AdminAccountController {
      * @return all users if username field was empty or specific user if username field wasn't empty
      */
     @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
-    //todo Пофиксить ситуацию, когда нет банковского аккаунта
     public ResponseEntity<Object> getAllUsers(@RequestParam String username) {
         if (username.equals("")) {
             List<UserDTO> userDTOS = userDaoService.getUserDtoList();
@@ -171,7 +171,14 @@ public class AdminAccountController {
                 UserDTO currentUser = userDTOS.get(i);
                 response[i] = new AllUserDataResponse();
                 response[i].setUser(currentUser);
-                response[i].setUserBankAccounts(bankAccountDaoService.getUserBankAccountDTOS(currentUser.getId()));
+
+                List<BankAccountDTO> bankAccountDTOList =
+                        bankAccountDaoService.getUserBankAccountDTOS(currentUser.getId());
+
+                if (bankAccountDTOList != null && bankAccountDTOList.size() > 0) {
+                    response[i].setUserBankAccounts(bankAccountDTOList);
+                }
+
                 response[i].setUserRoles(userRoleDaoService.getUserRolesByUserId(currentUser.getId())
                         .stream()
                         .filter(x -> x.getUser().getUsername().equals(currentUser.getUsername()))
@@ -231,6 +238,29 @@ public class AdminAccountController {
             Long userId = Long.valueOf(request.getParameter("users"));
             adminService.activateAccount(userId);
             return new RedirectView(ADMIN_PAGE + "?resultMessage=User activation completed");
+        } catch (Exception ex) {
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/setRole", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView showSetRolePage() {
+        ModelAndView mnv = new ModelAndView("set_role_page");
+        List<User> userList = userDaoService.getUsers();
+        List<Role> roles = roleDaoService.getRoles();
+        mnv.addObject("users", userList);
+        mnv.addObject("roles", roles);
+        return mnv;
+    }
+
+    @RequestMapping(value = "/doSetRole", method = {RequestMethod.POST})
+    public RedirectView doSetRole(HttpServletRequest request) {
+        try {
+            validator.isValidSetRoleRequest(request);
+            Long userId = Long.parseLong(request.getParameter("users"));
+            String roleName = request.getParameter("role");
+            adminService.setRoleForUser(userId, roleName);
+            return new RedirectView(ADMIN_PAGE + "?resultMessage=Completed");
         } catch (Exception ex) {
             return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
         }

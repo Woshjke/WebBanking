@@ -44,7 +44,11 @@ public class TransactionController {
     @RequestMapping(value = "/transaction", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showTransactionPage() {
         ModelAndView mnv = new ModelAndView(MONEY_TRANSFER_PAGE);
-        User user = authenticationHelperService.getAuthenticatedUser();
+        User user = authenticationHelperService.getAuthenticatedUser(true);
+        if (user == null) {
+            mnv.setView(new RedirectView(USER_PAGE + "?resultMessage=User don't have bank account"));
+            return mnv;
+        }
         mnv.addObject("bankAccounts", new ArrayList<>(user.getBankAccounts()));
         return mnv;
     }

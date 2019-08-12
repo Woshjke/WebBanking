@@ -1,5 +1,6 @@
 package bank.controllers;
 
+import bank.AuthenticationHelperService;
 import bank.RequestParameter;
 import bank.RequestValidator;
 import bank.email.EmailSender;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 import static bank.ApplicationProperties.*;
 
 /**
@@ -29,14 +32,17 @@ public class LoginPageController {
     private RequestValidator validator;
     private RegistrationService registrationService;
     private UserDaoService userDaoService;
+    private AuthenticationHelperService authenticationHelperService;
 
     @Autowired
     public LoginPageController(RequestValidator validator,
                                RegistrationService registrationService,
-                               UserDaoService userDaoService) {
+                               UserDaoService userDaoService,
+                               AuthenticationHelperService authenticationHelperService) {
         this.validator = validator;
         this.registrationService = registrationService;
         this.userDaoService = userDaoService;
+        this.authenticationHelperService = authenticationHelperService;
     }
 
     /**
@@ -72,13 +78,20 @@ public class LoginPageController {
     public ModelAndView doCreateUser(HttpServletRequest request,
                                      @RequestPart("profileImage") MultipartFile image) {
         ModelAndView mnv = new ModelAndView(LOGIN_PAGE);
+        List<String> userRoles = authenticationHelperService.getAuthUserRoles();
         try {
             validator.isValidUserCreateRequest(request);
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String activationCode = registrationService.generateActivationCode();
-            User user = registrationService.registerUser(username, password, activationCode);
-            //todo Тут будет валидатор
+            User user;
+            if (userRoles.contains("ROLE_ADMIN")) {
+                user = registrationService.registerUserByAdmin(username, password);
+            } else {
+                user = registrationService.registerUser(username, password, activationCode);
+            }
+
+            validator.isValidUserDetailsCreateRequest(request);
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String dob = request.getParameter("dob");
@@ -94,7 +107,9 @@ public class LoginPageController {
                     email,
                     image,
                     user);
-            registrationService.sendEmail(user.getActivationCode(), email);
+            if (!userRoles.contains("ROLE_ADMIN")) {
+                registrationService.sendEmail(user.getActivationCode(), email);
+            }
             return mnv;
         } catch (Exception ex) {
             return mnv;

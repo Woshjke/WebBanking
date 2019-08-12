@@ -53,9 +53,13 @@ public class PaymentController {
         List<Organisations> organisations = organisationService.getOrganisations();
         mnv.addObject("orgs", organisations);
 
-        User user = authenticationHelperService.getAuthenticatedUser();
-        List<BankAccount> bankAccountSet = user.getBankAccounts();
-        mnv.addObject("bankAccounts", bankAccountSet);
+        User user = authenticationHelperService.getAuthenticatedUser(true);
+        if (user == null) {
+            mnv.setView(new RedirectView(USER_PAGE + "?resultMessage=User don't have bank account"));
+            return mnv;
+        }
+        List<BankAccount> bankAccountList = user.getBankAccounts();
+        mnv.addObject("bankAccounts", bankAccountList);
         return mnv;
     }
 

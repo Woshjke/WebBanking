@@ -42,6 +42,14 @@ public class UserDaoService {
         return userRepository.findByActivationCode(activationCode);
     }
 
+    public User getUserByUsernameWithFetchRoles(String username) {
+        return userRepository.findByUsernameAndFetchRoles(username);
+    }
+
+    public User getUserByIdWithFetchRoles(Long id) {
+        return userRepository.findByIdAndFetchRoles(id);
+    }
+
     public User getUserByUsernameWithFetchAll(String username) {
         return userRepository.findByUsernameAndFetchAll(username);
     }

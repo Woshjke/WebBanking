@@ -1,9 +1,12 @@
 package bank;
 
 import bank.model.entity.BankAccount;
+import bank.model.entity.Role;
 import bank.model.entity.User;
+import bank.model.entity.UserRole;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.OrganisationDaoService;
+import bank.services.dbServices.RoleDaoService;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +21,19 @@ public class RequestValidator {
     private OrganisationDaoService organisationDaoService;
     private AuthenticationHelperService authenticationHelperService;
     private UserDaoService userDaoService;
+    private RoleDaoService roleDaoService;
 
     @Autowired
     public RequestValidator(BankAccountDaoService bankAccountDaoService,
                             OrganisationDaoService organisationDaoService,
                             AuthenticationHelperService authenticationHelperService,
-                            UserDaoService userDaoService) {
+                            UserDaoService userDaoService,
+                            RoleDaoService roleDaoService) {
         this.bankAccountDaoService = bankAccountDaoService;
         this.organisationDaoService = organisationDaoService;
         this.authenticationHelperService = authenticationHelperService;
         this.userDaoService = userDaoService;
+        this.roleDaoService = roleDaoService;
     }
 
     public void isValidPayment(HttpServletRequest request) throws Exception {
@@ -56,7 +62,8 @@ public class RequestValidator {
             throw new Exception("Payment failed! Not enough money!");
         }
 
-        List<BankAccount> authUserBankAccounts = authenticationHelperService.getAuthenticatedUser().getBankAccounts();
+        List<BankAccount> authUserBankAccounts =
+                authenticationHelperService.getAuthenticatedUser().getBankAccounts();
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
             throw new Exception("Payment failed! Authenticated user dont have bank account with id: " + sourceBankAccountId);
         }
@@ -210,6 +217,59 @@ public class RequestValidator {
 
         if (userId < 0 || userDaoService.getUserById(userId) == null) {
             throw new Exception("Activation failed! Bad request parameters!");
+        }
+    }
+
+    public void isValidUserDetailsCreateRequest(HttpServletRequest request) throws Exception {
+        String firstName;
+        String lastName;
+        String dob;
+        String phoneNumber;
+        String passId;
+        String email;
+
+        try {
+            firstName = request.getParameter("firstName");
+            lastName = request.getParameter("lastName");
+            dob = request.getParameter("dob");
+            phoneNumber = request.getParameter("phoneNumber");
+            passId = request.getParameter("passId");
+            email = request.getParameter("email");
+        } catch (NumberFormatException ex) {
+            throw new Exception("Wrong user details!");
+        }
+
+        if (firstName == null || lastName == null || dob == null || phoneNumber == null || passId == null || email == null) {
+            throw new Exception("Wrong user details!");
+        }
+
+
+    }
+
+    public void isValidSetRoleRequest(HttpServletRequest request) throws Exception {
+        Long userId;
+        String roleName;
+
+        try {
+            userId = Long.valueOf(request.getParameter("users"));
+            roleName = request.getParameter("role");
+        } catch (NumberFormatException ex) {
+            throw new Exception("Error! Bad request parameters");
+        }
+
+        User user = userDaoService.getUserByIdWithFetchRoles(userId);
+        Role role = roleDaoService.getRoleByName(roleName);
+
+        if (user == null) {
+            throw new Exception("Cannot find user!");
+        }
+
+        if (role == null) {
+            throw new Exception("Cannot find role!");
+        }
+
+        if (user.getRoles().contains(role)) {
+            throw new Exception("User already have this role: " + role.getName());
         }
     }
 }

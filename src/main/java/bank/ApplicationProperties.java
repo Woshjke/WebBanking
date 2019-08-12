@@ -21,6 +21,8 @@ public class ApplicationProperties {
     public static final String READ_BANK_ACCOUNTS = "read_bank_accounts_page";
     public static final String USER_DETAILS = "user_details";
     public static final String AFTER_ACTIVATION_PAGE = "after_activation_page";
+    public static final String ADD_ORGANISATION = "add_organisation";
+    public static final String USER_TRANSACTIONS_HISTORY_PAGE = "user_transactions_history_page";
 
     private final Properties properties;
 

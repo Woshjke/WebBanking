@@ -62,7 +62,6 @@ public class BankAccountDaoService {
      * @param bankAccount - bank account to update
      */
     public void updateBankAccount(BankAccount bankAccount) {
-        //todo need to be deleted
         bankAccountRepository.save(bankAccount);
     }
 

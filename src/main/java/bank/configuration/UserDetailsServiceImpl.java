@@ -26,12 +26,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String username) {
-        User user = userDaoService.getUserByUsernameWithFetchAll(username);
+        User user = userDaoService.getUserByUsernameWithFetchRoles(username);
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-        for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        if (user != null) {
+            for (Role role : user.getRoles()) {
+                grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            }
+            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+        } else {
+            return null;
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

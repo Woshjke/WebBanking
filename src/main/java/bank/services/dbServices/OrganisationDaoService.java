@@ -33,4 +33,8 @@ public class OrganisationDaoService {
     public Organisations getOrganisationsById(Long id) {
         return organisationRepository.findById(id);
     }
+
+    public void save(Organisations organisation) {
+        organisationRepository.save(organisation);
+    }
 }

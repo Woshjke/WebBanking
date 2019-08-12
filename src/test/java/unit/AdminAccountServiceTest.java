@@ -1,18 +1,36 @@
 package unit;
 
+import bank.model.repositories.BankAccountRepository;
+import bank.services.UserAccountService;
+import bank.services.dbServices.BankAccountDaoService;
+import bank.services.dbServices.OrganisationDaoService;
+import bank.services.dbServices.TransactionDaoService;
 import org.junit.Test;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 
-import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.verify;
 
+
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class AdminAccountServiceTest {
 
-    @Test
-    public void encryptTest() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(11);
-        String passwordHash = bCryptPasswordEncoder.encode("user3");
+    @Mock
+    private OrganisationDaoService organisationDaoService;
 
-        boolean isEqual = bCryptPasswordEncoder.matches("user3", passwordHash);
-        assertTrue(isEqual);
-    }
+    @Mock
+    private BankAccountDaoService bankAccountDaoService;
+
+    @Mock
+    private BankAccountRepository bankAccountRepository;
+
+    @Mock
+    private TransactionDaoService transactionDaoService;
+
+    @InjectMocks
+    private UserAccountService userAccountService;
 }

@@ -22,28 +22,28 @@
 <%@include file="navbar.jsp"%>
 
 <div style="margin-top: 100px; margin-left: 30px">
-    <form:form name="createUserPage" method="post" action="/admin/createUser">
+    <form:form name="createUserPageButton" method="post" action="/register">
         <button type="submit" class="btn btn-primary">Create user</button>
     </form:form>
 
-    <form:form name="getUsersPage" method="get" action="/admin/readUsers">
+    <form:form name="getUsersPageButton" method="get" action="/admin/readUsers">
         <button type="submit" class="btn btn-primary">Read users</button>
     </form:form>
 
-    <form:form name="updateUserPage" method="post" action="/admin/updateUser">
+    <form:form name="updateUserPageButton" method="post" action="/admin/updateUser">
         <button type="submit" class="btn btn-primary">Update user</button>
     </form:form>
 
-    <form:form name="deleteUserPage" method="post" action="/admin/deleteUser">
+    <form:form name="deleteUserPageButton" method="post" action="/admin/deleteUser">
         <button type="submit" class="btn btn-primary">Delete user</button>
     </form:form>
 
-    <form:form name="activateUserPage" method="get" action="/admin/activateUser">
-        <button type="submit" class="btn btn-primary">Activate user</button>
+    <form:form name="goToUserPageButton" method="get" action="/user/user_page">
+        <button type="submit" class="btn btn-primary">User page</button>
     </form:form>
 
-    <form:form name="deleteUserPage" method="get" action="/user/user_page">
-        <button type="submit" class="btn btn-primary">User page</button>
+    <form:form name="setRoleForUser" method="get" action="/admin/setRole">
+        <button type="submit" class="btn btn-primary">Set role for user</button>
     </form:form>
 
     <label style="color: red;">${resultMessage}</label>

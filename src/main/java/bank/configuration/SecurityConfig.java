@@ -52,7 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/").permitAll()
                     .antMatchers("/login_page").permitAll()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/favicon.ico").permitAll()
                     .antMatchers("/register").permitAll()
                     .antMatchers("/doRegister").permitAll()
                     .antMatchers("/register").permitAll()
@@ -78,6 +77,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                     .accessDeniedPage("/403");
+                http
+                    .sessionManagement()
+                    .maximumSessions(1)
+                    .maxSessionsPreventsLogin(false);
     }
 }
 

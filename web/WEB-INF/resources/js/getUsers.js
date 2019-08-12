@@ -29,12 +29,18 @@ $(document).ready(
 
                     $.each(result,
                         function (i, user) {
+                        var userBankAccountToShow = 'Cannot find bank account';
+                            if (user.userBankAccounts != null && user.userBankAccounts[0] != null && user.userBankAccounts[0].money != null) {
+                                    userBankAccountToShow = user.userBankAccounts[0].money;
+                            }
                             resultStr+=
                                 "    <tr>\n" +
                                 "        <th scope=\"row\">" + user.user.id + "</th>\n" +
                                 "        <td>" + user.user.username + "</td>\n" +
                                 "        <td>\n" + user.user.password + "</td>\n" +
-                                "        <td>" + user.userBankAccounts[0].money + "</td>\n" +
+
+
+                                "        <td>" + userBankAccountToShow + "</td>\n" +
                                 "    </tr>\n";
                         });
                     resultStr += "</tbody>\n";
