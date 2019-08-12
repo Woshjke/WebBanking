@@ -152,8 +152,11 @@ public class UserAccountController {
     @RequestMapping(value = "/addOrganisation", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showAddOrganisationPage() {
         ModelAndView mnv = new ModelAndView(ADD_ORGANISATION);
-        User user = authenticationHelperService.getAuthenticatedUser();
-        List<BankAccount> bankAccountList = user.getBankAccounts().stream()
+        User authUser = authenticationHelperService.getAuthenticatedUser();
+        if (authUser == null) {
+            return new ModelAndView(new RedirectView(USER_PAGE + "?resultMessage=No free bank accounts!"));
+        }
+        List<BankAccount> bankAccountList = authUser.getBankAccounts().stream()
                 .filter(x -> x.getOrganisation() == null)
                 .collect(Collectors.toList());
         if (bankAccountList.isEmpty()) {
@@ -186,7 +189,11 @@ public class UserAccountController {
     @RequestMapping(value = "/showTransactionsHistory")
     public ModelAndView showUserTransactionsHistory() {
         ModelAndView mnv = new ModelAndView(USER_TRANSACTIONS_HISTORY_PAGE);
-        List<BankAccount> userBankAccounts = authenticationHelperService.getAuthenticatedUser().getBankAccounts();
+        User authUser = authenticationHelperService.getAuthenticatedUser(true);
+        if (authUser == null) {
+            return new ModelAndView(new RedirectView(USER_PAGE + "?resultMessage=You have not bank accounts!"));
+        }
+        List<BankAccount> userBankAccounts = authUser.getBankAccounts();
         List<Transaction> transactionsFromUser = new ArrayList<>();
         List<Transaction> transactionsToUser = new ArrayList<>();
         for (BankAccount iter : userBankAccounts) {
@@ -195,7 +202,7 @@ public class UserAccountController {
         }
         mnv.addObject("transactionsFromUser", transactionsFromUser);
         mnv.addObject("transactionsToUser", transactionsToUser);
-        if (transactionsFromUser.isEmpty() || transactionsToUser.isEmpty()) {
+        if (transactionsFromUser.isEmpty() && transactionsToUser.isEmpty()) {
             mnv.setView(new RedirectView(USER_PAGE + "?resultMessage=Transactions history is empty!"));
         }
         return mnv;

@@ -50,19 +50,19 @@ public class HibernateConfig {
 
     @Bean
     public DataSource dataSource() {
-//        return DataSourceBuilder.create()
-//                .driverClassName(applicationProperties.getProperty("database.driver"))
-//                .url(applicationProperties.getProperty("database.url"))
-//                .username(applicationProperties.getProperty("database.username"))
-//                .password(applicationProperties.getProperty("database.password"))
-//                .build();
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(applicationProperties.getProperty("database.driver"));
-        dataSource.setUrl(applicationProperties.getProperty("database.url"));
-        dataSource.setUsername(applicationProperties.getProperty("database.username"));
-        dataSource.setPassword(applicationProperties.getProperty("database.password"));
-
-        return dataSource;
+        return DataSourceBuilder.create()
+                .driverClassName(applicationProperties.getProperty("database.driver"))
+                .url(applicationProperties.getProperty("database.url"))
+                .username(applicationProperties.getProperty("database.username"))
+                .password(applicationProperties.getProperty("database.password"))
+                .build();
+//        BasicDataSource dataSource = new BasicDataSource();
+//        dataSource.setDriverClassName(applicationProperties.getProperty("database.driver"));
+//        dataSource.setUrl(applicationProperties.getProperty("database.url"));
+//        dataSource.setUsername(applicationProperties.getProperty("database.username"));
+//        dataSource.setPassword(applicationProperties.getProperty("database.password"));
+//
+//        return dataSource;
     }
 
     @Bean

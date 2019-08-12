@@ -1,5 +1,6 @@
 package bank.controllers;
 
+import bank.AuthenticationHelperService;
 import bank.RequestValidator;
 import bank.model.dto.BankAccountDTO;
 import bank.model.dto.OrganisationsDTO;
@@ -38,6 +39,7 @@ public class AdminAccountController {
     private UserRoleDaoService userRoleDaoService;
     private RequestValidator validator;
     private RoleDaoService roleDaoService;
+    private AuthenticationHelperService authenticationHelperService;
 
     @Autowired
     public AdminAccountController(UserDaoService userDaoService,
@@ -45,13 +47,15 @@ public class AdminAccountController {
                                   BankAccountDaoService bankAccountDaoService,
                                   UserRoleDaoService userRoleDaoService,
                                   RequestValidator validator,
-                                  RoleDaoService roleDaoService) {
+                                  RoleDaoService roleDaoService,
+                                  AuthenticationHelperService authenticationHelperService) {
         this.userDaoService = userDaoService;
         this.adminService = adminService;
         this.bankAccountDaoService = bankAccountDaoService;
         this.userRoleDaoService = userRoleDaoService;
         this.validator = validator;
         this.roleDaoService = roleDaoService;
+        this.authenticationHelperService =authenticationHelperService;
     }
 
     /**
@@ -93,12 +97,16 @@ public class AdminAccountController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     public RedirectView doUpdateUser(HttpServletRequest request) {
+        User authUser = authenticationHelperService.getAuthenticatedUser(false);
         try {
             validator.isValidUserUpdateRequest(request);
             Long userToUpdateId = Long.parseLong(request.getParameter("id"));
             String newUsername = request.getParameter("username");
             String newPassword = request.getParameter("password");
             adminService.updateUser(userToUpdateId, newUsername, newPassword);
+            if (userToUpdateId.equals(authUser.getId())) {
+                return new RedirectView("/process_logout");
+            }
             return new RedirectView(ADMIN_PAGE + "?resultMessage=Update completed");
         } catch (Exception ex) {
             return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
@@ -113,7 +121,10 @@ public class AdminAccountController {
     @RequestMapping(value = "/deleteUser", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showDeleteUserPage() {
         ModelAndView mnv = new ModelAndView(DELETE_USER_PAGE);
-        List<User> userList = userDaoService.getUsers();
+        User authUser = authenticationHelperService.getAuthenticatedUser();
+        List<User> userList = userDaoService.getUsers().stream()
+                .filter(x -> !x.getUsername().equals(authUser.getUsername()))
+                .collect(Collectors.toList());
         mnv.addObject("usersList", userList);
         return mnv;
     }

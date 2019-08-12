@@ -14,8 +14,9 @@
                      height="36"/>
             </c:if>
             <a href="${pageContext.request.contextPath}/user/addOrganisation" class="nav-link">Add Organisation</a>
-            <a href="${pageContext.request.contextPath}/user/showTransactionsHistory" class="nav-link">Show
-                Transactions history</a>
+            <a href="${pageContext.request.contextPath}/user/showTransactionsHistory" class="nav-link">
+                Show Transactions history
+            </a>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">

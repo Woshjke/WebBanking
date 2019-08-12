@@ -126,7 +126,7 @@ public class RequestValidator {
 
     public void isValidUserDeleteRequest(HttpServletRequest request) throws Exception {
         Long userId;
-
+        User authUser = authenticationHelperService.getAuthenticatedUser(false);
         try {
             userId = Long.parseLong(request.getParameter("users"));
         } catch (NumberFormatException ex) {
@@ -135,6 +135,10 @@ public class RequestValidator {
 
         if (userId <= 0 || userId > userDaoService.getUsers().size()) {
             throw new Exception("User deleting failed! Cannot find user with id:" + userId);
+        }
+
+        if (userId.equals(authUser.getId())) {
+            throw new Exception("You cannot delete your account");
         }
     }
 

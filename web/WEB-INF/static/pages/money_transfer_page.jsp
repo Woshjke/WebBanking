@@ -14,8 +14,8 @@
 </head>
 
 <style>
-    <%@include file="/resources/css/buttonStyle.css"%>
-    <%@include file="/resources/css/bodyStyle.css"%>
+    <%@include file="/WEB-INF/resources/css/buttonStyle.css"%>
+    <%@include file="/WEB-INF/resources/css/bodyStyle.css"%>
 </style>
 
 <body>
