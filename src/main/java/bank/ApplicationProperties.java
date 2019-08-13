@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Constants container
+ * Class that contains JSP name constants and provides us to get properties from app.properties file.
  */
 public class ApplicationProperties {
-
     public static final String ADMIN_PAGE = "admin_page";
     public static final String CREATE_USER_PAGE = "create_user_page";
     public static final String DELETE_USER_PAGE = "delete_user_page";
-    public static final String HOME_PAGE = "home_page";
     public static final String LOGIN_PAGE = "login_page";
     public static final String MONEY_TRANSFER_PAGE = "money_transfer_page";
     public static final String PAYMENT_PAGE = "payment_page";
@@ -19,17 +17,13 @@ public class ApplicationProperties {
     public static final String UPDATE_USER_PAGE = "update_user_page";
     public static final String USER_PAGE = "user_page";
     public static final String READ_BANK_ACCOUNTS = "read_bank_accounts_page";
-    public static final String USER_DETAILS = "user_details";
     public static final String AFTER_ACTIVATION_PAGE = "after_activation_page";
     public static final String ADD_ORGANISATION = "add_organisation";
     public static final String USER_TRANSACTIONS_HISTORY_PAGE = "user_transactions_history_page";
+    public static final String ADD_BANK_ACCOUNT_PAGE = "add_bank_account_page";
 
     private final Properties properties;
 
-
-    /**
-     * Method loads properties from file.
-     */
     public ApplicationProperties() {
         properties = new Properties();
         try {
@@ -39,7 +33,9 @@ public class ApplicationProperties {
         }
     }
 
-
+    /**
+     * Method loads properties from file.
+     */
     public String getProperty(String property) {
         return properties.getProperty(property);
     }

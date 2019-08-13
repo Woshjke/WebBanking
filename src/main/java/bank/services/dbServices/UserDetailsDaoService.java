@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserDetailsDaoService {
 
     private UserDetailsRepository userDetailsRepository;
@@ -20,6 +21,7 @@ public class UserDetailsDaoService {
     public void save(UserDetails userDetails) {
         userDetailsRepository.save(userDetails);
     }
+
     public UserDetails findById(Long id) {
         return userDetailsRepository.findById(id);
     }

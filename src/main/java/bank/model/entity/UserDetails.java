@@ -1,11 +1,14 @@
 package bank.model.entity;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
+/**
+ * Entity class of user_details table
+ */
 @Entity
 @Getter
 @Setter
@@ -31,6 +34,7 @@ public class UserDetails {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     @Column(name = "profile_image")
     private byte[] profileImage;
 

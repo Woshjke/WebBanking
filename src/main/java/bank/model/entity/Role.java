@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Entity of roles table
+ * Entity class of roles table
  */
 @Entity
 @Getter

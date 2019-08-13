@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * This service performing all things you need to register a new user.
+ */
 @Service
 @Transactional
 public class RegistrationService {
@@ -40,13 +43,16 @@ public class RegistrationService {
     }
 
     /**
-     * Registering user in system by calling UserDaoService method
+     * This method register user in database.
+     * @param username - username of a new user.
+     * @param password - password of a new user.
+     * @param activationCode - activation account code for this user.
+     * @return registered User object.
      */
     public User registerUser(String username, String password, String activationCode) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(new BCryptPasswordEncoder(11).encode(password));
-
         Set<Role> userRoles = new HashSet<>();
         List<Role> roles = roleDaoService.getRoles();
         for (Role iter : roles) {
@@ -57,17 +63,20 @@ public class RegistrationService {
         user.setRoles(userRoles);
         user.setActivationCode(activationCode);
         user.setStatus("disabled");
-
         userDaoService.createUser(user);
-
         return user;
     }
 
+    /**
+     * This method calling when admin want to register a new user without sending an email with activation link.
+     * @param username - username of a new user.
+     * @param password - password of a new user.
+     * @return registered User object.
+     */
     public User registerUserByAdmin(String username, String password) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(new BCryptPasswordEncoder(11).encode(password));
-
         Set<Role> userRoles = new HashSet<>();
         List<Role> roles = roleDaoService.getRoles();
         for (Role iter : roles) {
@@ -84,6 +93,18 @@ public class RegistrationService {
         return user;
     }
 
+    /**
+     * This method saves user details in database.
+     * @param firstName - first name of a user.
+     * @param lastName - last name of a user.
+     * @param dob - day of birdth of a user.
+     * @param passId - pass ID of a user.
+     * @param phoneNumber - phone number of a user.
+     * @param email - email of a user.
+     * @param image - profile image of a user.
+     * @param user - User object that connected with this user details.
+     * @throws IOException - if method cannot get bytes form image.
+     */
     public void setUserDetails(String firstName,
                                String lastName,
                                String dob,
@@ -92,6 +113,7 @@ public class RegistrationService {
                                String email,
                                MultipartFile image,
                                User user) throws IOException {
+
         byte[] imageBytes = image.getBytes();
         UserDetails userDetails = new UserDetails();
         userDetails.setFirstName(firstName);
@@ -104,22 +126,33 @@ public class RegistrationService {
         userDetails.setEmail(email);
         userDetails.setUser(user);
         userDetailsDaoService.save(userDetails);
-
     }
 
+    /**
+     * Method generating activation code for a new user.
+     * @return activation code string.
+     */
     public String generateActivationCode() {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         Random r = new Random();
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i =0; i < 40; i++) {
+        for (int i = 0; i < 40; i++) {
             stringBuilder.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
         return stringBuilder.toString();
     }
 
+
+    /**
+     * This method sending message with activation link on user email, that the user specified during registration.
+     *
+     * @param activationCode - code, that was generated while registration. This code - it's a part of activation link.
+     * @param targetEmail    - email, that the user specified during registration. Message with activation link will be
+     *                       sent to this email.
+     */
     public void sendEmail(String activationCode, String targetEmail) {
         String message = "To activate your account please follow this link: " +
                 "http://localhost:8080/activate_account/" + activationCode;
-                emailSender.sendEmail(message, "Activate your account", targetEmail);
+        emailSender.sendEmail(message, "Activate your account", targetEmail);
     }
 }

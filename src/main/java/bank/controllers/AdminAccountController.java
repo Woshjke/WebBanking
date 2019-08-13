@@ -6,14 +6,14 @@ import bank.model.dto.BankAccountDTO;
 import bank.model.dto.OrganisationsDTO;
 import bank.model.dto.RoleDTO;
 import bank.model.dto.UserDTO;
-import bank.model.entity.BankAccount;
 import bank.model.entity.Role;
 import bank.model.entity.User;
-import bank.services.AdminAccountService;
-import bank.services.dbServices.*;
 import bank.responses.AllUserDataResponse;
-import bank.responses.ServiceResponse;
-import groovy.transform.Undefined;
+import bank.services.AdminAccountService;
+import bank.services.dbServices.BankAccountDaoService;
+import bank.services.dbServices.RoleDaoService;
+import bank.services.dbServices.UserDaoService;
+import bank.services.dbServices.UserRoleDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,9 +59,9 @@ public class AdminAccountController {
     }
 
     /**
-     * GET-request of admin page
+     * Method shows admin page.
      *
-     * @return admin page view
+     * @return admin page.
      */
     @RequestMapping(value = "/admin_page", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showAdminPage(@ModelAttribute("resultMessage") String resultMessage) {
@@ -73,9 +73,9 @@ public class AdminAccountController {
     }
 
     /**
-     * Handling request of getting user update page
+     * Method processes a request of getting user update page.
      *
-     * @return user updating view with list of users and selected user (if selected)
+     * @return user update page.
      */
     @RequestMapping(value = "/updateUser", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showUpdateUserPage(@ModelAttribute("users") String selectedUserId) {
@@ -90,10 +90,10 @@ public class AdminAccountController {
     }
 
     /**
-     * handling user updating request and calls user updating service
+     * Method processes a user updating request and calls user updating service.
      *
-     * @param request - request from JSP
-     * @return admin view page
+     * @param request - request, that was send form view.
+     * @return admin page with result of updating user.
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     public RedirectView doUpdateUser(HttpServletRequest request) {
@@ -114,9 +114,9 @@ public class AdminAccountController {
     }
 
     /**
-     * Handling request of getting user delete page
+     * Method processes a request of getting user delete page.
      *
-     * @return user delete page with list of users
+     * @return user delete page.
      */
     @RequestMapping(value = "/deleteUser", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showDeleteUserPage() {
@@ -130,10 +130,10 @@ public class AdminAccountController {
     }
 
     /**
-     * handling user deleting request and calls user delete service
+     * Method processes a request to delete a user and calls a service for that.
      *
-     * @param request - request from jsp with selected user param
-     * @return admin page view with result of user deletion message
+     * @param request - request, that was send form view.
+     * @return admin page with result of deleting user.
      */
     @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
     public RedirectView doDeleteUser(HttpServletRequest request) {
@@ -148,9 +148,9 @@ public class AdminAccountController {
     }
 
     /**
-     * Handling request of  getting users info reading  page
+     * Method processes a request to show a page on which user information can be read.
      *
-     * @return user info reading view
+     * @return user information reading page.
      */
     @RequestMapping(value = "/readUsers", method = RequestMethod.GET)
     public ModelAndView readUsers() {
@@ -158,9 +158,9 @@ public class AdminAccountController {
     }
 
     /**
-     * Handling request of  getting bank accounts info reading  page
+     * Processes a request to show bank accounts reading page.
      *
-     * @return bank accounts info reading view
+     * @return bank accounts reading page.
      */
     @RequestMapping(value = "/readBankAccounts", method = RequestMethod.GET)
     public ModelAndView readBankAccounts() {
@@ -168,10 +168,12 @@ public class AdminAccountController {
     }
 
     /**
-     * Handling AJAX call form users reading view
+     * Method processes a AJAX call request of finding users information and sending it on users reading page.
      *
-     * @param username - specific username in
-     * @return all users if username field was empty or specific user if username field wasn't empty
+     * @param username - username of user, that u want to find with all his information, or empty spring if you want to
+     *                 get all users with all the information about them.
+     * @return all users DTOs with user bank accounts, organisations, roles (if username was not specified) or specific
+     * user DTO with user bank accounts, organisations, roles (if username was specified).
      */
     @RequestMapping(value = "/filterUsers", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllUsers(@RequestParam String username) {
@@ -230,30 +232,10 @@ public class AdminAccountController {
         }
     }
 
-
-    @RequestMapping(value = "/activateUser", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView showActivateUserPage() {
-        ModelAndView mnv = new ModelAndView("activate_user_page");
-        List<User> usersToActivate = userDaoService.getUserListByStatus("disabled");
-        if (usersToActivate.isEmpty()) {
-            return new ModelAndView(new RedirectView(ADMIN_PAGE + "?resultMessage=No users to activate"));
-        }
-        mnv.addObject("usersToActivate", usersToActivate);
-        return mnv;
-    }
-
-    @RequestMapping(value = "/doActivateUser", method = {RequestMethod.POST, RequestMethod.GET})
-    public RedirectView doActivateUser(HttpServletRequest request) {
-        try {
-            validator.isValidActivateRequest(request);
-            Long userId = Long.valueOf(request.getParameter("users"));
-            adminService.activateAccount(userId);
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=User activation completed");
-        } catch (Exception ex) {
-            return new RedirectView(ADMIN_PAGE + "?resultMessage=" + ex.getMessage());
-        }
-    }
-
+    /**
+     * Method processes a request of getting a page for setting role for user.
+     * @return setting role page.
+     */
     @RequestMapping(value = "/setRole", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showSetRolePage() {
         ModelAndView mnv = new ModelAndView("set_role_page");
@@ -264,6 +246,11 @@ public class AdminAccountController {
         return mnv;
     }
 
+    /**
+     * Method processes a request to set role for user and calls a service for that.
+     * @param request - request, that was send form view with specific role to set.
+     * @return admin page with result of setting role for user.
+     */
     @RequestMapping(value = "/doSetRole", method = {RequestMethod.POST})
     public RedirectView doSetRole(HttpServletRequest request) {
         try {

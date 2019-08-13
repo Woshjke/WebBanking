@@ -22,8 +22,6 @@
 </style>
 
 <body>
-<%@include file="navbar.jsp" %>
-
 <div>
     <div class="login-dark">
         <form:form method="post" action="/process_login">

@@ -1,14 +1,16 @@
 package bank.model.entity;
 
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Entity of transaction table
+ * Entity class of transaction table
  */
 @Entity
 @Getter

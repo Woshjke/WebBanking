@@ -1,7 +1,6 @@
 package bank.configuration;
 
 import bank.ApplicationProperties;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +38,6 @@ public class HibernateConfig {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         sessionFactory.setJpaVendorAdapter(vendorAdapter);
         sessionFactory.setJpaProperties(hibernateProperties());
-
         return sessionFactory;
     }
 

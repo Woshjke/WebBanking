@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * DTO for Organisation entity
+ */
 @Getter
 @Setter
 @ToString

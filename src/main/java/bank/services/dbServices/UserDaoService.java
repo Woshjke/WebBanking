@@ -1,18 +1,23 @@
 package bank.services.dbServices;
 
-import bank.model.repositories.UserRepository;
 import bank.model.dto.BankAccountDTO;
 import bank.model.dto.UserDTO;
 import bank.model.entity.BankAccount;
 import bank.model.entity.User;
+import bank.model.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class that performs calls to User repository.
+ */
 @Service
+@Transactional
 public class UserDaoService {
 
     private UserRepository userRepository;
@@ -24,6 +29,7 @@ public class UserDaoService {
 
     /**
      * Saving or updating user in database
+     *
      * @param user - user object to save
      */
     public void createUser(User user) {
@@ -32,18 +38,29 @@ public class UserDaoService {
 
     /**
      * Getting users list from database
+     *
      * @return list of users
      */
     public List<User> getUsers() {
         return (List<User>) userRepository.findAll();
     }
 
+    /**
+     * Getting users list from database by activation code
+     *
+     * @param activationCode - code that wee need to activate user.
+     * @return user object form database.
+     */
     public User getUserByActivationCode(String activationCode) {
         return userRepository.findByActivationCode(activationCode);
     }
 
+    /**
+     * @param username
+     * @return
+     */
     public User getUserByUsernameWithFetchRoles(String username) {
-        return userRepository.findByUsernameAndFetchRoles(username);
+        return userRepository.findByUsernameAndFetchRoles(username, "active");
     }
 
     public User getUserByIdWithFetchRoles(Long id) {
@@ -56,6 +73,7 @@ public class UserDaoService {
 
     /**
      * Getting user from database by ID
+     *
      * @param id - user ID
      * @return user object
      */
@@ -65,13 +83,17 @@ public class UserDaoService {
 
     /**
      * Getting user form database by username
+     *
      * @param username - user username
      * @return user object
      */
-    public User getUserByUsername(String username) {return userRepository.findByUsername(username);}
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
     /**
      * Updating user in database and, if password was changed, hashing password
+     *
      * @param user - user to update
      */
     public void updateUser(User user) {
@@ -85,6 +107,7 @@ public class UserDaoService {
 
     /**
      * Deleting user form database
+     *
      * @param user - user to delete
      */
     public void deleteUser(User user) {
@@ -93,6 +116,7 @@ public class UserDaoService {
 
     /**
      * This method getting list of users form database and converting it to list of user DTOs
+     *
      * @return list of user DTOs
      */
     public List<UserDTO> getUserDtoList() {
@@ -104,6 +128,7 @@ public class UserDaoService {
 
     /**
      * THis method getting user from database by username and converting it to user DTO
+     *
      * @param username - user username
      * @return user DTO
      */
@@ -115,6 +140,7 @@ public class UserDaoService {
     /**
      * THis method getting bank accounts list of specific user from database
      * and converting it to list of bank accounts DTO
+     *
      * @param username - user username
      * @return list of bank accounts DTO
      */
@@ -130,7 +156,6 @@ public class UserDaoService {
     public List<User> getUserListByStatus(String status) {
         return userRepository.getAllByStatus(status);
     }
-
 
 
 }

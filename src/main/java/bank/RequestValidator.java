@@ -1,9 +1,9 @@
 package bank;
 
 import bank.model.entity.BankAccount;
+import bank.model.entity.Organisations;
 import bank.model.entity.Role;
 import bank.model.entity.User;
-import bank.model.entity.UserRole;
 import bank.services.dbServices.BankAccountDaoService;
 import bank.services.dbServices.OrganisationDaoService;
 import bank.services.dbServices.RoleDaoService;
@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * This class performing back-end validation of requests.
+ */
 @Service
 public class RequestValidator {
 
@@ -36,6 +39,11 @@ public class RequestValidator {
         this.roleDaoService = roleDaoService;
     }
 
+    /**
+     * Method validating payment request.
+     * @param request - payment request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidPayment(HttpServletRequest request) throws Exception {
         Long targetOrganisationId;
         Integer moneyToAdd;
@@ -65,7 +73,8 @@ public class RequestValidator {
         List<BankAccount> authUserBankAccounts =
                 authenticationHelperService.getAuthenticatedUser().getBankAccounts();
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
-            throw new Exception("Payment failed! Authenticated user dont have bank account with id: " + sourceBankAccountId);
+            throw new Exception("Payment failed! Authenticated user dont have bank account with id: "
+                    + sourceBankAccountId);
         }
 
         if (organisationDaoService.getOrganisationsById(targetOrganisationId) == null) {
@@ -73,6 +82,11 @@ public class RequestValidator {
         }
     }
 
+    /**
+     * Method validating user creating request.
+     * @param request -user creating request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidUserCreateRequest(HttpServletRequest request) throws Exception {
         String username;
         String password;
@@ -88,6 +102,10 @@ public class RequestValidator {
             throw new Exception("User registration failed! Bad request parameters!");
         }
 
+        if (!password.matches("(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*")) {
+            throw new Exception("Weak password!");
+        }
+
         if (username.equals("") || password.equals("")) {
             throw new Exception("User registration failed! Bad request parameters!");
         }
@@ -99,9 +117,13 @@ public class RequestValidator {
             }
         }
 
-        // TODO: 01.08.2019 Провалидировать пароль
     }
 
+    /**
+     * Method validating user updating request.
+     * @param request -user updating request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidUserUpdateRequest(HttpServletRequest request) throws Exception {
         Long userToUpdateId;
         String newUsername;
@@ -124,6 +146,11 @@ public class RequestValidator {
         }
     }
 
+    /**
+     * Method validating user delete request.
+     * @param request -user delete request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidUserDeleteRequest(HttpServletRequest request) throws Exception {
         Long userId;
         User authUser = authenticationHelperService.getAuthenticatedUser(false);
@@ -142,6 +169,11 @@ public class RequestValidator {
         }
     }
 
+    /**
+     * Method validating money adding request.
+     * @param request - money adding request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidAddMoneyRequest(HttpServletRequest request) throws Exception {
         Long bankAccountID;
         Integer moneyToAdd;
@@ -161,6 +193,11 @@ public class RequestValidator {
         }
     }
 
+    /**
+     * Method validating card-to-card transaction request.
+     * @param request - card-to-card transaction request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidTransactionRequest(HttpServletRequest request) throws Exception {
 
         Long sourceBankAccountId;
@@ -202,7 +239,8 @@ public class RequestValidator {
 
         List<BankAccount> authUserBankAccounts = authenticationHelperService.getAuthenticatedUser().getBankAccounts();
         if (!authUserBankAccounts.contains(sourceBankAccount)) {
-            throw new Exception("Transaction failed! Authenticated user doesn't have bank account with id: " + sourceBankAccountId);
+            throw new Exception("Transaction failed! Authenticated user doesn't have bank account with id: "
+                    + sourceBankAccountId);
         }
 
         if (sourceBankAccount.getMoney() < moneyValue) {
@@ -211,19 +249,11 @@ public class RequestValidator {
 
     }
 
-    public void isValidActivateRequest(HttpServletRequest request) throws Exception {
-        Long userId;
-        try {
-            userId = Long.valueOf(request.getParameter("users"));
-        } catch (NumberFormatException ex) {
-            throw new Exception("Activation failed! Bad request parameters!");
-        }
-
-        if (userId < 0 || userDaoService.getUserById(userId) == null) {
-            throw new Exception("Activation failed! Bad request parameters!");
-        }
-    }
-
+    /**
+     * Method validating user details creating request.
+     * @param request - user details creating request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidUserDetailsCreateRequest(HttpServletRequest request) throws Exception {
         String firstName;
         String lastName;
@@ -243,13 +273,17 @@ public class RequestValidator {
             throw new Exception("Wrong user details!");
         }
 
-        if (firstName == null || lastName == null || dob == null || phoneNumber == null || passId == null || email == null) {
+        if (firstName == null || lastName == null || dob == null ||
+                phoneNumber == null || passId == null || email == null) {
             throw new Exception("Wrong user details!");
         }
-
-
     }
 
+    /**
+     * Method validating setting role request.
+     * @param request - setting role request.
+     * @throws Exception - exception with specific validating error message.
+     */
     public void isValidSetRoleRequest(HttpServletRequest request) throws Exception {
         Long userId;
         String roleName;
@@ -275,5 +309,39 @@ public class RequestValidator {
         if (user.getRoles().contains(role)) {
             throw new Exception("User already have this role: " + role.getName());
         }
+    }
+
+    /**
+     * Method validating adding organisation request.
+     * @param request - adding organisation request.
+     * @throws Exception - exception with specific validating error message.
+     */
+    public void isValidAddOrganisationRequest(HttpServletRequest request) throws Exception {
+        Long bankAccountId;
+        String organisationName;
+        try {
+            bankAccountId = Long.valueOf(request.getParameter("bankAccounts"));
+            organisationName = request.getParameter("organisationName");
+        } catch (NumberFormatException ex) {
+            throw new Exception("Invalid request data!");
+        }
+
+        List<Organisations> allOrganisations = organisationDaoService.getOrganisations();
+        for (Organisations iter: allOrganisations) {
+            if (iter.getName().equals(organisationName)) {
+                throw new Exception("Organisation with this name already exists!");
+            }
+        }
+
+        BankAccount bankAccount = bankAccountDaoService.getBankAccountById(bankAccountId);
+
+        if (bankAccount == null) {
+            throw new Exception("Invalid request data!");
+        }
+
+        if (organisationName.isEmpty()) {
+            throw new Exception("Invalid request data!");
+        }
+
     }
 }

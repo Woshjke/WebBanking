@@ -1,7 +1,10 @@
 package bank.model.entity;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Entity of organisations table
+ * Entity class of organisations table
  */
 @Entity
 @Getter
@@ -27,7 +30,7 @@ public class Organisations implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "organisation")
+    @OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
     private List<BankAccount> bankAccountList;
 
     @Override

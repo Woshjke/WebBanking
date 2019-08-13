@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
     <a href="/user/user_page" class="navbar-brand">Web Banking</a>

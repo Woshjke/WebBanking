@@ -18,7 +18,7 @@ import static bank.ApplicationProperties.MONEY_TRANSFER_PAGE;
 import static bank.ApplicationProperties.USER_PAGE;
 
 /**
- * direct bank account-bank account transactions controller
+ * Money transactions controller.
  */
 @Controller
 @RequestMapping(value = "/user")
@@ -38,8 +38,8 @@ public class TransactionController {
     }
 
     /**
-     * Handling request of getting transaction page
-     * @return transaction page view
+     * Handling request of getting transaction page.
+     * @return transaction page view.
      */
     @RequestMapping(value = "/transaction", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showTransactionPage() {
@@ -54,9 +54,9 @@ public class TransactionController {
     }
 
     /**
-     * handling transaction request and calls transaction service
-     * @param request - request from JSP
-     * @return user page view with transaction result
+     * Handling transaction request and calls transaction service.
+     * @param request - request from JSP.
+     * @return user page view with transaction result.
      */
     @RequestMapping(value = "/doTransaction", method = RequestMethod.POST)
     public RedirectView doTransaction(HttpServletRequest request) {

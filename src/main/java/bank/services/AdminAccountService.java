@@ -1,6 +1,5 @@
 package bank.services;
 
-import bank.RequestValidator;
 import bank.model.entity.BankAccount;
 import bank.model.entity.Role;
 import bank.model.entity.User;
@@ -14,36 +13,29 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Service
 @Transactional
 public class AdminAccountService {
 
     private UserDaoService userDaoService;
     private RoleDaoService roleDaoService;
-    private BankAccountDaoService bankAccountDaoService;
     private UserRoleDaoService userRoleDaoService;
 
     @Autowired
     public AdminAccountService(UserDaoService userDaoService,
                                RoleDaoService roleDaoService,
-                               BankAccountDaoService bankAccountDaoService,
                                UserRoleDaoService userRoleDaoService) {
         this.userDaoService = userDaoService;
         this.roleDaoService = roleDaoService;
-        this.bankAccountDaoService = bankAccountDaoService;
         this.userRoleDaoService = userRoleDaoService;
     }
 
+
+
     /**
-     * This method returning user object to user update view by selected user id
-     *
-     * @return user object
+     * This method returning user object to user update view by selected user ID.
+     * @param selectedUserId - ID of a user that wee need to update.
+     * @return user to update object.
      */
     public User getUserToUpdate(Long selectedUserId) {
         User user = new User();
@@ -54,10 +46,8 @@ public class AdminAccountService {
     }
 
     /**
-     * deleting user, selected in JSP, by calling UserDaoService method
-     *
-     * @param userId - ID of the user you want to delete
-     * @return user was deleted or not
+     * This method deleting specified user.
+     * @param userId - ID of user, that wee need to delete.
      */
     public void deleteUser(Long userId) {
         User user = userDaoService.getUserById(userId);
@@ -66,6 +56,13 @@ public class AdminAccountService {
 
     /**
      * Updating user in database by calling UserDaoService method
+     */
+
+    /**
+     * Method updating user with new specified parameters.
+     * @param userToUpdateId - ID of a user that wee need to update.
+     * @param newUsername - new username of a user.
+     * @param newPassword - new password of a user.
      */
     public void updateUser(Long userToUpdateId, String newUsername, String newPassword) {
         User userToUpdate = userDaoService.getUserById(userToUpdateId);
@@ -79,23 +76,11 @@ public class AdminAccountService {
         }
     }
 
-
-    public boolean addBankAccount(Long userID) {
-        User user = userDaoService.getUserById(userID);
-        BankAccount newBankAccount = new BankAccount();
-        newBankAccount.setMoney(0.0);
-        newBankAccount.setUser(user);
-        bankAccountDaoService.saveBankAccount(newBankAccount);
-        return true;
-    }
-
-    public void activateAccount(Long userId) {
-        User user = userDaoService.getUserById(userId);
-        user.setStatus("active");
-        userDaoService.updateUser(user);
-    }
-
-
+    /**
+     * This method setting role for a user.
+     * @param userId - ID of user, that wee need to set a role.
+     * @param roleName - name of a role that wee need to set.
+     */
     public void setRoleForUser(Long userId, String roleName) {
         User user = userDaoService.getUserById(userId);
         Role role = roleDaoService.getRoleByName(roleName);

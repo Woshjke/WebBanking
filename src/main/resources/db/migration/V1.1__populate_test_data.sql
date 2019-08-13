@@ -17,5 +17,5 @@ INSERT INTO organisations (name) VALUES ('Beltelecom');
 
 INSERT INTO bank_account (money, user_id, organisation_id, card_number) VALUES (100000, 1, null, '2111111111111111');
 INSERT INTO bank_account (money, user_id, organisation_id, card_number) VALUES (100500, 2, null, '2122222222222222');
-INSERT INTO bank_account (money, user_id, organisation_id, card_number) VALUES (99500, 3, null, '2102360320576813');
+INSERT INTO bank_account (money, user_id, organisation_id, card_number) VALUES (99500, 3, 3, '2102360320576813');
 INSERT INTO bank_account (money, user_id, organisation_id, card_number) VALUES (100000, 4, 1, '2144444444444444');

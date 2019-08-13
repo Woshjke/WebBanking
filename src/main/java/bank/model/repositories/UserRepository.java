@@ -26,8 +26,8 @@ public interface UserRepository extends CrudRepository<User, Integer>, JpaSpecif
     @Query("SELECT p FROM User p JOIN FETCH p.roles JOIN FETCH p.bankAccounts WHERE p.username = (:username)")
     User findByUsernameAndFetchAll(@Param("username") String username);
 
-    @Query("SELECT p FROM User p JOIN FETCH p.roles WHERE p.username = (:username)")
-    User findByUsernameAndFetchRoles(@Param("username") String username);
+    @Query("SELECT p FROM User p JOIN FETCH p.roles WHERE p.username = (:username) AND p.status = (:status)")
+    User findByUsernameAndFetchRoles(@Param("username") String username, @Param("status") String status);
 
     @Query("SELECT p FROM User p JOIN FETCH p.bankAccounts WHERE p.username = (:username)")
     User findByUsernameAndFetchBankAccounts(@Param("username") String username);

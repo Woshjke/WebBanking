@@ -1,5 +1,8 @@
 package bank;
 
+/**
+ * Enum with server response parameters.
+ */
 public enum RequestParameter {
     TRUE("true");
 

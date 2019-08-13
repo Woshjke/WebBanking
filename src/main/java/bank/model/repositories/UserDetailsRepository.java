@@ -5,7 +5,9 @@ import bank.model.entity.UserDetails;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
+/**
+ * Spring Data repository for UserDetails table
+ */
 @Repository
 public interface UserDetailsRepository
         extends CrudRepository<UserDetails, Integer>, JpaSpecificationExecutor<UserDetails> {

@@ -1,13 +1,17 @@
 package bank.controllers;
 
 import bank.AuthenticationHelperService;
-import bank.BankCardNumberGenerator;
 import bank.RequestValidator;
 import bank.model.dto.BankAccountDTO;
-import bank.model.entity.*;
+import bank.model.entity.BankAccount;
+import bank.model.entity.Transaction;
+import bank.model.entity.User;
+import bank.model.entity.UserDetails;
 import bank.responses.ServiceResponse;
 import bank.services.UserAccountService;
-import bank.services.dbServices.*;
+import bank.services.dbServices.BankAccountDaoService;
+import bank.services.dbServices.TransactionDaoService;
+import bank.services.dbServices.UserDetailsDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -37,7 +40,6 @@ public class UserAccountController {
     private BankAccountDaoService bankAccountDaoService;
     private RequestValidator validator;
     private UserDetailsDaoService userDetailsDaoService;
-    private OrganisationDaoService organisationDaoService;
     private TransactionDaoService transactionDaoService;
 
     @Autowired
@@ -46,14 +48,12 @@ public class UserAccountController {
                                  BankAccountDaoService bankAccountDaoService,
                                  RequestValidator validator,
                                  UserDetailsDaoService userDetailsDaoService,
-                                 OrganisationDaoService organisationDaoService,
                                  TransactionDaoService transactionDaoService) {
         this.userAccountService = userAccountService;
         this.authenticationHelperService = authenticationHelperService;
         this.bankAccountDaoService = bankAccountDaoService;
         this.validator = validator;
         this.userDetailsDaoService = userDetailsDaoService;
-        this.organisationDaoService = organisationDaoService;
         this.transactionDaoService = transactionDaoService;
     }
 
@@ -80,13 +80,24 @@ public class UserAccountController {
         mnv.addObject("userRoles", roleList);
         UserDetails userDetails = userDetailsDaoService.findByUser(authUser);
         if (userDetails != null) {
-            String base64image = Base64.getEncoder().encodeToString(userDetails.getProfileImage());
-            mnv.addObject("myImage", base64image);
+            if (userDetails.getProfileImage() != null) {
+                String base64image = Base64.getEncoder().encodeToString(userDetails.getProfileImage());
+                if (base64image.equals("")) {
+                } else {
+                    mnv.addObject("myImage", base64image);
+                }
+            }
         }
         return mnv;
     }
 
 
+    /**
+     * Method processes a AJAX call request of getting currency rates form NBRB.
+     *
+     * @param currency - currency name.
+     * @return json with currency rate and ok status.
+     */
     @ResponseBody
     @RequestMapping(value = "/getCurrency", method = RequestMethod.GET)
     public ResponseEntity<String> getCurrency(@RequestParam String currency) {
@@ -98,7 +109,7 @@ public class UserAccountController {
     }
 
     /**
-     * Handling AJAX call form bank accounts reading view
+     * Handling AJAX request form bank accounts reading view
      *
      * @param bankAccountId - specific username in
      * @return all bank accounts if username field was empty
@@ -112,6 +123,11 @@ public class UserAccountController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Method processes a request of getting add money page.
+     *
+     * @return add money page.
+     */
     @RequestMapping(value = "/addMoney", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showAddMoneyPage() {
         ModelAndView mnv = new ModelAndView("add_money_page");
@@ -120,6 +136,12 @@ public class UserAccountController {
         return mnv;
     }
 
+    /**
+     * Method processes a request to add money on bank account and calls a service for that.
+     *
+     * @param request - request, that was send form view.
+     * @return user page with result of adding money on bank account.
+     */
     @RequestMapping(value = "/doAddMoney", method = {RequestMethod.POST})
     public RedirectView doAddMoney(HttpServletRequest request) {
         try {
@@ -133,22 +155,32 @@ public class UserAccountController {
         }
     }
 
+    /**
+     * Method processes a request of getting add bank account page.
+     *
+     * @return add bank account page.
+     */
     @RequestMapping(value = "/addBankAccount", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showBankAccountAddingMenu() {
-        return new ModelAndView("add_bank_account_page");
+        return new ModelAndView(ADD_BANK_ACCOUNT_PAGE);
     }
 
+    /**
+     * Method processes a request to add bank account for user and calls a service for that.
+     *
+     * @return user page with result of adding new bank account for user.
+     */
     @RequestMapping(value = "/doAddBankAccount", method = {RequestMethod.POST, RequestMethod.GET})
-    public RedirectView doAddBankAccount(HttpServletRequest request) {
-        BankAccount bankAccount = new BankAccount();
-        bankAccount.setMoney(0.);
-        bankAccount.setUser(authenticationHelperService.getAuthenticatedUser(false));
-        BankCardNumberGenerator generator = new BankCardNumberGenerator();
-        bankAccount.setCardNumber(generator.generate("21", 16));
-        bankAccountDaoService.saveBankAccount(bankAccount);
+    public RedirectView doAddBankAccount() {
+        userAccountService.addBankAccount();
         return new RedirectView(USER_PAGE);
     }
 
+    /**
+     * Method processes a request of getting add organisation page.
+     *
+     * @return add organisation page.
+     */
     @RequestMapping(value = "/addOrganisation", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView showAddOrganisationPage() {
         ModelAndView mnv = new ModelAndView(ADD_ORGANISATION);
@@ -166,26 +198,30 @@ public class UserAccountController {
         return mnv;
     }
 
+    /**
+     * Method processes a request to add organisation for user.
+     *
+     * @param request - request, that was send form view.
+     * @return user page with result of adding organisation.
+     */
     @RequestMapping(value = "/doAddOrganisation", method = {RequestMethod.POST})
     public ModelAndView addOrganisation(HttpServletRequest request) {
         try {
-            //todo validator
+            validator.isValidAddOrganisationRequest(request);
             Long bankAccountId = Long.valueOf(request.getParameter("bankAccounts"));
             String organisationName = request.getParameter("organisationName");
-            BankAccount bankAccount = bankAccountDaoService.getBankAccountById(bankAccountId);
-
-            Organisations organisation = new Organisations();
-            organisation.setName(organisationName);
-            organisationDaoService.save(organisation);
-
-            bankAccount.setOrganisation(organisation);
-            bankAccountDaoService.updateBankAccount(bankAccount);
+            userAccountService.addOrganisation(bankAccountId, organisationName);
             return new ModelAndView(new RedirectView(USER_PAGE + "?resultMessage=Organisation successfully added!"));
         } catch (Exception ex) {
             return new ModelAndView(new RedirectView(USER_PAGE + "?resultMessage=" + ex.getMessage()));
         }
     }
 
+    /**
+     * Method processes a request of getting user transaction history page.
+     *
+     * @return user transaction history page.
+     */
     @RequestMapping(value = "/showTransactionsHistory")
     public ModelAndView showUserTransactionsHistory() {
         ModelAndView mnv = new ModelAndView(USER_TRANSACTIONS_HISTORY_PAGE);

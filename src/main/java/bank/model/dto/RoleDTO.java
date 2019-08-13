@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * DTO for Role entity
+ */
 @Getter
 @Setter
 @ToString

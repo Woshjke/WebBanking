@@ -3,14 +3,10 @@ package bank.controllers;
 import bank.AuthenticationHelperService;
 import bank.RequestParameter;
 import bank.RequestValidator;
-import bank.email.EmailSender;
 import bank.model.entity.User;
-import bank.model.entity.UserDetails;
 import bank.services.RegistrationService;
 import bank.services.dbServices.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 
 import static bank.ApplicationProperties.*;
@@ -121,6 +116,11 @@ public class LoginPageController {
         return new ModelAndView(AFTER_ACTIVATION_PAGE);
     }
 
+    /**
+     * Method processes a request of activating user account.
+     * @param activationCode - activation code that contains activation link from email.
+     * @return view with success activation message.
+     */
     @RequestMapping(value = "/activate_account/{activationCode}")
     public ModelAndView activateUser(@PathVariable String activationCode) {
         User user = userDaoService.getUserByActivationCode(activationCode);

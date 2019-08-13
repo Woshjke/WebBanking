@@ -1,13 +1,18 @@
 package bank.services.dbServices;
 
-import bank.model.repositories.OrganisationRepository;
 import bank.model.entity.Organisations;
+import bank.model.repositories.OrganisationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Class that performs calls to Organisations repository.
+ */
 @Service
+@Transactional
 public class OrganisationDaoService {
 
     private final OrganisationRepository organisationRepository;
@@ -19,6 +24,7 @@ public class OrganisationDaoService {
 
     /**
      * Getting organisations from database
+     *
      * @return list of organisations
      */
     public List<Organisations> getOrganisations() {
@@ -27,6 +33,7 @@ public class OrganisationDaoService {
 
     /**
      * Getting organisation form database by ID
+     *
      * @param id - organisation ID
      * @return organisation object
      */
@@ -34,6 +41,10 @@ public class OrganisationDaoService {
         return organisationRepository.findById(id);
     }
 
+    /**
+     * Method saving/updating organisation in database
+     * @param organisation - organisation object to save/update
+     */
     public void save(Organisations organisation) {
         organisationRepository.save(organisation);
     }

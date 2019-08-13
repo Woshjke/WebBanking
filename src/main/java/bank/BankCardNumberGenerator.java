@@ -2,6 +2,9 @@ package bank;
 
 import java.util.Random;
 
+/**
+ * Class that performs generating of Bank card number.
+ */
 public class BankCardNumberGenerator {
 
     private Random random = new Random(System.currentTimeMillis());
@@ -18,10 +21,6 @@ public class BankCardNumberGenerator {
      *            A randomly generated, valid, credit card number.
      */
     public String generate(String bin, int length) {
-
-        // The number of random digits that we need to generate is equal to the
-        // total length of the card number minus the start digits given by the
-        // user, minus the check digit at the end.
         int randomNumberLength = length - (bin.length() + 1);
 
         StringBuilder builder = new StringBuilder(bin);
@@ -30,7 +29,6 @@ public class BankCardNumberGenerator {
             builder.append(digit);
         }
 
-        // Do the Luhn algorithm to generate the check digit.
         int checkDigit = this.getCheckDigit(builder.toString());
         builder.append(checkDigit);
 
@@ -39,7 +37,7 @@ public class BankCardNumberGenerator {
 
     /**
      * Generates the check digit required to make the given credit card number
-     * valid (i.e. pass the Luhn check)
+     * valid.
      *
      * @param number
      *            The credit card number for which to generate the check digit.
@@ -47,19 +45,6 @@ public class BankCardNumberGenerator {
      *         valid.
      */
     private int getCheckDigit(String number) {
-
-        // Get the sum of all the digits, however we need to replace the value
-        // of the first digit, and every other digit, with the same digit
-        // multiplied by 2. If this multiplication yields a number greater
-        // than 9, then add the two digits together to get a single digit
-        // number.
-        //
-        // The digits we need to replace will be those in an even position for
-        // card numbers whose length is an even number, or those is an odd
-        // position for card numbers whose length is an odd number. This is
-        // because the Luhn algorithm reverses the card number, and doubles
-        // every other number starting from the second number from the last
-        // position.
         int sum = 0;
         for (int i = 0; i < number.length(); i++) {
 
@@ -75,8 +60,6 @@ public class BankCardNumberGenerator {
             sum += digit;
         }
 
-        // The check digit is the number required to make the sum a multiple of
-        // 10.
         int mod = sum % 10;
         return ((mod == 0) ? 0 : 10 - mod);
     }

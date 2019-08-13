@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Entity of bank_account table
+ * Entity class of bank_account table
  */
 @Entity
 @Getter

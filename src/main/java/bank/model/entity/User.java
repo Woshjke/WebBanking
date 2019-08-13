@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Entity of usr table
+ * Entity class of usr table
  */
 @Entity
 @Getter

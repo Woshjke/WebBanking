@@ -34,35 +34,36 @@
                     <label style="color: black">Password</label>
                     <br>
                     <input name="password" class="form-control col-16" type="password"
-                           pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"/>
+                           pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*" required/>
                     <br>
                     <label style="color: black">First name</label>
                     <br>
-                    <input type="text" class="form-control col-16" name="firstName">
+                    <input type="text" class="form-control col-16" name="firstName" required>
                     <br>
                     <label style="color: black">Last name</label>
                     <br>
-                    <input type="text" class="form-control col-16" name="lastName">
+                    <input type="text" class="form-control col-16" name="lastName" required>
                     <br>
                     <label style="color: black">Email</label>
                     <br>
-                    <input type="email" class="form-control col-16" name="email">
+                    <input type="email" class="form-control col-16" name="email" required>
                     <br>
                     <label style="color: black">Phone number</label>
                     <br>
-                    <input type="text" class="form-control col-16" name="phoneNumber">
+                    <input type="text" class="form-control col-16" name="phoneNumber" required>
                     <br>
                     <label style="color: black">Date of birthday</label>
                     <br>
-                    <input type="date" class="form-control col-16" name="dob">
+                    <input type="date" class="form-control col-16" name="dob" required>
                     <br>
                     <label style="color: black">Passport ID</label>
                     <br>
-                    <input type="text" class="form-control col-16" name="passId">
+                    <input type="text" class="form-control col-16" name="passId" required>
                     <br>
-                    <label style="color: black">Profile image</label>
+                    <label style="color: black" >Profile image</label>
                     <br>
-                    <input type="file" class="form-control-file" name="profileImage" accept="image/x-png,image/jpeg">
+                    <input type="file" class="form-control-file" name="profileImage" accept="image/x-png,image/jpeg"
+                           required>
                     <br>
                     <input type="submit" class="btn btn-primary" value="Sign up"/>
                 </p>
